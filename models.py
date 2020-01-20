@@ -13,7 +13,7 @@ Your app description
 
 class Constants(BaseConstants):
     name_in_url = 'MoneyPolitics'
-    players_per_group = None
+    players_per_group = 9
     num_rounds = 1
 
 
