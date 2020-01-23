@@ -56,9 +56,10 @@ class Player(BasePlayer):
     base_earnings = models.CurrencyField(min=0)
 
     # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
-    message = models.LongStringField()
+    message = models.CharField(max_length=500, label='Write the message you want to send (max. 500 characters)')
     # Amount of receivers of player's message (players with 9 or 15)
-    message_receivers = models.IntegerField(min=0, max=Constants.players_per_group)
+    message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred number '
+                                                                                          'of message receivers')
     # Eligible receiver (player with 9 or 15 as endowment)
     eligible_receiver = models.BooleanField()
     # Actual receiver of at least one of the messages

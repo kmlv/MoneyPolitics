@@ -2,13 +2,12 @@
 {% load otree static %}
 
 {% block title %}
-    Preparing Message
+    Preparing your Message
 {% endblock %}
 
 {% block content %}
 
-    {{ message|slice:":500" }}
-
+    {% formfields %}
     {% next_button %}
 
 {% endblock %}
