@@ -23,12 +23,6 @@ really matter.
 Every change should be first implemented here:
 ### Working space: branch `working_space`
 
-If you want to test something that may cause some troubles, it should be done here:
-### Testing space: branch `testing`
-
-After testing, bring your changes to the main branch
-### Main space: branch `master`
-
 The main tasks are to program an app following this provisional structure:
 
 1. Instructions
@@ -68,6 +62,12 @@ The main tasks are to program an app following this provisional structure:
     The median of the preferred parameters is going to be the one applied to everyone.
 
 1. Payoffs: Still need to be defined
+
+If you want to test something that may cause some troubles, it should be done here:
+### Testing space: branch `testing`
+
+After testing, bring your changes to the main branch
+### Main space: branch `master`
 
 ### Note:
 Remember that because this is app is for an ongoing project, there are going to be many changes in its structure
