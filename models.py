@@ -22,6 +22,8 @@ class Constants(BaseConstants):
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
+    # Maximum endowment considered for a player to be in "poverty"
+    poverty_line = ctrl.poverty_line
 
 
 class Subsession(BaseSubsession):
@@ -39,6 +41,12 @@ class Group(BaseGroup):
 
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
+
+    def choosing_message_receiver(self):
+        # Need to think on a way to obtain the ids of the players below the poverty line and to choose randomly
+        # which of them would receive a message (if some are chosen to receive a message, would the same be
+        # chosen to receive the other messages?)
+        pass
 
 
 class Player(BasePlayer):

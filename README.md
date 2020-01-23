@@ -14,6 +14,7 @@ really matter.
     """
     
     task_endowments = [9, 15, 15, 15, 25, 25, 40, 80, 125]
+    poverty_line = task_endowments[3]
     message_cost = 1
     number_of_messages = 1
  ```
