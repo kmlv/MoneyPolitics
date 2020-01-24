@@ -57,7 +57,7 @@ class PreparingMessage(Page):
 
 
 class ReceivingMessage(Page):
-    # Think in a way to present in a very differentiated way the messages received
+
     def vars_for_template(self):
         player = self.player
 
@@ -73,10 +73,23 @@ class ReceivingMessage(Page):
 
 
 class TaxSystem(Page):
+    form_model = 'player'
+    form_fields = ['preferred_tax_system']
+
+
+class TaxDecision(WaitPage):
+    def after_all_players_arrive(self):
+        # Count the number of 0s and 1s. According to that, decide which system is going to be implemented
+        pass
+
+
+class TaxRateParameter(Page):
+    # Displayed only if tax rate sys wins
     pass
 
 
-class TaxParameter(Page):
+class ProgressivityParameter(Page):
+    # Displayed only if tax rate sys loses
     pass
 
 
@@ -96,7 +109,8 @@ page_sequence = [
     PreparingMessage,
     ReceivingMessage,
     TaxSystem,
-    TaxParameter,
+    ProgressivityParameter,
+    TaxRateParameter,
     ResultsWaitPage,
     Results
 ]

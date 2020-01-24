@@ -25,6 +25,8 @@ class Constants(BaseConstants):
     message_cost = ctrl.message_cost
     # Maximum endowment considered for a player to be in "poverty"
     poverty_line = ctrl.poverty_line
+    # Possible Tax Systems
+    possible_tax_systems = ctrl.possible_tax_systems
 
 
 class Subsession(BaseSubsession):
@@ -37,8 +39,8 @@ class Group(BaseGroup):
     lucky_players = models.IntegerField()
 
     # Chosen Tax Policy Parameters
-    chosen_progressivity = models.FloatField(min=0)
-    chosen_tax_rate = models.FloatField(min=0)
+    progressivity_votes = models.BooleanField()
+    tax_rate_votes = models.BooleanField()
 
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
@@ -84,6 +86,7 @@ class Player(BasePlayer):
     # Total cost for sending the messages
     total_messaging_costs = models.CurrencyField()
 
+    preferred_tax_system = models.CharField(choices=Constants.possible_tax_systems)
     # Preferred Tax Policy Parameters
     progressivity = models.FloatField(min=0)
     tax_rate = models.FloatField(min=0)
