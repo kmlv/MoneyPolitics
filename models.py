@@ -3,6 +3,7 @@ from otree.api import (
 )
 
 import controls as ctrl
+import random
 
 author = 'Marco Gutierrez and Skyler Stewart'
 
@@ -43,10 +44,15 @@ class Group(BaseGroup):
     tax_revenue = models.CurrencyField(min=0)
 
     def choosing_message_receiver(self):
-        # Need to think on a way to obtain the ids of the players below the poverty line and to choose randomly
-        # which of them would receive a message (if some are chosen to receive a message, would the same be
-        # chosen to receive the other messages?)
-        pass
+        receivers = []
+        for p in self.get_players():
+            if p.real_effort_earnings <= Constants.poverty_line:
+                receivers.append(p.id_in_group)
+
+        # To select randomly the ones that will receive the messages (Note that with this, ff the first one on the
+        # list receives one message, he will receive the other ones too)
+        random.SystemRandom().shuffle(receivers)
+        return receivers
 
 
 class Player(BasePlayer):
@@ -66,14 +72,15 @@ class Player(BasePlayer):
     # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
     message = models.CharField(max_length=500, label='Write the message you want to send (max. 500 characters)')
     # Amount of receivers of player's message (players with 9 or 15)
-    message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred number '
-                                                                                          'of message receivers')
-    # Eligible receiver (player with 9 or 15 as endowment)
-    eligible_receiver = models.BooleanField()
-    # Actual receiver of at least one of the messages
-    actual_receiver = models.BooleanField()
+    amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
+                                                                                                 'number of message '
+                                                                                                 'receivers')
+    # Id of players who received the message of an specific player
+    messages_receivers = models.StringField(initial="")
+
+    messages_received = models.StringField(initial="")
     # Number of messages received
-    messages_received = models.IntegerField(min=0)
+    amount_messages_received = models.IntegerField(min=0)
     # Total cost for sending the messages
     total_messaging_costs = models.CurrencyField()
 
