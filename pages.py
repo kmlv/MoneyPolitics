@@ -76,21 +76,43 @@ class TaxSystem(Page):
     form_model = 'player'
     form_fields = ['preferred_tax_system']
 
+    def before_next_page(self):
+        player = self.player
+        group = self.group
+
+        if player.preffered_tax_system == 0:
+            group.progressivity_votes += 1
+        elif player.preffered_tax_system == 1:
+            group.tax_rate_votes += 1
+        else:
+            print("No value for tax_rate_votes")
+
 
 class TaxDecision(WaitPage):
     def after_all_players_arrive(self):
         # Count the number of 0s and 1s. According to that, decide which system is going to be implemented
-        pass
 
-
-class TaxRateParameter(Page):
-    # Displayed only if tax rate sys wins
-    pass
+        group = self.group
+        if group.progressivity_votes >= group.tax_rate_votes:
+            # System Chosen: Progressivity Sys
+            group.tax_policy_system = 0
+        elif group.progressivity_votes < group.tax_rate_votes:
+            # System Chosen: Tax Rate Sys
+            group.tax_policy_system = 1
+        else:
+            print("No value for Tax Policy System")
 
 
 class ProgressivityParameter(Page):
     # Displayed only if tax rate sys loses
-    pass
+    def is_displayed(self):
+        return self.group.tax_policy_system == 0
+
+
+class TaxRateParameter(Page):
+    # Displayed only if tax rate sys wins
+    def is_displayed(self):
+        return self.group.tax_policy_system == 1
 
 
 class ResultsWaitPage(WaitPage):

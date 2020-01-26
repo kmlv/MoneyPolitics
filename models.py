@@ -38,9 +38,12 @@ class Group(BaseGroup):
     # Amount of players who will receive a luck based income
     lucky_players = models.IntegerField()
 
-    # Chosen Tax Policy Parameters
-    progressivity_votes = models.BooleanField()
-    tax_rate_votes = models.BooleanField()
+    # Votes for Tax Policy Systems
+    progressivity_votes = models.IntegerField()
+    tax_rate_votes = models.IntegerField()
+
+    # Chosen Tax Policy System
+    tax_policy_system = models.IntegerField(choices=Constants.possible_tax_systems)
 
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
