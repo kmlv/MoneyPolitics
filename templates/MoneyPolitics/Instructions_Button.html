@@ -1,0 +1,35 @@
+
+{% load otree %}
+{% load staticfiles otree %}
+
+<br /> {# line break #}
+<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#expand").hide();
+    $("#expand-instructions").click(function() {
+        if ($("#expand").is(":visible")) {
+            $("#expand").hide("fast");
+            return;
+        }
+        $("#expand").show("fast");
+    });
+});
+</script>
+<style>
+    #expand{
+        padding-top: 10px;
+    }
+</style>
+
+
+<br/>
+<br/>
+
+<button id="expand-instructions" class="btn " type="button" style="border-color: DimGray; color:DimGray"> Click for Instructions </button>
+
+<div id="expand" class="instructions well well-lg"> {# paper effect starts #}
+
+{% include Constants.instructions_template %}
+
+</div>   {#  paper effect ends#}

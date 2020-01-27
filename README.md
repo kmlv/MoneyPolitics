@@ -1,7 +1,7 @@
 # Money in Politics
 **Programmers:** Marco Gutierrez and Skyler Stewart
 
-# Instructions
+## Instructions
 
 1. Install otree: `pip3 install -U otree`
 1. Create a project: `otree startproject klo_lp_apps`. The name doesn't
@@ -20,7 +20,7 @@ really matter.
     possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
  ```
  
-# TODO - Marco and Skyler
+## TODO - Marco and Skyler
 
 Every change should be first implemented here:
 ### Working space: branch `working_space`

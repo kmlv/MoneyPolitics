@@ -5,7 +5,7 @@ from .models import Constants
 import re
 
 
-class Instructions(Page):
+class Introduction(Page):
     group_by_arrival_time = True
 
 
@@ -13,18 +13,21 @@ class RealEffort(Page):
     pass
 
 
+class EffortResultsWaitPage(WaitPage):
+
+    # Provisional assignment of scores (This has to be changed to a func that uses the ranking obtained in the real
+    # effort game)
+    def after_all_players_arrive(self):
+        self.group.provisional_ranking_income_assignment()
+
+
+class RealEffortResults(Page):
+    def before_next_page(self):
+        self.group.base_income_assignment()
+
+
 class LuckEffortInformation(Page):
     pass
-"""
-    def before_next_page(self):
-        # This page was created in order to define a method in which the eligibility to receive a message is defined
-        # Only used for future analysis, but no current relevance on the code
-        player = self.player
-        if player.base_earnings <= Constants.poverty_line:
-            player.eligible_receiver = True
-        else:
-            player.eligible_receiver = False
-"""
 
 
 class PreparingMessage(Page):
@@ -85,10 +88,10 @@ class TaxSystem(Page):
         elif player.preffered_tax_system == 1:
             group.tax_rate_votes += 1
         else:
-            print("No value for tax_rate_votes")
+            print("Error: No value for tax_rate_votes")
 
 
-class TaxDecision(WaitPage):
+class TaxDecisionWaitPage(WaitPage):
     def after_all_players_arrive(self):
         # Count the number of 0s and 1s. According to that, decide which system is going to be implemented
 
@@ -100,17 +103,25 @@ class TaxDecision(WaitPage):
             # System Chosen: Tax Rate Sys
             group.tax_policy_system = 1
         else:
-            print("No value for Tax Policy System")
+            print("Error: No value for Tax Policy System")
 
 
 class ProgressivityParameter(Page):
     # Displayed only if tax rate sys loses
+
+    form_model = 'player'
+    form_fields = ['progressivity']
+
     def is_displayed(self):
         return self.group.tax_policy_system == 0
 
 
 class TaxRateParameter(Page):
     # Displayed only if tax rate sys wins
+
+    form_model = 'player'
+    form_fields = ['tax_rate']
+
     def is_displayed(self):
         return self.group.tax_policy_system == 1
 
@@ -125,12 +136,13 @@ class Results(Page):
 
 
 page_sequence = [
-    Instructions,
+    Introduction,
     RealEffort,
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,
     TaxSystem,
+    TaxDecisionWaitPage,
     ProgressivityParameter,
     TaxRateParameter,
     ResultsWaitPage,

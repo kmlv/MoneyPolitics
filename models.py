@@ -16,6 +16,16 @@ class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
     players_per_group = 9
     num_rounds = 1
+    instructions_template = "MoneyPolitics/Instructions.html"
+    instructions_button = "MoneyPolitics/Instructions_Button.html"
+
+    # Real Effort Tasks
+    tetris = "MoneyPolitics/Tetris.html"
+    diamonds = "MoneyPolitics/Diamonds.html"
+
+    # Players whose income is going to be shuffled
+    shuffled_ranks_3 = ctrl.shuffled_ranks_3
+    shuffled_ranks_6 = ctrl.shuffled_ranks_6
 
     # There are some parameters that may vary during the development of this app. In order to make this as soft coded as
     # possible, the code should be flexible enough to allow changes in this ones and obtain them from an external
@@ -47,6 +57,60 @@ class Group(BaseGroup):
 
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
+
+    def provisional_ranking_income_assignment(self):
+        # Provisional assignment of endowment (Created only for the next meeting with LP)
+        for p in self.get_players():
+            p_id = p.id_in_group
+            p.real_effort_earnings = Constants.task_endowments[p_id - 1]
+            p.ranking = p_id
+
+    def base_income_assignment(self):
+        # Assignment of income by luck/effort
+
+        # luck: 0 if 3 people is going to be paid by luck, 1 if they are going to be 6
+        luck = random.SystemRandom().randint(0, 1)
+        c = Constants
+
+        to_shuffle_earnings3 = []
+        to_shuffle_earnings6 = []
+
+        # Randomizing the real effort income for later assignment
+        if luck == 0:
+            for x in c.shuffled_ranks_3:
+                to_shuffle_earnings3.append(c.task_endowments[x])
+            self.lucky_players = 3
+            random.SystemRandom().shuffle(to_shuffle_earnings3)
+        elif luck == 1:
+            for x in c.shuffled_ranks_6:
+                to_shuffle_earnings6.append(c.task_endowments[x])
+            self.lucky_players = 6
+            random.SystemRandom().shuffle(to_shuffle_earnings6)
+        else:
+            print("Error: No luck values registered for shuffling")
+
+        # Assignment of shuffled earnings
+        j3 = 0
+        j6 = 0
+        for p in self.get_players():
+            if luck == 0:
+                if p.ranking in c.shuffled_ranks_3:
+                    p.base_earnings = to_shuffle_earnings3[j3]
+                    j3 += 1
+                elif p.ranking not in c.shuffled_ranks_3:
+                    p.base_earnings = p.real_effort_earnings
+                else:
+                    print("Error: No 'player.ranking' value for assignment of shuffled earning")
+            elif luck == 1:
+                if p.ranking in c.shuffled_ranks_6:
+                    p.base_earnings = to_shuffle_earnings6[j6]
+                    j6 += 1
+                elif p.ranking not in c.shuffled_ranks_6:
+                    p.base_earnings = p.real_effort_earnings
+                else:
+                    print("Error: No 'player.ranking' value for assignment of shuffled earning")
+            else:
+                print("Error: No 'luck' value for assignment of shuffled earning")
 
     def choosing_message_receiver(self):
         receivers = []

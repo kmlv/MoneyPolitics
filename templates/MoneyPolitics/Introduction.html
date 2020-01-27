@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+Introduction:
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    {% include Constants.instructions_template %}
+    </p>
+
+    <p>
+        The instructions will be on a collapsible bottom of the following pages
+    </p>
+
+    <p>
+    {% next_button %}
+    </p>
+
+{% endblock %}
