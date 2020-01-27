@@ -1,32 +1,50 @@
-<!DOCTYPE html>
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Tetris Game
+{% endblock %}
+
+{% block content %}
+<!--<!DOCTYPE html>-->
 <html>
 <head>
   <title></title>
   <style>
   html, body {
     height: 100%;
-    margin: 0;
+    margin: 10%;
   }
 
   body {
-    background: black;
+    background: white;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   canvas {
-    border: 1px solid white;
+    border: 1px solid black;
   }
   </style>
 </head>
 <body>
+	<p>Use the up arrow key to rotate each block. <br> Use the left and right arrow keys to move each block side to side. <br> When a row is completely full you will earn a point and the row will disappear. If the blocks reach the top of the box, the game is over. </p>
+	<p>Once you are done playing, click the next button.</p>
+
+	<form>
+		<input type="hidden" id="game_score" name = "game_score" value="0"/>
+	</form>
+	{{ form.game_score.errors }} 
+
+ 
 <canvas width="320" height="640" id="game"></canvas>
+	
 <script>
 // https://tetris.fandom.com/wiki/Tetris_Guideline
-
 // get a random integer between the range of [min,max]
 // @see https://stackoverflow.com/a/1527820/2124254
+	
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -119,7 +137,9 @@ function placeTetromino() {
   // check for line clears starting from the bottom and working our way up
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every(cell => !!cell)) {
-
+	  // increase score
+		score += 1;
+		console.log(score); 
       // drop every row above this one
       for (let r = row; r >= 0; r--) {
         for (let c = 0; c < playfield[r].length; c++) {
@@ -221,6 +241,7 @@ const colors = {
   'L': 'orange'
 };
 
+let score = 0; 
 let count = 0;
 let tetromino = getNextTetromino();
 let rAF = null;  // keep track of the animation frame so we can cancel it
@@ -230,6 +251,9 @@ let gameOver = false;
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
+	
+  var inputScore = document.getElementById("game_score");
+  inputScore.setAttribute('value', score); 
 
   // draw the playfield
   for (let row = 0; row < 20; row++) {
@@ -313,6 +337,12 @@ document.addEventListener('keydown', function(e) {
 
 // start the game
 rAF = requestAnimationFrame(loop);
-</script>
+// for debugging purposes: shows the current score
+console.log(score); 
+
+</script>	
+<p><br></p>
 </body>
 </html>
+{% next_button %}
+{% endblock %}

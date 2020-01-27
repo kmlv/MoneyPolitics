@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "global/Page.html" %}
+{% load otree static %}
 
-</body>
+{% block title %}
+    Real Effort Game
+{% endblock %}
+
+{% block content %}
+
+<html>
+	<head></head>
+	<body>
+		<p>Click the next button to play the game.</p>
+	</body>
 </html>
+    {% next_button %}
+
+{% endblock %}
