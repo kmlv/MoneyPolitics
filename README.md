@@ -31,7 +31,7 @@ SESSION_CONFIGS = [
     possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
  ```
  
-## TODO - Marco and Skyler
+## Basic Outiline
 
 Every change should be first implemented here:
 ### Working space: branch `working_space`
@@ -75,6 +75,34 @@ The main tasks are to program an app following this provisional structure:
     The median of the preferred parameters is going to be the one applied to everyone.
 
 1. Payoffs: Still need to be defined
+
+## TODO Backend - Marco and Skyler
+
+1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco/Skyler
+
+1. Randomize the players whose income will be by luck - Marco
+
+1. Program Diamond Game and create a constant in models to include the template anywhere
+
+1. Include the Tetris Game in the Real Effort template
+
+```
+A task in which the player counts the number of small diamonds in rectangular screens filled 
+mainly with small circles
+```
+
+1. Assign 2 rounds per subsession of the game
+
+1. Program payoff function
+
+## TODO Frontend - Marco and Skyler
+
+1. The messages should be send by having a table in which the first column displays the income level of a player
+and the other column a check box to define if the player should receive a message or not
+
+1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' ")
+
+1. We need to sum up all the info presented to the player at the end of the round (Results page)
 
 If you want to test something that may cause some troubles, it should be done here:
 ### Testing space: branch `testing`
