@@ -72,25 +72,6 @@ class PreparingMessage(Page):
         if player.message == '' and player.message_receivers != 0:
             return "If you don't want to send a message, choose 0 as the amount of message receivers"
 
-    def before_next_page(self):
-        group = self.group
-        player = self.player
-
-        # Sender id
-        sender_id = player.id_in_group
-
-        # List of players who can receive a message
-        receivers = group.choosing_message_receiver()
-
-        counter = 1
-        # To send the message only to players who have received one
-        for p in group.get_players():
-            if p.id_in_group in receivers and counter <= player.amount_message_receivers:
-                # Assigning a message to the p.id_in_group player
-                p.messages_received += str(sender_id) + "," + player.message + ";"
-                player.messages_receivers += str(p.id_in_group) + ","
-            counter += 1
-
 
 class ReceivingMessage(Page):
 

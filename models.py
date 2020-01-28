@@ -23,10 +23,6 @@ class Constants(BaseConstants):
     tetris = "MoneyPolitics/Tetris.html"
     diamonds = "MoneyPolitics/Diamonds.html"
 
-    # Players whose income is going to be shuffled
-    shuffled_ranks_3 = ctrl.shuffled_ranks_3
-    shuffled_ranks_6 = ctrl.shuffled_ranks_6
-
     # There are some parameters that may vary during the development of this app. In order to make this as soft coded as
     # possible, the code should be flexible enough to allow changes in this ones and obtain them from an external
     # .py/txt file (If you find a better way, feel free to update the code with it)
@@ -54,6 +50,10 @@ class Group(BaseGroup):
 
     # Chosen Tax Policy System
     tax_policy_system = models.IntegerField(choices=Constants.possible_tax_systems)
+
+    # Chosen Tax Policy Parameters
+    chosen_progressivity = models.FloatField()
+    chosen_tax_rate = models.FloatField()
 
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
@@ -95,15 +95,26 @@ class Group(BaseGroup):
         to_shuffle_earnings3 = []
         to_shuffle_earnings6 = []
 
+        shuffled_ranks = []
+
+        all_the_players = self.get_players()
+        shuffled_players = random.SystemRandom().shuffle(all_the_players)
+
+        for p in shuffled_players:
+            shuffled_ranks.append(p.id_in_group)
+
+        shuffled_ranks_3 = shuffled_ranks[:3]
+        shuffled_ranks_6 = shuffled_ranks[:6]
+
         # Randomizing the real effort income for later assignment
         if luck == 0:
-            for x in c.shuffled_ranks_3:
-                to_shuffle_earnings3.append(c.task_endowments[x])
+            for x in shuffled_ranks_3:
+                to_shuffle_earnings3.append(c.task_endowments[x-1])
             self.lucky_players = 3
             random.SystemRandom().shuffle(to_shuffle_earnings3)
         elif luck == 1:
-            for x in c.shuffled_ranks_6:
-                to_shuffle_earnings6.append(c.task_endowments[x])
+            for x in shuffled_ranks_6:
+                to_shuffle_earnings6.append(c.task_endowments[x-1])
             self.lucky_players = 6
             random.SystemRandom().shuffle(to_shuffle_earnings6)
         else:
@@ -116,21 +127,21 @@ class Group(BaseGroup):
         # Assignment of shuffled earnings
         for p in self.get_players():
             if luck == 0:
-                if p.ranking in c.shuffled_ranks_3:
+                if p.ranking in shuffled_ranks_3:
                     p.base_earnings = to_shuffle_earnings3[j3]
                     p.shuffled = True
                     j3 += 1
-                elif p.ranking not in c.shuffled_ranks_3:
+                elif p.ranking not in shuffled_ranks_3:
                     p.base_earnings = p.real_effort_earnings
                     p.shuffled = False
                 else:
                     print("Error: No 'player.ranking' value for assignment of shuffled earning")
             elif luck == 1:
-                if p.ranking in c.shuffled_ranks_6:
+                if p.ranking in shuffled_ranks_6:
                     p.base_earnings = to_shuffle_earnings6[j6]
                     p.shuffled = True
                     j6 += 1
-                elif p.ranking not in c.shuffled_ranks_6:
+                elif p.ranking not in shuffled_ranks_6:
                     p.base_earnings = p.real_effort_earnings
                     p.shuffled = False
                 else:
@@ -138,16 +149,17 @@ class Group(BaseGroup):
             else:
                 print("Error: No 'luck' value for assignment of shuffled earning")
 
-    def choosing_message_receiver(self):
-        receivers = []
-        for p in self.get_players():
-            if p.real_effort_earnings <= Constants.poverty_line:
-                receivers.append(p.id_in_group)
+    def tax_parameter_selection(self):
+        # Provisional function to determine the tax parameter (has to be changed later/only for demo purposes)
 
-        # To select randomly the ones that will receive the messages (Note that with this, ff the first one on the
-        # list receives one message, he will receive the other ones too)
-        random.SystemRandom().shuffle(receivers)
-        return receivers
+        for p in self.get_players():
+            if p.id_in_group == 1:
+                self.chosen_progressivity = p.progressivity
+                self.chosen_tax_rate = p.tax_rate
+
+    def set_payoffs(self):
+        for p in self.get_players():
+            p.payoff = p.base_earnings
 
 
 class Player(BasePlayer):
