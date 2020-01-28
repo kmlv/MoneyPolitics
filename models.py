@@ -15,7 +15,7 @@ Money and Politics App
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
     players_per_group = 9
-    num_rounds = 1
+    num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
 
@@ -79,7 +79,8 @@ class Group(BaseGroup):
         counter_ranking = 0
         for p in self.get_players():
             for key, value in ranked_scores.items():
-                if p.id_in_group == int(key):
+                num_key = int(key)
+                if p.id_in_group == num_key:
                     p.ranking = counter_ranking
                     p.real_effort_earnings = c.task_endowments[p.ranking]
                     counter_ranking += 1

@@ -82,7 +82,7 @@ The main tasks are to program an app following this provisional structure:
 
 1. Randomize the players whose income will be by luck - Marco
 
-1. Program Diamond Game and create a constant in models to include the template anywhere - Skye
+1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler
 
 ```
 A task in which the player counts the number of small diamonds in rectangular screens filled 
@@ -90,8 +90,6 @@ mainly with small circles
 ```
 
 1. Include the Tetris Game in the Real Effort template - Skyler
-
-1. Assign 2 rounds per subsession of the game
 
 1. Program payoff function - Marco
 

@@ -35,6 +35,14 @@ class RealEffortResults(Page):
     def before_next_page(self):
         self.group.base_income_assignment()
 
+    def vars_for_template(self):
+        player = self.player
+
+        income = player.base_earnings
+        ranking = player.ranking
+
+        return {'ranking': ranking, 'income': income}
+
 
 class LuckEffortInformation(Page):
     def vars_for_template(self):
@@ -57,6 +65,8 @@ class PreparingMessage(Page):
     form_model = 'player'
     form_fields = ['message', 'amount_message_receivers']
 
+    # This page has to change to the new version required in the todo list
+
     def error_message(self, values):
         player = self.player
         if player.message == '' and player.message_receivers != 0:
@@ -73,9 +83,9 @@ class PreparingMessage(Page):
         receivers = group.choosing_message_receiver()
 
         counter = 1
-        # To send the message only to players who have received a
-        for p in group.get_players() and counter <= player.amount_message_receivers:
-            if p.id_in_group in receivers:
+        # To send the message only to players who have received one
+        for p in group.get_players():
+            if p.id_in_group in receivers and counter <= player.amount_message_receivers:
                 # Assigning a message to the p.id_in_group player
                 p.messages_received += str(sender_id) + "," + player.message + ";"
                 player.messages_receivers += str(p.id_in_group) + ","
@@ -158,11 +168,14 @@ class Results(Page):
     pass
 
 
+# There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
     GroupingPage,
     Introduction,
     RealEffort,
     Tetris,
+    EffortResultsWaitPage,
+    RealEffortResults,
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,

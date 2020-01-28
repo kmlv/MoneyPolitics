@@ -2,19 +2,22 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-Real Effort Task
+Real Effort Task Results
 {% endblock %}
 
 {% block content %}
 
-<html>
-	<head></head>
-	<body>
-		<p>Click the next button to play the game.</p>
-	</body>
-</html>
+    <p>
+        Your ranking in the task was {{ ranking }} </br>
+        The provisional income received for the task was {{ income }}
+    </p>
+
+    <p>
     {% next_button %}
+    </p>
+
     <p>
     {% include Constants.instructions_button %}
     </p>
+
 {% endblock %}
