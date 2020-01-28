@@ -6,6 +6,17 @@
 1. Install otree: `pip3 install -U otree`
 1. Create a project: `otree startproject klo_lp_apps`. The name doesn't
 really matter.
+1. In settings.py, edit SESSION CONFIGS to look like this: 
+```
+SESSION_CONFIGS = [
+    {
+        'name': 'MoneyPolitics',
+        'num_demo_participants': 9,
+        'app_sequence': ['MoneyPolitics'],
+    },
+]
+```
+
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
  ```

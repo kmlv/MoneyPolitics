@@ -34,7 +34,7 @@ class Constants(BaseConstants):
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
     # Maximum endowment considered for a player to be in "poverty"
-    poverty_line = ctrl.poverty_line
+   	poverty_line = ctrl.poverty_line
     # Possible Tax Systems
     possible_tax_systems = ctrl.possible_tax_systems
 
@@ -44,8 +44,7 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-
-    # Amount of players who will receive a luck based income
+    #Amount of players who will receive a luck based income
     lucky_players = models.IntegerField()
 
     # Votes for Tax Policy Systems
@@ -129,7 +128,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-
+	
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)
 
@@ -161,3 +160,6 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.FloatField(min=0)
     tax_rate = models.FloatField(min=0)
+	
+	# Player's score for game played
+	game_score = models.IntegerField()

@@ -16,6 +16,10 @@ class Introduction(Page):
 class RealEffort(Page):
     pass
 
+class Tetris(Page):
+	form_model = 'player'
+	form_fields = ['game_score']
+
 
 class EffortResultsWaitPage(WaitPage):
 
@@ -156,7 +160,7 @@ page_sequence = [
     GroupingPage,
     Introduction,
     RealEffort,
-    EffortResultsWaitPage,
+	Tetris, 
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,
