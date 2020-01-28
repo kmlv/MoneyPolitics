@@ -16,7 +16,6 @@ SESSION_CONFIGS = [
     },
 ]
 ```
-
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
  ```
