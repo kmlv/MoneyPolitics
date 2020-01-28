@@ -16,9 +16,11 @@ class Introduction(Page):
 class RealEffort(Page):
     pass
 
+
 class Tetris(Page):
-	form_model = 'player'
-	form_fields = ['game_score']
+    form_model = 'player'
+    form_fields = ['game_score']
+    timeout_seconds = 60
 
 
 class EffortResultsWaitPage(WaitPage):
@@ -26,7 +28,7 @@ class EffortResultsWaitPage(WaitPage):
     # Provisional assignment of scores (This has to be changed to a func that uses the ranking obtained in the real
     # effort game)
     def after_all_players_arrive(self):
-        self.group.provisional_ranking_income_assignment()
+        self.group.ranking_income_assignment()
 
 
 class RealEffortResults(Page):
@@ -160,7 +162,7 @@ page_sequence = [
     GroupingPage,
     Introduction,
     RealEffort,
-	Tetris, 
+    Tetris,
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,

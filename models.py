@@ -34,7 +34,7 @@ class Constants(BaseConstants):
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
     # Maximum endowment considered for a player to be in "poverty"
-   	poverty_line = ctrl.poverty_line
+    poverty_line = ctrl.poverty_line
     # Possible Tax Systems
     possible_tax_systems = ctrl.possible_tax_systems
 
@@ -44,7 +44,8 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    #Amount of players who will receive a luck based income
+
+    # Amount of players who will receive a luck based income
     lucky_players = models.IntegerField()
 
     # Votes for Tax Policy Systems
@@ -57,12 +58,31 @@ class Group(BaseGroup):
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
-    def provisional_ranking_income_assignment(self):
-        # Provisional assignment of endowment (Created only for the next meeting with LP)
+    def ranking_income_assignment(self):
+        # Assignment of endowment based on ranking
+        game_scores = {}
+        c = Constants
+
         for p in self.get_players():
-            p_id = p.id_in_group
-            p.real_effort_earnings = Constants.task_endowments[p_id - 1]
-            p.ranking = p_id
+            game_scores["{0}".format(p.id_in_group)] = p.game_score
+
+        # Ranking scores
+        ranked_scores = {}
+        sorted_list = sorted(game_scores.values())
+
+        for sorted_value in sorted_list:
+            for key, value in game_scores.items():
+                if value == sorted_value:
+                    ranked_scores[key] = value
+
+        # Assigning real effort incomes to players
+        counter_ranking = 0
+        for p in self.get_players():
+            for key, value in ranked_scores.items():
+                if p.id_in_group == int(key):
+                    p.ranking = counter_ranking
+                    p.real_effort_earnings = c.task_endowments[p.ranking]
+                    counter_ranking += 1
 
     def base_income_assignment(self):
         # Assignment of income by luck/effort
@@ -88,9 +108,11 @@ class Group(BaseGroup):
         else:
             print("Error: No luck values registered for shuffling")
 
-        # Assignment of shuffled earnings
+        # Counters for assignment of shuffled earnings
         j3 = 0
         j6 = 0
+
+        # Assignment of shuffled earnings
         for p in self.get_players():
             if luck == 0:
                 if p.ranking in c.shuffled_ranks_3:
@@ -128,7 +150,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-	
+
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)
 
@@ -160,6 +182,6 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.FloatField(min=0)
     tax_rate = models.FloatField(min=0)
-	
-	# Player's score for game played
-	game_score = models.IntegerField()
+
+    # Player's score for game played
+    game_score = models.IntegerField()
