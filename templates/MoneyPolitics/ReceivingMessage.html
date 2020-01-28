@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
 
-</body>
-</html>
+{% block title %}
+Real Effort Task
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        In order to obtain your income, you need to do the following real effort task
+    </p>
+
+    <p>
+    {% formfields %}
+    </p>
+
+    <p>
+    {% include Constants.tetris %}
+    </p>
+
+    <p>
+    {% next_button %}
+    </p>
+
+    <p>
+    {% include Constants.instructions_button %}
+    </p>
+
+{% endblock %}

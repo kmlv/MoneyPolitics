@@ -96,17 +96,21 @@ class Group(BaseGroup):
             if luck == 0:
                 if p.ranking in c.shuffled_ranks_3:
                     p.base_earnings = to_shuffle_earnings3[j3]
+                    p.shuffled = True
                     j3 += 1
                 elif p.ranking not in c.shuffled_ranks_3:
                     p.base_earnings = p.real_effort_earnings
+                    p.shuffled = False
                 else:
                     print("Error: No 'player.ranking' value for assignment of shuffled earning")
             elif luck == 1:
                 if p.ranking in c.shuffled_ranks_6:
                     p.base_earnings = to_shuffle_earnings6[j6]
+                    p.shuffled = True
                     j6 += 1
                 elif p.ranking not in c.shuffled_ranks_6:
                     p.base_earnings = p.real_effort_earnings
+                    p.shuffled = False
                 else:
                     print("Error: No 'player.ranking' value for assignment of shuffled earning")
             else:

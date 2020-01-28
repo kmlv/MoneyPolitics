@@ -5,8 +5,12 @@ from .models import Constants
 import re
 
 
-class Introduction(Page):
+class GroupingPage(WaitPage):
     group_by_arrival_time = True
+
+
+class Introduction(Page):
+    pass
 
 
 class RealEffort(Page):
@@ -27,7 +31,20 @@ class RealEffortResults(Page):
 
 
 class LuckEffortInformation(Page):
-    pass
+    def vars_for_template(self):
+        effort_or_luck = ""
+        player = self.player
+
+        if player.shuffled is True:
+            effort_or_luck = "Luck"
+        elif player.shuffled is False:
+            effort_or_luck = "Effort"
+        else:
+            print("Error: 'player.shuffled' has no value")
+
+        income = player.base_earnings
+
+        return {'effort_or_luck': effort_or_luck, 'income': income}
 
 
 class PreparingMessage(Page):
@@ -136,8 +153,10 @@ class Results(Page):
 
 
 page_sequence = [
+    GroupingPage,
     Introduction,
     RealEffort,
+    EffortResultsWaitPage,
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,
