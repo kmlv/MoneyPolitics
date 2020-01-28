@@ -1,0 +1,65 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Diamonds Game
+{% endblock %}
+
+{% block content %}
+
+<html>
+<head>
+</head>
+    
+<body>
+    
+<canvas width="600" height="600" id="DiamondGame"></canvas>
+<script type="text/javascript" language="javascript">
+
+var diamondAmount = 3; // a number between 1 and 10. Higher generates more diamonds. 
+var diamondCount = 0; // the actual number of diamonds generated
+    
+window.onload = function() {
+  const canvas = document.getElementById("DiamondGame");
+  const context = canvas.getContext("2d");
+  const padding = context.lineWidth / 2; 
+  const imagesPerRow = 15; 
+  const imagesPerCol = 15; 
+  // this should be (canvas height)/imagesPerRow
+  // TODO: make separate variables for width and height so that we can support rectangular grids
+  const squareSize = 40; 
+  
+  //draw grid of circles and diamonds
+  for (let x = 0; x < imagesPerRow; x++) {
+    for (let y = 0; y < imagesPerCol; y++) {
+      const xSize = x * squareSize;
+      const ySize = y * squareSize;
+        
+      // make sure the image is loaded before trying to draw it
+      const img = new Image();
+      img.onload = function() {
+        context.drawImage(img, xSize+padding, ySize+padding, squareSize-padding*2, squareSize-padding*2);
+      };
+
+      // choose whether to draw a circle or diamond
+      shapeGenerator = Math.random()*10 // generates a random number between 1 and 10 (above 5 for circle)
+      if (shapeGenerator > diamondAmount){ 
+          img.src = "{% static "MoneyPolitics/circle.png" %}";
+      }
+      else{
+          img.src = "{% static "MoneyPolitics/diamond.png" %}";
+          diamondCount ++; 
+      }
+        
+    }
+  }
+  //for debugging purposes
+  console.log(diamondCount); 
+};
+
+</script>
+    {% formfield player.diamond_guess label="Enter your guess here:"%}   
+    {% next_button %}
+</body>
+<html>
+{% endblock %}

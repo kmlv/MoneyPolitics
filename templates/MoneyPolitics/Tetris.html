@@ -45,14 +45,6 @@
 // get a random integer between the range of [min,max]
 // @see https://stackoverflow.com/a/1527820/2124254
 	
-//prevent screen from scrolling down when using arrow keys
-window.addEventListener("keydown", function(e) {
-    // arrow keys
-    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
-	
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -260,6 +252,7 @@ function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
 	
+  // pass the score to the hmtl template
   var inputScore = document.getElementById("game_score");
   inputScore.setAttribute('value', score); 
 
@@ -342,6 +335,14 @@ document.addEventListener('keydown', function(e) {
     tetromino.row = row;
   }
 });
+    
+//prevent screen from scrolling down when using arrow keys
+window.addEventListener("keydown", function(e) {
+    // arrow keys
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
 
 // start the game
 rAF = requestAnimationFrame(loop);

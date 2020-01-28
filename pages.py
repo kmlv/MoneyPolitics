@@ -18,9 +18,27 @@ class RealEffort(Page):
 
 
 class Tetris(Page):
+    def is_displayed(self):
+        if self.session.config['treatment'] == "Tetris":
+            return True
+        else: 
+            return False
+    
     form_model = 'player'
     form_fields = ['game_score']
     timeout_seconds = 60
+	
+class Diamonds(Page):
+    def is_displayed(self):
+        if self.session.config['treatment'] == "Diamonds":
+            return True
+        else: 
+            return False
+
+    form_model = 'player'
+    form_fields = ['diamond_guess']
+    timeout_seconds = 60
+    
 
 
 class EffortResultsWaitPage(WaitPage):
@@ -29,6 +47,7 @@ class EffortResultsWaitPage(WaitPage):
     # effort game)
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
+        pass
 
 
 class RealEffortResults(Page):
@@ -174,6 +193,7 @@ page_sequence = [
     Introduction,
     RealEffort,
     Tetris,
+	Diamonds, 
     EffortResultsWaitPage,
     RealEffortResults,
     LuckEffortInformation,

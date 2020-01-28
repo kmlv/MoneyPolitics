@@ -186,3 +186,4 @@ class Player(BasePlayer):
 
     # Player's score for game played
     game_score = models.IntegerField()
+    diamond_guess = models.IntegerField(min=0, max=1000)
