@@ -12,6 +12,12 @@
 </head>
     
 <body>
+ 
+<!-- Hidden form that passes the actual diamond count to oTree -->
+<form>
+    <input type="hidden" id="diamond_actual" name = "diamond_actual" value="0"/>
+</form>
+{{ form.diamond_actual.errors }}
     
 <canvas width="600" height="600" id="DiamondGame"></canvas>
 <script type="text/javascript" language="javascript">
@@ -55,7 +61,14 @@ window.onload = function() {
   }
   //for debugging purposes
   console.log(diamondCount); 
+    
+  // pass diamond count to html 
+  var inputScore = document.getElementById("diamond_actual");
+  inputScore.setAttribute('value', diamondCount); 
+    
 };
+
+
 
 </script>
     {% formfield player.diamond_guess label="Enter your guess here:"%}   

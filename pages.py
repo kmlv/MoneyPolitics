@@ -25,7 +25,7 @@ class Tetris(Page):
             return False
     
     form_model = 'player'
-    form_fields = ['game_score']
+    form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 60
 	
 class Diamonds(Page):
@@ -36,9 +36,15 @@ class Diamonds(Page):
             return False
 
     form_model = 'player'
-    form_fields = ['diamond_guess']
+    form_fields = ['diamond_guess', 'diamond_actual']
     timeout_seconds = 60
-    
+
+    def before_next_page(self):
+        self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
+        # for debugging (delete later)
+        print(self.player.diamond_guess)
+        print(self.player.diamond_actual)
+        print(self.player.game_score)
 
 
 class EffortResultsWaitPage(WaitPage):

@@ -11,8 +11,9 @@ really matter.
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
-        'num_demo_participants': 9,
+        'num_demo_participants': 2,#9,
         'app_sequence': ['MoneyPolitics'],
+		'treatment': "Diamonds", #Which game will be played (Tetris or Diamonds)
     },
 ]
 ```

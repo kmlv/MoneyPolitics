@@ -14,7 +14,7 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9
+    players_per_group = 2 #9 
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -24,8 +24,8 @@ class Constants(BaseConstants):
     diamonds = "MoneyPolitics/Diamonds.html"
 
     # Players whose income is going to be shuffled
-    shuffled_ranks_3 = ctrl.shuffled_ranks_3
-    shuffled_ranks_6 = ctrl.shuffled_ranks_6
+#    shuffled_ranks_3 = ctrl.shuffled_ranks_3
+#    shuffled_ranks_6 = ctrl.shuffled_ranks_6
 
     # There are some parameters that may vary during the development of this app. In order to make this as soft coded as
     # possible, the code should be flexible enough to allow changes in this ones and obtain them from an external
@@ -187,3 +187,4 @@ class Player(BasePlayer):
     # Player's score for game played
     game_score = models.IntegerField()
     diamond_guess = models.IntegerField(min=0, max=1000)
+    diamond_actual = models.IntegerField()
