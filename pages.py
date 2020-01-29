@@ -61,16 +61,20 @@ class EffortResultsWaitPage(WaitPage):
 
 
 class RealEffortResults(Page):
-    def before_next_page(self):
-        self.group.base_income_assignment()
 
     def vars_for_template(self):
         player = self.player
 
-        income = player.base_earnings
+        income = player.real_effort_earnings
         ranking = player.ranking
 
         return {'ranking': ranking, 'income': income}
+
+
+class LuckEffortDetermination(WaitPage):
+    # Wait page to determine if income'll be determined by effort or luck
+    def after_all_players_arrive(self):
+        self.group.base_income_assignment2()
 
 
 class LuckEffortInformation(Page):
@@ -100,25 +104,6 @@ class PreparingMessage(Page):
         player = self.player
         if player.message == '' and player.message_receivers != 0:
             return "If you don't want to send a message, choose 0 as the amount of message receivers"
-
-    def before_next_page(self):
-        group = self.group
-        player = self.player
-
-        # Sender id
-        sender_id = player.id_in_group
-
-        # List of players who can receive a message
-        receivers = group.choosing_message_receiver()
-
-        counter = 1
-        # To send the message only to players who have received one
-        for p in group.get_players():
-            if p.id_in_group in receivers and counter <= player.amount_message_receivers:
-                # Assigning a message to the p.id_in_group player
-                p.messages_received += str(sender_id) + "," + player.message + ";"
-                player.messages_receivers += str(p.id_in_group) + ","
-            counter += 1
 
 
 class ReceivingMessage(Page):
@@ -206,6 +191,7 @@ page_sequence = [
 	Diamonds, 
     EffortResultsWaitPage,
     RealEffortResults,
+    LuckEffortDetermination,
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,

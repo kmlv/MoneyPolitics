@@ -6,7 +6,25 @@
 {% endblock %}
 
 {% block content %}
-    Some results here
+    Your real effort income was {% Player.real_effort_earnings %} </br>
+    The place you obtained in the real effort task was {% Player.ranking %} </br>
+    {% if Player.shuffled %}
+    Your income was shuffled </br>
+    After the shuffling, your new income is {% Player.base_earnings %} </br>
+    {% else %}
+    Your income wasn't shuffled </br>
+    {% endif %}
+
+    {% if Group.tax_policy_system == 0 %}
+    The Tax System Chosen was the Progressivity System </br>
+    Your selected progressivity was {% Player.progressivity %} </br>
+    The value of the base progressivity is {% Group.chosen_progressivity %}
+    {% else %}
+    The Tax System Chosen was the Tax Rate System </br>
+    Your selected tax rate was {% Player.tax_rate %} </br>
+    The value of the base tax rate is {% Group.chosen_tax_rate %} </br>
+    {% endif %}
+    Your payoff for this round is {% Player.payoff %} </br>
     {% next_button %}
 
     <p>
