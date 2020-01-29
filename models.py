@@ -14,7 +14,7 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 2 #9 
+    players_per_group = 3 #9 
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -65,15 +65,22 @@ class Group(BaseGroup):
 
         for p in self.get_players():
             game_scores["{0}".format(p.id_in_group)] = p.game_score
-
+        print(game_scores) # for debugging
+        
         # Ranking scores
         ranked_scores = {}
-        sorted_list = sorted(game_scores.values())
+        if(self.session.config['treatment'] == "Tetris"):
+            sorted_list = sorted(game_scores.values(), reverse=True)
+        else:
+            # When playing Diamonds a higher score is worse (so we reverse the sort)
+            sorted_list = sorted(game_scores.values()) 
+        print(sorted_list) # for debugging
 
         for sorted_value in sorted_list:
             for key, value in game_scores.items():
                 if value == sorted_value:
                     ranked_scores[key] = value
+        print(ranked_scores) # for debugging
 
         # Assigning real effort incomes to players
         counter_ranking = 0

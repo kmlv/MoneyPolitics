@@ -79,11 +79,13 @@ The main tasks are to program an app following this provisional structure:
 ## TODO Backend - Marco and Skyler
 
 1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco/Skyler
-In progress now. 
+
+Should be correct now.  
 
 1. Randomize the players whose income will be by luck - Marco
 
 1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler
+
 We currently have a simple functioning version of the diamond game (it only supports a square board for now). The size of the board is currently set to 15x15. 
 
 The player enters their guess, which is compared to the actual number of diamonds on their board. Their score is equal to: 
@@ -96,6 +98,7 @@ A task in which the player counts the number of small diamonds in rectangular sc
 mainly with small circles
 ```
 1. Include the Tetris Game in the Real Effort template - Skyler
+
 Might be difficult (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This may also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
 
 1. Program payoff function - Marco
