@@ -26,9 +26,10 @@ class Tetris(Page):
     
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
-    timeout_seconds = 60
+    timeout_seconds = 120 #60 # we may want to give players more time (max score is currently 1)
 
     def before_next_page(self):
+        # for debugging (delete later)
         print(self.player.game_score)
 	
 class Diamonds(Page):
