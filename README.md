@@ -99,7 +99,7 @@ mainly with small circles
 ```
 1. Include the Tetris Game in the Real Effort template - Skyler
 
-Might be difficult (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This may also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
+Might be difficult (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This would also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
 
 1. Program payoff function - Marco
 
@@ -108,7 +108,11 @@ Might be difficult (the game is just on a separate page for now). Most browsers 
 1. The messages should be send by having a table in which the first column displays the income level of a player
 and the other column a check box to define if the player should receive a message or not - Skyler
 
+Temporary solution in place to display checkboxes. Otree doesn't support form fields where multiple options can be selected, so we'll have to make one ourselves and work around Otree's requirements. For now, there is simply a boolean field for each income level. There is likely a much better solution (probably using Django), but it will take some time to figure out and implement. 
+
 1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' ") - Skyler
+
+A skeleton template is displayed now (not populated). The logic for sending messages is still being working on. Once that's done, this step should be fairly quick and easy. Also, an indexing error with clean_messages was crashing the server, so I modified it. 
 
 1. We need to sum up all the info presented to the player at the end of the round (Results page)  - Marco
 

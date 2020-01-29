@@ -223,11 +223,17 @@ class Player(BasePlayer):
     amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
                                                                                                  'number of message '
                                                                                                  'receivers')
-#    messages_income = forms.MultipleChoiceField(
-#        label = 'Which income levels do you want to message?',
-#        choices = ctrl.task_endowments,
-#        widget=forms.SelectMultiple,
-#    )
+    
+    # Income levels selected by player sending the message
+    # Otree doesn't support fields that allow multiple selection (it's deprecated), so this is a temporary solution until I figure out a better way to do it (with Django). 
+    
+    income_9 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    income_15 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    income_25 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    income_40 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    income_80 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    income_125 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    
     
     # Id of players who received the message of an specific player
     messages_receivers = models.StringField(initial="")

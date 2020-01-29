@@ -97,14 +97,16 @@ class LuckEffortInformation(Page):
 
 class PreparingMessage(Page):
     form_model = 'player'
-    form_fields = ['message', 'amount_message_receivers', 'messages_income']
-
+    form_fields = ['message', 'amount_message_receivers', 'income_9', 'income_15', 'income_25', 'income_40', 'income_80', 'income_125']
     # This page has to change to the new version required in the todo list
 
     def error_message(self, values):
         player = self.player
         if player.message == '' and player.message_receivers != 0:
             return "If you don't want to send a message, choose 0 as the amount of message receivers"
+        
+    def vars_for_template(self):
+        return { 'income_choices': Constants.task_endowments}
 
 
 class ReceivingMessage(Page):
@@ -117,7 +119,7 @@ class ReceivingMessage(Page):
         clean_messages = []
 
         for item in raw_messages:
-            clean_messages.append(item.split(",", 1)[1])
+            clean_messages.append(item.split(",", 1)[0]) # index out of range error: changed from 1 to 0
 
         # Loop across received messages in the html in order to show them distinctly (with another color, size, etc)
         return {"received_messages": clean_messages}
