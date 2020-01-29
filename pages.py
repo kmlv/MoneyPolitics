@@ -32,16 +32,20 @@ class EffortResultsWaitPage(WaitPage):
 
 
 class RealEffortResults(Page):
-    def before_next_page(self):
-        self.group.base_income_assignment()
 
     def vars_for_template(self):
         player = self.player
 
-        income = player.base_earnings
+        income = player.real_effort_earnings
         ranking = player.ranking
 
         return {'ranking': ranking, 'income': income}
+
+
+class LuckEffortDetermination(WaitPage):
+    # Wait page to determine if income'll be determined by effort or luck
+    def after_all_players_arrive(self):
+        self.group.base_income_assignment2()
 
 
 class LuckEffortInformation(Page):
@@ -157,6 +161,7 @@ page_sequence = [
     Tetris,
     EffortResultsWaitPage,
     RealEffortResults,
+    LuckEffortDetermination,
     LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,

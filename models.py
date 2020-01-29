@@ -58,6 +58,9 @@ class Group(BaseGroup):
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
+    # TODO: The ranking_income_assignment is assigning values, but not according to the game scores
+    # (We need to fix that)
+
     def ranking_income_assignment(self):
         # Assignment of endowment based on ranking
         game_scores = {}
@@ -70,16 +73,24 @@ class Group(BaseGroup):
         ranked_scores = {}
         sorted_list = sorted(game_scores.values())
 
+        # Control sorted_list
+        print(sorted_list)
+
         for sorted_value in sorted_list:
             for key, value in game_scores.items():
                 if value == sorted_value:
                     ranked_scores[key] = value
+
+        # Control ranked_scores
+        print(ranked_scores)
 
         # Assigning real effort incomes to players
         counter_ranking = 0
         for p in self.get_players():
             for key, value in ranked_scores.items():
                 num_key = int(key)
+                # Control ranked_scores
+                print(num_key)
                 if p.id_in_group == num_key:
                     p.ranking = counter_ranking
                     p.real_effort_earnings = c.task_endowments[p.ranking]
@@ -98,15 +109,16 @@ class Group(BaseGroup):
         shuffled_ranks = []
 
         all_the_players = self.get_players()
-        shuffled_players = random.SystemRandom().shuffle(all_the_players)
+        # Control ranked_scores
+        print(all_the_players)
 
-        for p in shuffled_players:
+        for p in random.SystemRandom().shuffle(all_the_players):
             shuffled_ranks.append(p.id_in_group)
 
         shuffled_ranks_3 = shuffled_ranks[:3]
         shuffled_ranks_6 = shuffled_ranks[:6]
 
-        # Randomizing the real effort income for later assignment
+        # Randomizing the real effort income for later assignment (This will shuffle by id in group, not by ranking)
         if luck == 0:
             for x in shuffled_ranks_3:
                 to_shuffle_earnings3.append(c.task_endowments[x-1])
@@ -142,6 +154,58 @@ class Group(BaseGroup):
                     p.shuffled = True
                     j6 += 1
                 elif p.ranking not in shuffled_ranks_6:
+                    p.base_earnings = p.real_effort_earnings
+                    p.shuffled = False
+                else:
+                    print("Error: No 'player.ranking' value for assignment of shuffled earning")
+            else:
+                print("Error: No 'luck' value for assignment of shuffled earning")
+
+    def base_income_assignment2(self):
+        # Assignment of income by luck/effort
+
+        # luck: 0 if 3 people is going to be paid by luck, 1 if they are going to be 6
+        luck = random.SystemRandom().randint(0, 1)
+        c = Constants
+
+        to_shuffle_earnings = []
+
+        shuffled_group_ids = []
+
+        # Shuffling earnings and ids
+        all_the_players = self.get_players()
+        for p in random.SystemRandom().shuffle(all_the_players):
+            shuffled_group_ids.append(p.id_in_group)
+            to_shuffle_earnings.append(p.real_effort_earnings)
+
+        shuffled_ids_3 = shuffled_group_ids[:3]
+        shuffled_ids_6 = shuffled_group_ids[:6]
+
+        to_shuffle_earnings3 = to_shuffle_earnings[:3]
+        to_shuffle_earnings6 = to_shuffle_earnings[:6]
+
+        # Counters for assignment of shuffled earnings
+        j3 = 0
+        j6 = 0
+
+        # Assignment of shuffled earnings
+        for p in self.get_players():
+            if luck == 0:
+                if p.id_in_group in shuffled_ids_3:
+                    p.base_earnings = to_shuffle_earnings3[j3]
+                    p.shuffled = True
+                    j3 += 1
+                elif p.ranking not in shuffled_ids_3:
+                    p.base_earnings = p.real_effort_earnings
+                    p.shuffled = False
+                else:
+                    print("Error: No 'player.ranking' value for assignment of shuffled earning")
+            elif luck == 1:
+                if p.id_in_group in shuffled_ids_6:
+                    p.base_earnings = to_shuffle_earnings6[j6]
+                    p.shuffled = True
+                    j6 += 1
+                elif p.ranking not in shuffled_ids_6:
                     p.base_earnings = p.real_effort_earnings
                     p.shuffled = False
                 else:
