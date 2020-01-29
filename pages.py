@@ -27,6 +27,9 @@ class Tetris(Page):
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 60
+
+    def before_next_page(self):
+        print(self.player.game_score)
 	
 class Diamonds(Page):
     def is_displayed(self):
