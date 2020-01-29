@@ -73,9 +73,9 @@ class RealEffortResults(Page):
 
 class LuckEffortDetermination(WaitPage):
     # Wait page to determine if income'll be determined by effort or luck
+    # TODO: fix the assignment by luck/effort
     def after_all_players_arrive(self):
-        pass
-        #self.group.base_income_assignment2()
+        self.group.base_income_assignment()
 
 
 class LuckEffortInformation(Page):
