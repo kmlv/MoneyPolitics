@@ -1,9 +1,11 @@
 from otree.api import (
-    models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer
+    models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, widgets
 )
 
 import controls as ctrl
 import random
+
+from django import forms
 
 author = 'Marco Gutierrez and Skyler Stewart'
 
@@ -253,6 +255,12 @@ class Player(BasePlayer):
     amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
                                                                                                  'number of message '
                                                                                                  'receivers')
+#    messages_income = forms.MultipleChoiceField(
+#        label = 'Which income levels do you want to message?',
+#        choices = ctrl.task_endowments,
+#        widget=forms.SelectMultiple,
+#    )
+    
     # Id of players who received the message of an specific player
     messages_receivers = models.StringField(initial="")
 

@@ -74,7 +74,8 @@ class RealEffortResults(Page):
 class LuckEffortDetermination(WaitPage):
     # Wait page to determine if income'll be determined by effort or luck
     def after_all_players_arrive(self):
-        self.group.base_income_assignment2()
+        pass
+        #self.group.base_income_assignment2()
 
 
 class LuckEffortInformation(Page):
@@ -96,7 +97,7 @@ class LuckEffortInformation(Page):
 
 class PreparingMessage(Page):
     form_model = 'player'
-    form_fields = ['message', 'amount_message_receivers']
+    form_fields = ['message', 'amount_message_receivers', 'messages_income']
 
     # This page has to change to the new version required in the todo list
 
