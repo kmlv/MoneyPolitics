@@ -23,9 +23,6 @@ class Constants(BaseConstants):
     tetris = "MoneyPolitics/Tetris.html"
     diamonds = "MoneyPolitics/Diamonds.html"
 
-    # Players whose income is going to be shuffled
-#    shuffled_ranks_3 = ctrl.shuffled_ranks_3
-#    shuffled_ranks_6 = ctrl.shuffled_ranks_6
 
     # There are some parameters that may vary during the development of this app. In order to make this as soft coded as
     # possible, the code should be flexible enough to allow changes in this ones and obtain them from an external
