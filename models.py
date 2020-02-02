@@ -1,5 +1,5 @@
 from otree.api import (
-    models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer
+    models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, widgets
 )
 
 import controls as ctrl
@@ -193,6 +193,15 @@ class Group(BaseGroup):
     def set_payoffs(self):
         for p in self.get_players():
             p.payoff = p.base_earnings
+
+
+# Function that creates a field to send messages according to the income of other player
+def send_message_field(label):
+    return models.IntegerField(
+        choices=[1, 2, 3, 4, 5],
+        label=label,
+        widget=widgets.RadioSelect,
+    )
 
 
 class Player(BasePlayer):
