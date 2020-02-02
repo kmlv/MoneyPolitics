@@ -56,6 +56,16 @@ class PreparingMessage(Page):
     form_model = 'player'
     form_fields = ['message', 'income_9', 'income_15_1', 'income_15_2', 'income_15_3',
                    'income_25_1', 'income_25_2', 'income_40', 'income_80', 'income_125']
+    # TODO: Exclude our own income from the form fields
+    def before_next_page(self):
+        for p in self.group.get_players():
+            pass
+
+
+class ProcessingMessage(WaitPage):
+    def after_all_players_arrive(self):
+        for p in self.group.get_players():
+            p.base_earnings
 
 
 class ReceivingMessage(Page):
