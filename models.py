@@ -2,6 +2,8 @@ from otree.api import (
     models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, widgets
 )
 
+from django import forms
+
 import controls as ctrl
 import random
 
@@ -29,8 +31,10 @@ class Constants(BaseConstants):
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
-    # Maximum endowment considered for a player to be in "poverty"
-    poverty_line = ctrl.poverty_line
+
+    # Possible Message Receivers
+    possible_message_receivers = ctrl.possible_message_receivers
+
     # Possible Tax Systems
     possible_tax_systems = ctrl.possible_tax_systems
 
@@ -222,20 +226,12 @@ class Player(BasePlayer):
     # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
     message = models.LongStringField(max_length=500, label='Write the message you want to send (max. 500 characters)')
 
-    # Fields to choose the message receivers according to income
-    income_9 = send_message_field('Income 9')
-    income_15_1 = send_message_field('Income 15 (First Player)')
-    income_15_2 = send_message_field('Income 15 (Second Player)')
-    income_15_3 = send_message_field('Income 15 (Third Player)')
-    income_25_1 = send_message_field('Income 25 (First Player)')
-    income_25_2 = send_message_field('Income 25 (Second Player)')
-    income_40 = send_message_field('Income 40')
-    income_80 = send_message_field('Income 80')
-    income_125 = send_message_field('Income 125')
+    # Field for deciding the message receiver
+    message_receivers = models.CharField(label='', blank=True,
+                                         widget=forms.widgets.CheckboxSelectMultiple
+                                         (choices=Constants.possible_message_receivers))
 
-    # Id of players who received the message of an specific player
-    messages_receivers = models.StringField(initial="")
-
+    # Messages Received in String Format
     messages_received = models.StringField(initial="")
     # Number of messages received
     amount_messages_received = models.IntegerField(min=0)
@@ -249,3 +245,19 @@ class Player(BasePlayer):
 
     # Player's score for game played
     game_score = models.IntegerField()
+
+    """
+    # Id of players who received the message of an specific player
+    messages_receivers = models.StringField(initial="")
+    
+    # Fields to choose the message receivers according to income
+    income_9 = send_message_field('Income 9')
+    income_15_1 = send_message_field('Income 15 (First Player)')
+    income_15_2 = send_message_field('Income 15 (Second Player)')
+    income_15_3 = send_message_field('Income 15 (Third Player)')
+    income_25_1 = send_message_field('Income 25 (First Player)')
+    income_25_2 = send_message_field('Income 25 (Second Player)')
+    income_40 = send_message_field('Income 40')
+    income_80 = send_message_field('Income 80')
+    income_125 = send_message_field('Income 125')
+    """

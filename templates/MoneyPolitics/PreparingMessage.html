@@ -8,8 +8,20 @@
 {% block content %}
 
     You can prepare and select how many players can receive a message in this page. Remember that the cost per message
-    sent is {{ Constants.message_cost }}
-    {% formfields %}
+    sent is {{ Constants.message_cost }}</br>
+
+    {% formfield player.message %}</br>
+    {{ player.message_receivers.label }}
+    <div class="message-receivers">
+     <ul>
+     {% for choice in player.message_receivers %}
+     <li>
+     <label>{{ choice.tag }} {{ choice.choice_label }}</label>
+     </li>
+     {% endfor %}
+     </ul>
+    </div>
+
     {% next_button %}
 
     <p>

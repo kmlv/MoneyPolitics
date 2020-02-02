@@ -54,12 +54,35 @@ class RealEffortResults(Page):
 
 class PreparingMessage(Page):
     form_model = 'player'
-    form_fields = ['message', 'income_9', 'income_15_1', 'income_15_2', 'income_15_3',
-                   'income_25_1', 'income_25_2', 'income_40', 'income_80', 'income_125']
-    # TODO: Exclude our own income from the form fields
-    def before_next_page(self):
+    form_fields = ['message', 'message_receivers']
+    # TODO: Exclude our own income from the form fields (this should be done on the html temp)
+
+    def vars_for_template(self):
+        player = self.player
+
+        if player.base_earnings < 10:
+            string_income = str(player.base_earnings)[:1]
+        elif player.base_earnings >= 10:
+            string_income = str(player.base_earnings)[:2]
+
+        # ID in group of players with an income of 15
+        players15 = []
+        # ID in group of players with an income of 25
+        players25 = []
         for p in self.group.get_players():
-            pass
+            if p.base_earnings == 15:
+                players15.append(p.id_in_group)
+            elif p.base_earnings == 25:
+                players25.append(p.id_in_group)
+            else:
+                print("Player of income "+str(p.base_earnings)+" doesn't have 15 or 25 as income")
+
+        if player.id_in_group in players15:
+            string_income = string_income + str(players15.index(player.id_in_group))
+        elif player.id_in_group in players25:
+            string_income = string_income + str(players25.index(player.id_in_group))
+
+        return {'string_income': string_income}
 
 
 class ProcessingMessage(WaitPage):
@@ -153,6 +176,7 @@ page_sequence = [
     EffortResultsWaitPage,
     RealEffortResults,
     PreparingMessage,
+    ProcessingMessage,
     ReceivingMessage,
     TaxSystem,
     TaxDecisionWaitPage,
