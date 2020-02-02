@@ -197,10 +197,11 @@ class Group(BaseGroup):
 
 # Function that creates a field to send messages according to the income of other player
 def send_message_field(label):
-    return models.IntegerField(
-        choices=[1, 2, 3, 4, 5],
+    return models.BooleanField(
+        initial=False,
+        blank=True,
         label=label,
-        widget=widgets.RadioSelect,
+        widget=widgets.CheckboxInput,
     )
 
 
@@ -220,10 +221,18 @@ class Player(BasePlayer):
 
     # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
     message = models.LongStringField(max_length=500, label='Write the message you want to send (max. 500 characters)')
-    # Amount of receivers of player's message (players with 9 or 15)
-    amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
-                                                                                                 'number of message '
-                                                                                                 'receivers')
+
+    # Fields to choose the message receivers according to income
+    income_9 = send_message_field('Income 9')
+    income_15_1 = send_message_field('Income 15 (First Player)')
+    income_15_2 = send_message_field('Income 15 (Second Player)')
+    income_15_3 = send_message_field('Income 15 (Third Player)')
+    income_25_1 = send_message_field('Income 25 (First Player)')
+    income_25_2 = send_message_field('Income 25 (Second Player)')
+    income_40 = send_message_field('Income 40')
+    income_80 = send_message_field('Income 80')
+    income_125 = send_message_field('Income 125')
+
     # Id of players who received the message of an specific player
     messages_receivers = models.StringField(initial="")
 

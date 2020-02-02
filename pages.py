@@ -54,14 +54,8 @@ class RealEffortResults(Page):
 
 class PreparingMessage(Page):
     form_model = 'player'
-    form_fields = ['message', 'amount_message_receivers']
-
-    # This page has to change to the new version required in the todo list
-
-    def error_message(self, values):
-        player = self.player
-        if player.message == '' and player.message_receivers != 0:
-            return "If you don't want to send a message, choose 0 as the amount of message receivers"
+    form_fields = ['message', 'income_9', 'income_15_1', 'income_15_2', 'income_15_3',
+                   'income_25_1', 'income_25_2', 'income_40', 'income_80', 'income_125']
 
 
 class ReceivingMessage(Page):
