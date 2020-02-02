@@ -29,6 +29,7 @@ class EffortResultsWaitPage(WaitPage):
     # effort game)
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
+        self.group.base_income_assignment()
 
 
 class RealEffortResults(Page):
@@ -36,23 +37,7 @@ class RealEffortResults(Page):
     def vars_for_template(self):
         player = self.player
 
-        income = player.real_effort_earnings
-        ranking = player.ranking
-
-        return {'ranking': ranking, 'income': income}
-
-
-class LuckEffortDetermination(WaitPage):
-    # Wait page to determine if income'll be determined by effort or luck
-    # TODO: fix the assignment by luck/effort
-    def after_all_players_arrive(self):
-        self.group.base_income_assignment()
-
-
-class LuckEffortInformation(Page):
-    def vars_for_template(self):
         effort_or_luck = ""
-        player = self.player
 
         if player.shuffled is True:
             effort_or_luck = "Luck"
@@ -62,8 +47,9 @@ class LuckEffortInformation(Page):
             print("Error: 'player.shuffled' has no value")
 
         income = player.base_earnings
+        ranking = player.ranking
 
-        return {'effort_or_luck': effort_or_luck, 'income': income}
+        return {'ranking': ranking, 'income': income, 'effort_or_luck': effort_or_luck}
 
 
 class PreparingMessage(Page):
@@ -162,8 +148,6 @@ page_sequence = [
     Tetris,
     EffortResultsWaitPage,
     RealEffortResults,
-    LuckEffortDetermination,
-    LuckEffortInformation,
     PreparingMessage,
     ReceivingMessage,
     TaxSystem,
