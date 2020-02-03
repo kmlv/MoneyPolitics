@@ -77,29 +77,37 @@ The main tasks are to program an app following this provisional structure:
 
 ## TODO Backend - Marco and Skyler
 
-1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco/Skyler
+1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco (DONE)
 
-1. Randomize the players whose income will be by luck - Marco
+1. Randomize the players whose income will be by luck - Marco (DONE)
 
-1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler
+1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler (DONE)
+
+1. Make Tetris and the Diamond Game includable templates that should appear on the Real Effort template
+depending on a session config parameter - Skyler
+
+1. The players should receive a message separated by a ";" value between each of them - Marco
+
+1. Create a session config parameter that determines if the player will see the ID in group, the income, both
+or none of the receiver - Marco
 
 ```
 A task in which the player counts the number of small diamonds in rectangular screens filled 
 mainly with small circles
 ```
 
-1. Include the Tetris Game in the Real Effort template - Skyler
-
 1. Program payoff function - Marco
 
 ## TODO Frontend - Marco and Skyler
 
-1. The messages should be send by having a table in which the first column displays the income level of a player
-and the other column a check box to define if the player should receive a message or not - Skyler
+1. The message senders should see checkboxes with the receivers income to send them a message, but they shouldn't
+see themselves in those boxes (e.g. if my Income is 9, I should only see checkboxes with the income of the rest of the
+players). This has been implemented partially, but needs to be completed - Marco/Skyler
 
-1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' ") - Skyler
+1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' "). This should
+ depend on a session config parameter (the one mentioned in the last item of the Backend todo list) - Skyler
 
-1. We need to sum up all the info presented to the player at the end of the round (Results page)  - Marco
+1. We need to sum up all the info presented to the player at the end of the round (Results page) - Marco (DONE)
 
 If you want to test something that may cause some troubles, it should be done here:
 ### Testing space: branch `testing`
