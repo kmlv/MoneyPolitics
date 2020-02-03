@@ -24,7 +24,10 @@ SESSION_CONFIGS = [
     """
     
     task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
-    poverty_line = task_endowments[3]
+    possible_message_receivers = [['125', 'Income 125'], ['80', 'Income 80'], ['40', 'Income 40'],
+                              ['251', 'Income 25 (Player 2)'], ['250', 'Income 25 (Player 1)'],
+                              ['152', 'Income 15 (Player 3)'], ['151', 'Income 15 (Player 2)'],
+                              ['150', 'Income 15 (Player 1)'], ['9', 'Income 9'], ]
     message_cost = 1
     number_of_messages = 1
     possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
@@ -85,6 +88,8 @@ The main tasks are to program an app following this provisional structure:
 
 1. Make Tetris and the Diamond Game includable templates that should appear on the Real Effort template
 depending on a session config parameter - Skyler
+
+1. The players should be able to send messages to the rest of the players without any restriction - Marco (DONE)
 
 1. The players should receive a message separated by a ";" value between each of them - Marco
 
