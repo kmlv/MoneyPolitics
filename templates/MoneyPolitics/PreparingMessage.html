@@ -16,13 +16,13 @@
     </p>
 
     {% formfield player.message %}
-    {{ player.message_receivers.label }}
+    {% formfield player.message_receivers %}
     <div class="message-receivers">
      <ul>
      {% for choice in player.message_receivers %}
-     <li>
-     <label>{{ choice.tag }} {{ choice.choice_label }}</label>
-     </li>
+         <li>
+            <label>{{ choice.tag }} {{ choice.choice_label }}</label>
+         </li>
      {% endfor %}
      </ul>
     </div>

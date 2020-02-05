@@ -57,12 +57,7 @@ class EffortResultsWaitPage(WaitPage):
     # effort game)
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
-<<<<<<< HEAD
-        pass
-=======
         self.group.base_income_assignment()
->>>>>>> 7de911a85c4396b075537a278474ab4f908e3e77
-
 
 class RealEffortResults(Page):
 
@@ -87,19 +82,17 @@ class RealEffortResults(Page):
 class PreparingMessage(Page):
     form_model = 'player'
     form_fields = ['message', 'message_receivers']
-    # TODO: Exclude our own income from the form fields (this should be done on the html temp)
-
+    
     def vars_for_template(self):
         player = self.player
-#        if player.message == '' and player.message_receivers != 0:
-#            return "If you don't want to send a message, choose 0 as the amount of message receivers"
-#        
-#    def vars_for_template(self):
-#        return { 'income_choices': Constants.task_endowments}
-        if player.base_earnings < 10:
-            string_income = str(player.base_earnings)[:1]
-        elif player.base_earnings >= 10:
-            string_income = str(player.base_earnings)[:2]
+        
+        # This has been moved to models
+        #        if player.base_earnings < 10:
+        #            string_income = str(player.base_earnings)[:1]
+        #        elif player.base_earnings >= 10 and player.base_earnings < 100:
+        #            string_income = str(player.base_earnings)[:2]
+        #        else: 
+        #            string_income = str(player.base_earnings)[:3]
 
         # ID in group of players with an income of 15
         players15 = []
@@ -117,7 +110,7 @@ class PreparingMessage(Page):
             string_income = string_income + str(players15.index(player.id_in_group))
         elif player.id_in_group in players25:
             string_income = string_income + str(players25.index(player.id_in_group))
-
+        
         return {'string_income': string_income}
 
 

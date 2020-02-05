@@ -207,14 +207,14 @@ class Group(BaseGroup):
             p.payoff = p.base_earnings
 
 
-# Function that creates a field to send messages according to the income of other player
-def send_message_field(label):
-    return models.BooleanField(
-        initial=False,
-        blank=True,
-        label=label,
-        widget=widgets.CheckboxInput,
-    )
+    # Function that creates a field to send messages according to the income of other player
+    def send_message_field(label):
+        return models.BooleanField(
+            initial=False,
+            blank=True,
+            label=label,
+            widget=widgets.CheckboxInput,
+        )
 
 
 class Player(BasePlayer):
@@ -231,34 +231,13 @@ class Player(BasePlayer):
     # Earnings after the shuffling
     base_earnings = models.CurrencyField(min=0)
 
-    # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
-
-    #    message = models.CharField(max_length=500, label='Write the message you want to send (max. 500 characters)')
-    #    # Amount of receivers of player's message (players with 9 or 15)
-    #    amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
-    #                                                                                                 'number of message '
-    #                                                                                                 'receivers')
-    #    
-    #    # Income levels selected by player sending the message
-    #    # Otree doesn't support fields that allow multiple selection (it's deprecated), so this is a temporary solution until I figure out a better way to do it (with Django). 
-    #    
-    #    income_9 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    #    income_15 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    #    income_25 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    #    income_40 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    #    income_80 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    #    income_125 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    #    
-    #    
-    #    # Id of players who received the message of an specific player
-    #    messages_receivers = models.StringField(initial="")
-
     message = models.LongStringField(max_length=500, label='Write the message you want to send (max. 500 characters)')
+    
 
     # Field for deciding the message receiver
+    # (choices=Constants.possible_message_receivers)
     message_receivers = models.CharField(label='', blank=True,
-                                         widget=forms.widgets.CheckboxSelectMultiple
-                                         (choices=Constants.possible_message_receivers))
+                                         widget=forms.widgets.CheckboxSelectMultiple)
 
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
@@ -275,8 +254,30 @@ class Player(BasePlayer):
     # Player's score for game played
     game_score = models.IntegerField()
 
-#    diamond_guess = models.IntegerField(min=0, max=1000)
-#    diamond_actual = models.IntegerField()
+    # A function to determine possible message receivers (excludes same income as self)
+    # This logic was previously in pages 
+    # TODO: deal with multiple instances of the same income.
+    # TODO: deal with index on repeat incomes (because 25 (player 1) is represented as 251)
+    # TODO: template displays ---- for our own income, so we need to get rid of it.
+    def message_receivers_choices(self):
+        choices = []
+        # Converts income from currency to string
+        # We need to deal with index on repeat incomes here
+        if self.base_earnings < 10:
+            string_income = str(self.base_earnings)[:1]
+        elif self.base_earnings >= 10 and self.base_earnings < 100:
+            string_income = str(self.base_earnings)[:2]
+        else: 
+            string_income = str(self.base_earnings)[:3]
+        # Adds all income choices (except our own) to the possible choices 
+        for p in Constants.possible_message_receivers:
+            print(p[0])
+            print(self.base_earnings)
+            if(p[0] != string_income ):
+                choices.append(p)
+        print(choices)
+        return choices
+
 
     """
     # Id of players who received the message of an specific player
@@ -293,4 +294,3 @@ class Player(BasePlayer):
     income_80 = send_message_field('Income 80')
     income_125 = send_message_field('Income 125')
     """
-

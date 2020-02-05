@@ -83,13 +83,8 @@ The main tasks are to program an app following this provisional structure:
 
 1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco (DONE)
 
-<<<<<<< HEAD
-Should be correct now.  
-
-1. Randomize the players whose income will be by luck - Marco
-=======
 1. Randomize the players whose income will be by luck - Marco (DONE)
->>>>>>> 7de911a85c4396b075537a278474ab4f908e3e77
+
 
 1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler (DONE)
 
@@ -129,6 +124,7 @@ see themselves in those boxes (e.g. if my Income is 9, I should only see checkbo
 players). This has been implemented partially, but needs to be completed - Marco/Skyler
 
 Temporary solution in place to display checkboxes. Otree doesn't support form fields where multiple options can be selected, so we'll have to make one ourselves and work around Otree's requirements. For now, there is simply a boolean field for each income level. There is likely a much better solution (probably using Django), but it will take some time to figure out and implement. 
+
 
 1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' ") - Skyler
 
