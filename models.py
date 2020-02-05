@@ -2,6 +2,8 @@ from otree.api import (
     models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, widgets
 )
 
+from django import forms
+
 import controls as ctrl
 import random
 
@@ -31,8 +33,10 @@ class Constants(BaseConstants):
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
-    # Maximum endowment considered for a player to be in "poverty"
-    poverty_line = ctrl.poverty_line
+
+    # Possible Message Receivers
+    possible_message_receivers = ctrl.possible_message_receivers
+
     # Possible Tax Systems
     possible_tax_systems = ctrl.possible_tax_systems
 
@@ -203,6 +207,16 @@ class Group(BaseGroup):
             p.payoff = p.base_earnings
 
 
+# Function that creates a field to send messages according to the income of other player
+def send_message_field(label):
+    return models.BooleanField(
+        initial=False,
+        blank=True,
+        label=label,
+        widget=widgets.CheckboxInput,
+    )
+
+
 class Player(BasePlayer):
 
     # Real Effort Earnings
@@ -218,26 +232,35 @@ class Player(BasePlayer):
     base_earnings = models.CurrencyField(min=0)
 
     # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
-    message = models.CharField(max_length=500, label='Write the message you want to send (max. 500 characters)')
-    # Amount of receivers of player's message (players with 9 or 15)
-    amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
-                                                                                                 'number of message '
-                                                                                                 'receivers')
-    
-    # Income levels selected by player sending the message
-    # Otree doesn't support fields that allow multiple selection (it's deprecated), so this is a temporary solution until I figure out a better way to do it (with Django). 
-    
-    income_9 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    income_15 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    income_25 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    income_40 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    income_80 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    income_125 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
-    
-    
-    # Id of players who received the message of an specific player
-    messages_receivers = models.StringField(initial="")
 
+    #    message = models.CharField(max_length=500, label='Write the message you want to send (max. 500 characters)')
+    #    # Amount of receivers of player's message (players with 9 or 15)
+    #    amount_message_receivers = models.IntegerField(min=0, max=Constants.players_per_group, label='Write your preferred '
+    #                                                                                                 'number of message '
+    #                                                                                                 'receivers')
+    #    
+    #    # Income levels selected by player sending the message
+    #    # Otree doesn't support fields that allow multiple selection (it's deprecated), so this is a temporary solution until I figure out a better way to do it (with Django). 
+    #    
+    #    income_9 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    #    income_15 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    #    income_25 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    #    income_40 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    #    income_80 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    #    income_125 = models.BooleanField(widget=widgets.CheckboxInput, initial=False, blank=True)
+    #    
+    #    
+    #    # Id of players who received the message of an specific player
+    #    messages_receivers = models.StringField(initial="")
+
+    message = models.LongStringField(max_length=500, label='Write the message you want to send (max. 500 characters)')
+
+    # Field for deciding the message receiver
+    message_receivers = models.CharField(label='', blank=True,
+                                         widget=forms.widgets.CheckboxSelectMultiple
+                                         (choices=Constants.possible_message_receivers))
+
+    # Messages Received in String Format
     messages_received = models.StringField(initial="")
     # Number of messages received
     amount_messages_received = models.IntegerField(min=0)
@@ -251,5 +274,23 @@ class Player(BasePlayer):
 
     # Player's score for game played
     game_score = models.IntegerField()
-    diamond_guess = models.IntegerField(min=0, max=1000)
-    diamond_actual = models.IntegerField()
+
+#    diamond_guess = models.IntegerField(min=0, max=1000)
+#    diamond_actual = models.IntegerField()
+
+    """
+    # Id of players who received the message of an specific player
+    messages_receivers = models.StringField(initial="")
+    
+    # Fields to choose the message receivers according to income
+    income_9 = send_message_field('Income 9')
+    income_15_1 = send_message_field('Income 15 (First Player)')
+    income_15_2 = send_message_field('Income 15 (Second Player)')
+    income_15_3 = send_message_field('Income 15 (Third Player)')
+    income_25_1 = send_message_field('Income 25 (First Player)')
+    income_25_2 = send_message_field('Income 25 (Second Player)')
+    income_40 = send_message_field('Income 40')
+    income_80 = send_message_field('Income 80')
+    income_125 = send_message_field('Income 125')
+    """
+

@@ -10,36 +10,23 @@
 <head>
 </head>
 <body>
+    
     <p>
     You can prepare and select how many players can receive a message in this page. Remember that the cost per message sent is {{ Constants.message_cost }}
     </p>
-    {% formfields %}
-    
-<!-- Part of the temporary solution for selecting message income level -->
-    <form>
-        <input type="hidden" name="income_9" id="income_9"/> 
-        <input type="hidden" name="income_15" id="income_15"/> 
-        <input type="hidden" name="income_25" id="income_25"/> 
-        <input type="hidden" name="income_40" id="income_40"/> 
-        <input type="hidden" name="income_80" id="income_80"/>
-        <input type="hidden" name="income_125" id="income_125"/>
-    </form>
-    
-    <script>
-        var income9 = document.getElementById("income_9");
-        inputScore.setAttribute('value', income9);
-        var income15 = document.getElementById("income_15");
-        inputScore.setAttribute('value', income15);
-        var income25 = document.getElementById("income_25");
-        inputScore.setAttribute('value', income25);
-        var income40 = document.getElementById("income_40");
-        inputScore.setAttribute('value', income40);
-        var income80 = document.getElementById("income_80");
-        inputScore.setAttribute('value', income80);
-        var income125 = document.getElementById("income_125");
-        inputScore.setAttribute('value', income125);
-    </script>
-   
+
+    {% formfield player.message %}
+    {{ player.message_receivers.label }}
+    <div class="message-receivers">
+     <ul>
+     {% for choice in player.message_receivers %}
+     <li>
+     <label>{{ choice.tag }} {{ choice.choice_label }}</label>
+     </li>
+     {% endfor %}
+     </ul>
+    </div>
+
     {% next_button %}
 
     <p>

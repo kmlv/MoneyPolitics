@@ -25,7 +25,10 @@ SESSION_CONFIGS = [
     """
     
     task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
-    poverty_line = task_endowments[3]
+    possible_message_receivers = [['125', 'Income 125'], ['80', 'Income 80'], ['40', 'Income 40'],
+                                  ['251', 'Income 25 (Player 2)'], ['250', 'Income 25 (Player 1)'],
+                                  ['152', 'Income 15 (Player 3)'], ['151', 'Income 15 (Player 2)'],
+                                  ['150', 'Income 15 (Player 1)'], ['9', 'Income 9'], ]
     message_cost = 1
     number_of_messages = 1
     possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
@@ -78,13 +81,27 @@ The main tasks are to program an app following this provisional structure:
 
 ## TODO Backend - Marco and Skyler
 
-1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco/Skyler
+1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco (DONE)
 
+<<<<<<< HEAD
 Should be correct now.  
 
 1. Randomize the players whose income will be by luck - Marco
+=======
+1. Randomize the players whose income will be by luck - Marco (DONE)
+>>>>>>> 7de911a85c4396b075537a278474ab4f908e3e77
 
-1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler
+1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler (DONE)
+
+1. Make Tetris and the Diamond Game includable templates that should appear on the Real Effort template
+depending on a session config parameter - Skyler
+
+1. The players should be able to send messages to the rest of the players without any restriction - Marco (DONE)
+
+1. The players should receive a message separated by a ";" value between each of them - Marco
+
+1. Create a session config parameter that determines if the player will see the ID in group, the income, both
+or none of the receiver - Marco
 
 We currently have a simple functioning version of the diamond game (it only supports a square board for now). The size of the board is currently set to 15x15. 
 
@@ -97,16 +114,19 @@ There is also a value in Diamonds.html (diamondAmount, a number between 1 and 10
 A task in which the player counts the number of small diamonds in rectangular screens filled 
 mainly with small circles
 ```
+
 1. Include the Tetris Game in the Real Effort template - Skyler
 
 Might be difficult (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This would also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
+
 
 1. Program payoff function - Marco
 
 ## TODO Frontend - Marco and Skyler
 
-1. The messages should be send by having a table in which the first column displays the income level of a player
-and the other column a check box to define if the player should receive a message or not - Skyler
+1. The message senders should see checkboxes with the receivers income to send them a message, but they shouldn't
+see themselves in those boxes (e.g. if my Income is 9, I should only see checkboxes with the income of the rest of the
+players). This has been implemented partially, but needs to be completed - Marco/Skyler
 
 Temporary solution in place to display checkboxes. Otree doesn't support form fields where multiple options can be selected, so we'll have to make one ourselves and work around Otree's requirements. For now, there is simply a boolean field for each income level. There is likely a much better solution (probably using Django), but it will take some time to figure out and implement. 
 
@@ -115,6 +135,7 @@ Temporary solution in place to display checkboxes. Otree doesn't support form fi
 A skeleton template is displayed now (not populated). The logic for sending messages is still being working on. Once that's done, this step should be fairly quick and easy. Also, an indexing error with clean_messages was crashing the server, so I modified it. 
 
 1. We need to sum up all the info presented to the player at the end of the round (Results page)  - Marco
+
 
 If you want to test something that may cause some troubles, it should be done here:
 ### Testing space: branch `testing`

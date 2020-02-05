@@ -57,7 +57,11 @@ class EffortResultsWaitPage(WaitPage):
     # effort game)
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
+<<<<<<< HEAD
         pass
+=======
+        self.group.base_income_assignment()
+>>>>>>> 7de911a85c4396b075537a278474ab4f908e3e77
 
 
 class RealEffortResults(Page):
@@ -65,23 +69,7 @@ class RealEffortResults(Page):
     def vars_for_template(self):
         player = self.player
 
-        income = player.real_effort_earnings
-        ranking = player.ranking
-
-        return {'ranking': ranking, 'income': income}
-
-
-class LuckEffortDetermination(WaitPage):
-    # Wait page to determine if income'll be determined by effort or luck
-    # TODO: fix the assignment by luck/effort
-    def after_all_players_arrive(self):
-        self.group.base_income_assignment()
-
-
-class LuckEffortInformation(Page):
-    def vars_for_template(self):
         effort_or_luck = ""
-        player = self.player
 
         if player.shuffled is True:
             effort_or_luck = "Luck"
@@ -91,22 +79,52 @@ class LuckEffortInformation(Page):
             print("Error: 'player.shuffled' has no value")
 
         income = player.base_earnings
+        ranking = player.ranking
 
-        return {'effort_or_luck': effort_or_luck, 'income': income}
+        return {'ranking': ranking, 'income': income, 'effort_or_luck': effort_or_luck}
 
 
 class PreparingMessage(Page):
     form_model = 'player'
-    form_fields = ['message', 'amount_message_receivers', 'income_9', 'income_15', 'income_25', 'income_40', 'income_80', 'income_125']
-    # This page has to change to the new version required in the todo list
+    form_fields = ['message', 'message_receivers']
+    # TODO: Exclude our own income from the form fields (this should be done on the html temp)
 
-    def error_message(self, values):
-        player = self.player
-        if player.message == '' and player.message_receivers != 0:
-            return "If you don't want to send a message, choose 0 as the amount of message receivers"
-        
     def vars_for_template(self):
-        return { 'income_choices': Constants.task_endowments}
+        player = self.player
+#        if player.message == '' and player.message_receivers != 0:
+#            return "If you don't want to send a message, choose 0 as the amount of message receivers"
+#        
+#    def vars_for_template(self):
+#        return { 'income_choices': Constants.task_endowments}
+        if player.base_earnings < 10:
+            string_income = str(player.base_earnings)[:1]
+        elif player.base_earnings >= 10:
+            string_income = str(player.base_earnings)[:2]
+
+        # ID in group of players with an income of 15
+        players15 = []
+        # ID in group of players with an income of 25
+        players25 = []
+        for p in self.group.get_players():
+            if p.base_earnings == 15:
+                players15.append(p.id_in_group)
+            elif p.base_earnings == 25:
+                players25.append(p.id_in_group)
+            else:
+                print("Player of income "+str(p.base_earnings)+" doesn't have 15 or 25 as income")
+
+        if player.id_in_group in players15:
+            string_income = string_income + str(players15.index(player.id_in_group))
+        elif player.id_in_group in players25:
+            string_income = string_income + str(players25.index(player.id_in_group))
+
+        return {'string_income': string_income}
+
+
+class ProcessingMessage(WaitPage):
+    def after_all_players_arrive(self):
+        for p in self.group.get_players():
+            p.base_earnings
 
 
 class ReceivingMessage(Page):
@@ -194,9 +212,8 @@ page_sequence = [
 	Diamonds, 
     EffortResultsWaitPage,
     RealEffortResults,
-    LuckEffortDetermination,
-    LuckEffortInformation,
     PreparingMessage,
+    ProcessingMessage,
     ReceivingMessage,
     TaxSystem,
     TaxDecisionWaitPage,
