@@ -235,8 +235,7 @@ class Player(BasePlayer):
     
 
     # Field for deciding the message receiver
-    # (choices=Constants.possible_message_receivers)
-    message_receivers = models.CharField(label='', blank=True,
+    message_receivers = models.CharField(label='', initial = None, default='Unspecified',
                                          widget=forms.widgets.CheckboxSelectMultiple)
 
     # Messages Received in String Format
@@ -256,7 +255,6 @@ class Player(BasePlayer):
 
     # A function to determine possible message receivers (excludes same income as self)
     # This logic was previously in pages 
-    # TODO: template displays ---- for our own income, so we need to get rid of it.
     def message_receivers_choices(self):
         choices = []
         
@@ -287,8 +285,9 @@ class Player(BasePlayer):
             
         # Adds all income choices (except our own) to the possible choices  
         for p in Constants.possible_message_receivers:  
-            if((int(p[0][1]) != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or p[0][0] != string_income):
-                    choices.append([p[0], p[1]])
+            if((int(p[0][1]) != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or \
+            p[0][0] != string_income):
+                choices.append([p[0][0], p[1]])
         print(choices)
         return choices
 
