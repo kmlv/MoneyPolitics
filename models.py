@@ -18,7 +18,7 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 3 #9 
+    players_per_group = 9 #9 
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -257,24 +257,45 @@ class Player(BasePlayer):
     # A function to determine possible message receivers (excludes same income as self)
     # This logic was previously in pages 
     # TODO: deal with multiple instances of the same income.
-    # TODO: deal with index on repeat incomes (because 25 (player 1) is represented as 251)
     # TODO: template displays ---- for our own income, so we need to get rid of it.
     def message_receivers_choices(self):
         choices = []
+        
         # Converts income from currency to string
-        # We need to deal with index on repeat incomes here
         if self.base_earnings < 10:
             string_income = str(self.base_earnings)[:1]
         elif self.base_earnings >= 10 and self.base_earnings < 100:
             string_income = str(self.base_earnings)[:2]
         else: 
             string_income = str(self.base_earnings)[:3]
+            
+        # Deals with multiple instances of the same income 
+        # ID in group of players with an income of 15, 25
+        players15 = []
+        players25 = []
+        # Which instance (Player 1,2, or 3) we are of a repeated income
+        incomeID = 0 
+        for p in self.group.get_players():
+            if p.base_earnings == 15:
+                players15.append(p.id_in_group)
+            elif p.base_earnings == 25:
+                players25.append(p.id_in_group)
+            
+        if self.id_in_group in players15:
+            incomeID = players15.index(self.id_in_group)
+        if self.id_in_group in players25:
+            incomeID = players25.index(self.id_in_group)    
+            
         # Adds all income choices (except our own) to the possible choices 
+        print(self.base_earnings)
+        print("incomeID")
+        print(incomeID + 1)
+        print("currency IDS")
         for p in Constants.possible_message_receivers:
-            print(p[0])
-            print(self.base_earnings)
-            if(p[0] != string_income ):
-                choices.append(p)
+            # compare our income to the current choice tuple or p[0][1] != (incomeID+1)
+            print(p[0][1])  
+            if((p[0][1] != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or p[0][0] != string_income):
+                    choices.append([p[0][0], p[1]])
         print(choices)
         return choices
 

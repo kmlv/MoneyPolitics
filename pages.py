@@ -85,33 +85,6 @@ class PreparingMessage(Page):
     
     def vars_for_template(self):
         player = self.player
-        
-        # This has been moved to models
-        #        if player.base_earnings < 10:
-        #            string_income = str(player.base_earnings)[:1]
-        #        elif player.base_earnings >= 10 and player.base_earnings < 100:
-        #            string_income = str(player.base_earnings)[:2]
-        #        else: 
-        #            string_income = str(player.base_earnings)[:3]
-
-        # ID in group of players with an income of 15
-        players15 = []
-        # ID in group of players with an income of 25
-        players25 = []
-        for p in self.group.get_players():
-            if p.base_earnings == 15:
-                players15.append(p.id_in_group)
-            elif p.base_earnings == 25:
-                players25.append(p.id_in_group)
-            else:
-                print("Player of income "+str(p.base_earnings)+" doesn't have 15 or 25 as income")
-
-        if player.id_in_group in players15:
-            string_income = string_income + str(players15.index(player.id_in_group))
-        elif player.id_in_group in players25:
-            string_income = string_income + str(players25.index(player.id_in_group))
-        
-        return {'string_income': string_income}
 
 
 class ProcessingMessage(WaitPage):
