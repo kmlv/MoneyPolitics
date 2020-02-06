@@ -256,12 +256,11 @@ class Player(BasePlayer):
 
     # A function to determine possible message receivers (excludes same income as self)
     # This logic was previously in pages 
-    # TODO: deal with multiple instances of the same income.
     # TODO: template displays ---- for our own income, so we need to get rid of it.
     def message_receivers_choices(self):
         choices = []
         
-        # Converts income from currency to string
+        # Converts income from currency to string (eliminates points label)
         if self.base_earnings < 10:
             string_income = str(self.base_earnings)[:1]
         elif self.base_earnings >= 10 and self.base_earnings < 100:
@@ -273,7 +272,7 @@ class Player(BasePlayer):
         # ID in group of players with an income of 15, 25
         players15 = []
         players25 = []
-        # Which instance (Player 1,2, or 3) we are of a repeated income
+        # incomeID = which instance (Player 1,2, or 3) we are of a certain income
         incomeID = 0 
         for p in self.group.get_players():
             if p.base_earnings == 15:
@@ -286,16 +285,10 @@ class Player(BasePlayer):
         if self.id_in_group in players25:
             incomeID = players25.index(self.id_in_group)    
             
-        # Adds all income choices (except our own) to the possible choices 
-        print(self.base_earnings)
-        print("incomeID")
-        print(incomeID + 1)
-        print("currency IDS")
-        for p in Constants.possible_message_receivers:
-            # compare our income to the current choice tuple or p[0][1] != (incomeID+1)
-            print(p[0][1])  
-            if((p[0][1] != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or p[0][0] != string_income):
-                    choices.append([p[0][0], p[1]])
+        # Adds all income choices (except our own) to the possible choices  
+        for p in Constants.possible_message_receivers:  
+            if((int(p[0][1]) != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or p[0][0] != string_income):
+                    choices.append([p[0], p[1]])
         print(choices)
         return choices
 
