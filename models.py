@@ -7,7 +7,6 @@ from django import forms
 import controls as ctrl
 import random
 
-from django import forms
 
 author = 'Marco Gutierrez and Skyler Stewart'
 
@@ -18,7 +17,7 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9 #9 
+    players_per_group = 3 #9 
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -231,11 +230,11 @@ class Player(BasePlayer):
     # Earnings after the shuffling
     base_earnings = models.CurrencyField(min=0)
 
-    message = models.LongStringField(max_length=500, label='Write the message you want to send (max. 500 characters)')
+    message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
     
 
     # Field for deciding the message receiver
-    message_receivers = models.CharField(label='', initial = None, default='Unspecified',
+    message_receivers = models.CharField(label='', blank=True,
                                          widget=forms.widgets.CheckboxSelectMultiple)
 
     # Messages Received in String Format
@@ -249,9 +248,11 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.FloatField(min=0)
     tax_rate = models.FloatField(min=0)
-
+    
     # Player's score for game played
     game_score = models.IntegerField()
+    diamond_guess = models.IntegerField(min=0, max=1000)
+    diamond_actual = models.IntegerField()
 
     # A function to determine possible message receivers (excludes same income as self)
     # This logic was previously in pages 
