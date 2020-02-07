@@ -234,7 +234,7 @@ class Player(BasePlayer):
     
 
     # Field for deciding the message receiver
-    message_receivers = models.CharField(label='', blank=True,
+    message_receivers = models.CharField(label='', initial = None, default='Unspecified', 
                                          widget=forms.widgets.CheckboxSelectMultiple)
 
     # Messages Received in String Format
