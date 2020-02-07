@@ -13,25 +13,26 @@ SESSION_CONFIGS = [
         'name': 'MoneyPolitics',
         'num_demo_participants': 2,#9,
         'app_sequence': ['MoneyPolitics'],
-		'treatment': "Diamonds", #Which game will be played (Tetris or Diamonds)
+		'treatment': "Tetris", #Which game will be played (Tetris or Diamonds)
     },
 ]
 ```
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
  ```
-    doc = """"
-    Control parameters for MoneyPolitics
-    """
-    
-    task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
-    possible_message_receivers = [['125', 'Income 125'], ['80', 'Income 80'], ['40', 'Income 40'],
-                                  ['251', 'Income 25 (Player 2)'], ['250', 'Income 25 (Player 1)'],
-                                  ['152', 'Income 15 (Player 3)'], ['151', 'Income 15 (Player 2)'],
-                                  ['150', 'Income 15 (Player 1)'], ['9', 'Income 9'], ]
-    message_cost = 1
-    number_of_messages = 1
-    possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
+doc = """"
+Control parameters for MoneyPolitics
+"""
+
+task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
+
+possible_message_receivers = [[['125', '1'], 'Income 125'], [['80', '1'], 'Income 80'], 
+                        [['40', '1'], 'Income 40'], [['25', '2'], 'Income 25 (Player 2)'], 
+                        [['25', '1'], 'Income 25 (Player 1)'], [['15', '3'], 'Income 15 (Player 3)'], 
+                        [['15', '2'], 'Income 15 (Player 2)'], [['15', '1'], 'Income 15 (Player 1)'], [['9','1'], 'Income 9'], [['0', '0'], 'None']]
+message_cost = 1
+number_of_messages = 1
+possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
  ```
  
 ## Basic Outiline
@@ -121,9 +122,7 @@ Might be difficult (the game is just on a separate page for now). Most browsers 
 
 1. The message senders should see checkboxes with the receivers income to send them a message, but they shouldn't
 see themselves in those boxes (e.g. if my Income is 9, I should only see checkboxes with the income of the rest of the
-players). This has been implemented partially, but needs to be completed - Marco/Skyler
-
-Temporary solution in place to display checkboxes. Otree doesn't support form fields where multiple options can be selected, so we'll have to make one ourselves and work around Otree's requirements. For now, there is simply a boolean field for each income level. There is likely a much better solution (probably using Django), but it will take some time to figure out and implement. 
+players). DONE
 
 
 1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' ") - Skyler
