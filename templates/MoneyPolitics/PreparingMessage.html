@@ -2,30 +2,27 @@
 {% load otree static %}
 
 {% block title %}
-    Preparing your Message
+    Preparing Your Message
 {% endblock %}
 
 {% block content %}
-
-    You can prepare and select how many players can receive a message in this page. Remember that the cost per message
-    sent is {{ Constants.message_cost }}</br>
-
-    {% formfield player.message %}</br>
-    {{ player.message_receivers.label }}
-    <div class="message-receivers">
-     <ul>
-     {% for choice in player.message_receivers %}
-     <li>
-     <label>{{ choice.tag }} {{ choice.choice_label }}</label>
-     </li>
-     {% endfor %}
-     </ul>
-    </div>
+<html>
+<head>
+</head>
+<body>
+    
+    <p>
+    You can prepare and select how many players can receive a message in this page. <br> Remember that the cost per message sent is {{ Constants.message_cost }}
+    </p>
+    
+    {% formfield player.message %}
+    {% formfield player.message_receivers %}
 
     {% next_button %}
 
     <p>
     {% include Constants.instructions_button %}
     </p>
-
+</body>
+</html>
 {% endblock %}

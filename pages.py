@@ -18,9 +18,37 @@ class RealEffort(Page):
 
 
 class Tetris(Page):
+    def is_displayed(self):
+        if self.session.config['treatment'] == "Tetris":
+            return True
+        else: 
+            return False
+    
     form_model = 'player'
-    form_fields = ['game_score']
+    form_fields = ['game_score'] # score currently determined by how many rows are eliminated
+    timeout_seconds = 120 #60 # we may want to give players more time 
+
+    def before_next_page(self):
+        # for debugging (delete later)
+        print(self.player.game_score)
+	
+class Diamonds(Page):
+    def is_displayed(self):
+        if self.session.config['treatment'] == "Diamonds":
+            return True
+        else: 
+            return False
+
+    form_model = 'player'
+    form_fields = ['diamond_guess', 'diamond_actual']
     timeout_seconds = 60
+
+    def before_next_page(self):
+        self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
+        # for debugging (delete later)
+        print(self.player.diamond_guess)
+        print(self.player.diamond_actual)
+        print(self.player.game_score)
 
 
 class EffortResultsWaitPage(WaitPage):
@@ -30,7 +58,6 @@ class EffortResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
         self.group.base_income_assignment()
-
 
 class RealEffortResults(Page):
 
@@ -55,34 +82,9 @@ class RealEffortResults(Page):
 class PreparingMessage(Page):
     form_model = 'player'
     form_fields = ['message', 'message_receivers']
-    # TODO: Exclude our own income from the form fields (this should be done on the html temp)
-
+    
     def vars_for_template(self):
         player = self.player
-
-        if player.base_earnings < 10:
-            string_income = str(player.base_earnings)[:1]
-        elif player.base_earnings >= 10:
-            string_income = str(player.base_earnings)[:2]
-
-        # ID in group of players with an income of 15
-        players15 = []
-        # ID in group of players with an income of 25
-        players25 = []
-        for p in self.group.get_players():
-            if p.base_earnings == 15:
-                players15.append(p.id_in_group)
-            elif p.base_earnings == 25:
-                players25.append(p.id_in_group)
-            else:
-                print("Player of income "+str(p.base_earnings)+" doesn't have 15 or 25 as income")
-
-        if player.id_in_group in players15:
-            string_income = string_income + str(players15.index(player.id_in_group))
-        elif player.id_in_group in players25:
-            string_income = string_income + str(players25.index(player.id_in_group))
-
-        return {'string_income': string_income}
 
 
 class ProcessingMessage(WaitPage):
@@ -101,7 +103,7 @@ class ReceivingMessage(Page):
         clean_messages = []
 
         for item in raw_messages:
-            clean_messages.append(item.split(",", 1)[1])
+            clean_messages.append(item.split(",", 1)[0]) # index out of range error: changed from 1 to 0
 
         # Loop across received messages in the html in order to show them distinctly (with another color, size, etc)
         return {"received_messages": clean_messages}
@@ -173,6 +175,7 @@ page_sequence = [
     Introduction,
     RealEffort,
     Tetris,
+	Diamonds, 
     EffortResultsWaitPage,
     RealEffortResults,
     PreparingMessage,

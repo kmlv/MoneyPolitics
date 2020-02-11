@@ -11,6 +11,7 @@
 <head>
   <title></title>
   <style>
+/*
   html, body {
     height: 100%;
     margin: 10%;
@@ -22,6 +23,7 @@
     align-items: center;
     justify-content: center;
   }
+*/
 
   canvas {
     border: 1px solid black;
@@ -29,29 +31,20 @@
   </style>
 </head>
 <body>
-	<p>Use the up arrow key to rotate each block. <br> Use the left and right arrow keys to move each block side to side. <br> When a row is completely full you will earn a point and the row will disappear. If the blocks reach the top of the box, the game is over. </p>
-	<p>Once you are done playing, click the next button.</p>
 
+    <!-- Hidden form that passes the player's score to oTree -->
 	<form>
 		<input type="hidden" id="game_score" name = "game_score" value="0"/>
 	</form>
 	{{ form.game_score.errors }} 
 
  
-<canvas width="320" height="640" id="game"></canvas>
-	
+<canvas width="320" height="640" id="game"></canvas> 
+<!--	320 x 640-->
 <script>
 // https://tetris.fandom.com/wiki/Tetris_Guideline
 // get a random integer between the range of [min,max]
 // @see https://stackoverflow.com/a/1527820/2124254
-	
-//prevent screen from scrolling down when using arrow keys
-window.addEventListener("keydown", function(e) {
-    // arrow keys
-    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
 	
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -260,6 +253,7 @@ function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
 	
+  // pass the score to the hmtl template
   var inputScore = document.getElementById("game_score");
   inputScore.setAttribute('value', score); 
 
@@ -342,6 +336,14 @@ document.addEventListener('keydown', function(e) {
     tetromino.row = row;
   }
 });
+    
+//prevent screen from scrolling down when using arrow keys
+window.addEventListener("keydown", function(e) {
+    // arrow keys
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
 
 // start the game
 rAF = requestAnimationFrame(loop);

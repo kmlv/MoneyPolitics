@@ -2,29 +2,16 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-Real Effort Task
+ Receiving Your Messages
 {% endblock %}
 
 {% block content %}
-
-    <p>
-        In order to obtain your income, you need to do the following real effort task
-    </p>
-
-    <p>
-    {% formfields %}
-    </p>
-
-    <p>
-    {% include Constants.tetris %}
-    </p>
-
-    <p>
+<html>
+    {% for message in received_messages %}
+        <p>Sender of Message: TBD </p>
+        <p>Message: TBD {{ message }}</p>
+    {% endfor %}
+    
     {% next_button %}
-    </p>
-
-    <p>
-    {% include Constants.instructions_button %}
-    </p>
-
+</html>
 {% endblock %}

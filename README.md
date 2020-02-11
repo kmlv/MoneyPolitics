@@ -11,26 +11,28 @@ really matter.
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
-        'num_demo_participants': 9,
+        'num_demo_participants': 2,#9,
         'app_sequence': ['MoneyPolitics'],
+		'treatment': "Tetris", #Which game will be played (Tetris or Diamonds)
     },
 ]
 ```
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
  ```
-    doc = """"
-    Control parameters for MoneyPolitics
-    """
-    
-    task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
-    possible_message_receivers = [['125', 'Income 125'], ['80', 'Income 80'], ['40', 'Income 40'],
-                                  ['251', 'Income 25 (Player 2)'], ['250', 'Income 25 (Player 1)'],
-                                  ['152', 'Income 15 (Player 3)'], ['151', 'Income 15 (Player 2)'],
-                                  ['150', 'Income 15 (Player 1)'], ['9', 'Income 9'], ]
-    message_cost = 1
-    number_of_messages = 1
-    possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
+doc = """"
+Control parameters for MoneyPolitics
+"""
+
+task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
+
+possible_message_receivers = [[['125', '1'], 'Income 125'], [['80', '1'], 'Income 80'], 
+                        [['40', '1'], 'Income 40'], [['25', '2'], 'Income 25 (Player 2)'], 
+                        [['25', '1'], 'Income 25 (Player 1)'], [['15', '3'], 'Income 15 (Player 3)'], 
+                        [['15', '2'], 'Income 15 (Player 2)'], [['15', '1'], 'Income 15 (Player 1)'], [['9','1'], 'Income 9'], [['0', '0'], 'None']]
+message_cost = 1
+number_of_messages = 1
+possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
  ```
  
 ## Basic Outiline
@@ -84,6 +86,7 @@ The main tasks are to program an app following this provisional structure:
 
 1. Randomize the players whose income will be by luck - Marco (DONE)
 
+
 1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler (DONE)
 
 1. Make Tetris and the Diamond Game includable templates that should appear on the Real Effort template
@@ -96,10 +99,22 @@ depending on a session config parameter - Skyler
 1. Create a session config parameter that determines if the player will see the ID in group, the income, both
 or none of the receiver - Marco
 
+We currently have a simple functioning version of the diamond game (it only supports a square board for now). The size of the board is currently set to 15x15. 
+
+The player enters their guess, which is compared to the actual number of diamonds on their board. Their score is equal to: 
+    | guess - actual |
+Therefore the highest possible score is 0. The greater their score, the further their guess was from the actual number of diamonds. 
+
+There is also a value in Diamonds.html (diamondAmount, a number between 1 and 10) which determines the approximate amount of diamonds on the board. If diamondAmount is set to 3, then about 30% of the board will be diamonds and 70% will be circles. 
 ```
 A task in which the player counts the number of small diamonds in rectangular screens filled 
 mainly with small circles
 ```
+
+1. Include the Tetris Game in the Real Effort template - Skyler
+
+Might be difficult (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This would also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
+
 
 1. Program payoff function - Marco
 
@@ -107,12 +122,16 @@ mainly with small circles
 
 1. The message senders should see checkboxes with the receivers income to send them a message, but they shouldn't
 see themselves in those boxes (e.g. if my Income is 9, I should only see checkboxes with the income of the rest of the
-players). This has been implemented partially, but needs to be completed - Marco/Skyler
+players). DONE
+
 
 1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' "). This should
  depend on a session config parameter (the one mentioned in the last item of the Backend todo list) - Skyler
 
-1. We need to sum up all the info presented to the player at the end of the round (Results page) - Marco (DONE)
+A skeleton template is displayed now (not populated). The logic for sending messages is still being working on. Once that's done, this step should be fairly quick and easy. Also, an indexing error with clean_messages was crashing the server, so I modified it. 
+
+1. We need to sum up all the info presented to the player at the end of the round (Results page)  - Marco
+
 
 If you want to test something that may cause some troubles, it should be done here:
 ### Testing space: branch `testing`

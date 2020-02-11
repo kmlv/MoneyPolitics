@@ -7,6 +7,7 @@ from django import forms
 import controls as ctrl
 import random
 
+
 author = 'Marco Gutierrez and Skyler Stewart'
 
 doc = """
@@ -16,7 +17,7 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9
+    players_per_group = 3 #9 
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -72,12 +73,17 @@ class Group(BaseGroup):
 
         for p in self.get_players():
             game_scores["{0}".format(p.id_in_group)] = p.game_score
-
+        print(game_scores) # for debugging
+        
         # Ranking scores
         ranked_scores = {}
 
-        # Sorting from higher to lower
-        sorted_list = sorted(game_scores.values(), reverse=True)
+        if(self.session.config['treatment'] == "Tetris"):
+            sorted_list = sorted(game_scores.values(), reverse=True)
+        else:
+            # When playing Diamonds a higher score is worse (so we reverse the sort)
+            sorted_list = sorted(game_scores.values()) 
+        print(sorted_list) # for debugging
 
         # Control sorted_list
         print(sorted_list)
@@ -86,6 +92,7 @@ class Group(BaseGroup):
             for key, value in game_scores.items():
                 if value == sorted_value:
                     ranked_scores[key] = value
+        print(ranked_scores) # for debugging
 
         # Control ranked_scores (They are correctly ranked)
         print(ranked_scores)
@@ -223,13 +230,12 @@ class Player(BasePlayer):
     # Earnings after the shuffling
     base_earnings = models.CurrencyField(min=0)
 
-    # Message to be sent (It should only have 500 characters. This has been implemented on PreparingMessage.html)
-    message = models.LongStringField(max_length=500, label='Write the message you want to send (max. 500 characters)')
+    message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
+    
 
     # Field for deciding the message receiver
-    message_receivers = models.CharField(label='', blank=True,
-                                         widget=forms.widgets.CheckboxSelectMultiple
-                                         (choices=Constants.possible_message_receivers))
+    message_receivers = models.CharField(label='', initial = None, default='Unspecified', 
+                                         widget=forms.widgets.CheckboxSelectMultiple)
 
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
@@ -242,9 +248,50 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.FloatField(min=0)
     tax_rate = models.FloatField(min=0)
-
+    
     # Player's score for game played
     game_score = models.IntegerField()
+    diamond_guess = models.IntegerField(min=0, max=1000)
+    diamond_actual = models.IntegerField()
+
+    # A function to determine possible message receivers (excludes same income as self)
+    # This logic was previously in pages 
+    def message_receivers_choices(self):
+        choices = []
+        
+        # Converts income from currency to string (eliminates points label)
+        if self.base_earnings < 10:
+            string_income = str(self.base_earnings)[:1]
+        elif self.base_earnings >= 10 and self.base_earnings < 100:
+            string_income = str(self.base_earnings)[:2]
+        else: 
+            string_income = str(self.base_earnings)[:3]
+            
+        # Deals with multiple instances of the same income 
+        # ID in group of players with an income of 15, 25
+        players15 = []
+        players25 = []
+        # incomeID = which instance (Player 1,2, or 3) we are of a certain income
+        incomeID = 0 
+        for p in self.group.get_players():
+            if p.base_earnings == 15:
+                players15.append(p.id_in_group)
+            elif p.base_earnings == 25:
+                players25.append(p.id_in_group)
+            
+        if self.id_in_group in players15:
+            incomeID = players15.index(self.id_in_group)
+        if self.id_in_group in players25:
+            incomeID = players25.index(self.id_in_group)    
+            
+        # Adds all income choices (except our own) to the possible choices  
+        for p in Constants.possible_message_receivers:  
+            if((int(p[0][1]) != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or \
+            p[0][0] != string_income):
+                choices.append([p[0][0], p[1]])
+        print(choices)
+        return choices
+
 
     """
     # Id of players who received the message of an specific player
