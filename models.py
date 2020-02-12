@@ -17,7 +17,7 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 3 #9 
+    players_per_group = 9
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -207,10 +207,9 @@ class Group(BaseGroup):
 def send_message_field(choices):
     return models.CharField(
         # USar multiple checkbox
-        initial=False,
         blank=True,
         label='',
-        widget=widgets.CheckboxInput,
+        widget=forms.widgets.CheckboxSelectMultiple,
         choices=choices
     )
 
@@ -279,13 +278,12 @@ class Player(BasePlayer):
 
         # 2. We'll deal with the repeated instances using the position in which their id_in_group is located in the
         # players15/25 list
-        for p in self.group.get_players():
-            if p.id_in_group in players15:
-                message_receivers = message_receivers + "_" + str(players15.index(p.id_in_group)+1)
-                print(message_receivers)
-            elif p.id_in_group in players25:
-                message_receivers = message_receivers + "_" + str(players25.index(p.id_in_group)+1)
-                print(message_receivers)
+        if self.id_in_group in players15:
+            message_receivers = message_receivers + "_" + str(players15.index(self.id_in_group) + 1)
+            print(message_receivers)
+        elif self.id_in_group in players25:
+            message_receivers = message_receivers + "_" + str(players25.index(self.id_in_group) + 1)
+            print(message_receivers)
 
         print(str(message_receivers))
         return message_receivers
