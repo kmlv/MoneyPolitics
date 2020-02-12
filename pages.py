@@ -59,6 +59,7 @@ class EffortResultsWaitPage(WaitPage):
         self.group.ranking_income_assignment()
         self.group.base_income_assignment()
 
+
 class RealEffortResults(Page):
 
     def vars_for_template(self):
@@ -81,11 +82,11 @@ class RealEffortResults(Page):
 
 class PreparingMessage(Page):
     form_model = 'player'
-    form_fields = ['message', 'message_receivers']
-    
-    def vars_for_template(self):
-        player = self.player
-
+    form_fields = ['message', 'income_9']
+"""
+    def get_form_fields(self):
+        return ['message', self.player.message_receivers_choices()]
+"""
 
 class ProcessingMessage(WaitPage):
     def after_all_players_arrive(self):

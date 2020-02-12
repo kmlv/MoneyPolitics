@@ -33,9 +33,6 @@ class Constants(BaseConstants):
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
 
-    # Possible Message Receivers
-    possible_message_receivers = ctrl.possible_message_receivers
-
     # Possible Tax Systems
     possible_tax_systems = ctrl.possible_tax_systems
 
@@ -207,12 +204,14 @@ class Group(BaseGroup):
 
 
 # Function that creates a field to send messages according to the income of other player
-def send_message_field(label):
-    return models.BooleanField(
+def send_message_field(choices):
+    return models.CharField(
+        # USar multiple checkbox
         initial=False,
         blank=True,
-        label=label,
+        label='',
         widget=widgets.CheckboxInput,
+        choices=choices
     )
 
 
@@ -231,11 +230,10 @@ class Player(BasePlayer):
     base_earnings = models.CurrencyField(min=0)
 
     message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
-    
 
     # Field for deciding the message receiver
-    message_receivers = models.CharField(label='', initial = None, default='Unspecified', 
-                                         widget=forms.widgets.CheckboxSelectMultiple)
+    # message_receivers = models.CharField(label='', initial = None, default='Unspecified',
+    #                                     widget=forms.widgets.CheckboxSelectMultiple)
 
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
@@ -254,57 +252,95 @@ class Player(BasePlayer):
     diamond_guess = models.IntegerField(min=0, max=1000)
     diamond_actual = models.IntegerField()
 
-    # A function to determine possible message receivers (excludes same income as self)
-    # This logic was previously in pages 
     def message_receivers_choices(self):
-        choices = []
-        
         # Converts income from currency to string (eliminates points label)
         if self.base_earnings < 10:
             string_income = str(self.base_earnings)[:1]
-        elif self.base_earnings >= 10 and self.base_earnings < 100:
+        elif self.base_earnings < 100:
             string_income = str(self.base_earnings)[:2]
-        else: 
+        else:
             string_income = str(self.base_earnings)[:3]
-            
-        # Deals with multiple instances of the same income 
-        # ID in group of players with an income of 15, 25
+
+        # We'll make this string variable take a value depending on the income of the player, so it should only take as
+        # value the field that correspond to their respective income
+        message_receivers = 'income_{}'.format(string_income)
+
+        # However, there are players who can have repeated incomes. To deal with that:
+
+        # 1. We'll identify who are the ids of the ones whose income is 15 or 25
         players15 = []
         players25 = []
-        # incomeID = which instance (Player 1,2, or 3) we are of a certain income
-        incomeID = 0 
+
         for p in self.group.get_players():
             if p.base_earnings == 15:
                 players15.append(p.id_in_group)
             elif p.base_earnings == 25:
                 players25.append(p.id_in_group)
-            
-        if self.id_in_group in players15:
-            incomeID = players15.index(self.id_in_group)
-        if self.id_in_group in players25:
-            incomeID = players25.index(self.id_in_group)    
-            
-        # Adds all income choices (except our own) to the possible choices  
-        for p in Constants.possible_message_receivers:  
-            if((int(p[0][1]) != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or \
-            p[0][0] != string_income):
-                choices.append([p[0][0], p[1]])
-        print(choices)
-        return choices
 
+        # 2. We'll deal with the repeated instances using the position in which their id_in_group is located in the
+        # players15/25 list
+        for p in self.group.get_players():
+            if p.id_in_group in players15:
+                message_receivers = message_receivers + "_" + str(players15.index(p.id_in_group)+1)
+                print(message_receivers)
+            elif p.id_in_group in players25:
+                message_receivers = message_receivers + "_" + str(players25.index(p.id_in_group)+1)
+                print(message_receivers)
 
-    """
+        print(str(message_receivers))
+        return message_receivers
+
     # Id of players who received the message of an specific player
     messages_receivers = models.StringField(initial="")
-    
+
     # Fields to choose the message receivers according to income
-    income_9 = send_message_field('Income 9')
-    income_15_1 = send_message_field('Income 15 (First Player)')
-    income_15_2 = send_message_field('Income 15 (Second Player)')
-    income_15_3 = send_message_field('Income 15 (Third Player)')
-    income_25_1 = send_message_field('Income 25 (First Player)')
-    income_25_2 = send_message_field('Income 25 (Second Player)')
-    income_40 = send_message_field('Income 40')
-    income_80 = send_message_field('Income 80')
-    income_125 = send_message_field('Income 125')
+    income_9 = send_message_field(ctrl.possible_message_receivers_9)
+    income_15_1 = send_message_field(ctrl.possible_message_receivers_151)
+    income_15_2 = send_message_field(ctrl.possible_message_receivers_152)
+    income_15_3 = send_message_field(ctrl.possible_message_receivers_153)
+    income_25_1 = send_message_field(ctrl.possible_message_receivers_251)
+    income_25_2 = send_message_field(ctrl.possible_message_receivers_252)
+    income_40 = send_message_field(ctrl.possible_message_receivers_40)
+    income_80 = send_message_field(ctrl.possible_message_receivers_80)
+    income_125 = send_message_field(ctrl.possible_message_receivers_125)
+
+    """    
+        # A function to determine possible message receivers (excludes same income as self)
+        # This logic was previously in pages 
+        def message_receivers_choices(self):
+            choices = []
+
+            # Converts income from currency to string (eliminates points label)
+            if self.base_earnings < 10:
+                string_income = str(self.base_earnings)[:1]
+            elif self.base_earnings >= 10 and self.base_earnings < 100:
+                string_income = str(self.base_earnings)[:2]
+            else: 
+                string_income = str(self.base_earnings)[:3]
+
+            # Deals with multiple instances of the same income 
+            # ID in group of players with an income of 15, 25
+            players15 = []
+            players25 = []
+            # incomeID = which instance (Player 1,2, or 3) we are of a certain income
+            incomeID = 0 
+            for p in self.group.get_players():
+                if p.base_earnings == 15:
+                    players15.append(p.id_in_group)
+                elif p.base_earnings == 25:
+                    players25.append(p.id_in_group)
+
+            if self.id_in_group in players15:
+                incomeID = players15.index(self.id_in_group)
+            if self.id_in_group in players25:
+                incomeID = players25.index(self.id_in_group)    
+
+            # Adds all income choices (except our own) to the possible choices  
+            for p in Constants.possible_message_receivers:  
+                if((int(p[0][1]) != (incomeID+1) and (p[0][0] == '15' or p[0][0] == '25')) or \
+                p[0][0] != string_income):
+                    choices.append([p[0][0], p[1]])
+            print(choices)
+            return choices
+
     """
