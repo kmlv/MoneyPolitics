@@ -84,13 +84,116 @@ class PreparingMessage(Page):
     form_model = 'player'
 
     def get_form_fields(self):
-        return ['message', self.player.message_receivers_choices()]
+        message = ['message']
+        choices = self.player.message_receivers_choices()
+        return message+choices
+
+    def before_next_page(self):
+        messages_sent = 0
+        player = self.player
+        # To count the messages, we won't use elif, because sending a message to someone is not exclusive: you can
+        # send them to multiple people and that's independent from sending to another one before
+        if player.income_9 is True:
+            messages_sent += 1
+        if player.income_15_1 is True:
+            messages_sent += 1
+        if player.income_15_2 is True:
+            messages_sent += 1
+        if player.income_15_3 is True:
+            messages_sent += 1
+        if player.income_25_1 is True:
+            messages_sent += 1
+        if player.income_25_2 is True:
+            messages_sent += 1
+        if player.income_40 is True:
+            messages_sent += 1
+        if player.income_80 is True:
+            messages_sent += 1
+        if player.income_125 is True:
+            messages_sent += 1
+
+        # Calculating and discounting the total message cost
+        player.total_messaging_costs = messages_sent*Constants.message_cost
+        player.after_message_earnings = player.base_earnings - player.total_messaging_costs
 
 
 class ProcessingMessage(WaitPage):
     def after_all_players_arrive(self):
+        messages_for_9 = ""
+        messages_for_15_1 = ""
+        messages_for_15_2 = ""
+        messages_for_15_3 = ""
+        messages_for_25_1 = ""
+        messages_for_25_2 = ""
+        messages_for_40 = ""
+        messages_for_80 = ""
+        messages_for_125 = ""
+
+        # 0. Before everything, we need the income as a string
+        if self.base_earnings < 10:
+            string_income = str(self.base_earnings)[:1]
+        elif self.base_earnings < 100:
+            string_income = str(self.base_earnings)[:2]
+        else:
+            string_income = str(self.base_earnings)[:3]
+
+        # 1. It's necessary to identify the players with the repeated incomes in the same order obtained 
+        # before (see models.py)
+        players15 = []
+        players25 = []
+
         for p in self.group.get_players():
-            p.base_earnings
+            if p.base_earnings == 15:
+                players15.append(p.id_in_group)
+            elif p.base_earnings == 25:
+                players25.append(p.id_in_group)
+
+        # 2. The messages are going to be classified according to which player should receive them
+        for p in self.group.get_players():
+            if p.message != "":
+                # Again, we won't use elif, because sending a message to someone is not exclusive
+                if p.income_9 is True:
+                    messages_for_9 = messages_for_9 + p.message + ";"
+                if p.income_15_1 is True:
+                    messages_for_15_1 = messages_for_15_1 + p.message + ";"
+                if p.income_15_2 is True:
+                    messages_for_15_2 = messages_for_15_2 + p.message + ";"
+                if p.income_15_3 is True:
+                    messages_for_15_3 = messages_for_15_3 + p.message + ";"
+                if p.income_25_1 is True:
+                    messages_for_25_1 = messages_for_25_1 + p.message + ";"
+                if p.income_25_2 is True:
+                    messages_for_25_2 = messages_for_25_2 + p.message + ";"
+                if p.income_40 is True:
+                    messages_for_40 = messages_for_40 + p.message + ";"
+                if p.income_80 is True:
+                    messages_for_80 = messages_for_80 + p.message + ";"
+                if p.income_125 is True:
+                    messages_for_125 = messages_for_125 + p.message + ";"
+        
+        # 3. We'll assign the messages according to the players income
+        for p in self.group.get_players():
+            # Now we'll use elif because a player can only have a unique income
+            if p.base_earnings == 9:
+                p.messages_received = messages_for_9
+            if p.base_earnings == 15:
+                if players15.index(p.id_in_group) == 0:
+                    p.messages_received = messages_for_15_1
+                elif players15.index(p.id_in_group) == 1:
+                    p.messages_received = messages_for_15_2
+                elif players15.index(p.id_in_group) == 2:
+                    p.messages_received = messages_for_15_3
+            if p.base_earnings == 25:
+                if players25.index(p.id_in_group) == 0:
+                    p.messages_received = messages_for_25_1
+                elif players25.index(p.id_in_group) == 1:
+                    p.messages_received = messages_for_25_2
+            if p.base_earnings == 40:
+                p.messages_received = messages_for_40
+            if p.base_earnings == 80:
+                p.messages_received = messages_for_80
+            if p.base_earnings == 125:
+                p.messages_received = messages_for_125
 
 
 class ReceivingMessage(Page):
