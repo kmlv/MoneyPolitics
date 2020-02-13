@@ -7,10 +7,7 @@
 
 {% block content %}
 <html>
-    {% for message in received_messages %}
-        <p>Sender of Message: TBD </p>
-        <p>Message: TBD {{ message }}</p>
-    {% endfor %}
+    {{ message }}
     
     {% next_button %}
 </html>

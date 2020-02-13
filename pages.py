@@ -129,14 +129,6 @@ class ProcessingMessage(WaitPage):
         messages_for_80 = ""
         messages_for_125 = ""
 
-        # 0. Before everything, we need the income as a string
-        if self.base_earnings < 10:
-            string_income = str(self.base_earnings)[:1]
-        elif self.base_earnings < 100:
-            string_income = str(self.base_earnings)[:2]
-        else:
-            string_income = str(self.base_earnings)[:3]
-
         # 1. It's necessary to identify the players with the repeated incomes in the same order obtained 
         # before (see models.py)
         players15 = []
@@ -153,23 +145,23 @@ class ProcessingMessage(WaitPage):
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
                 if p.income_9 is True:
-                    messages_for_9 = messages_for_9 + p.message + ";"
+                    messages_for_9 = str(p.id_in_group) + messages_for_9 + p.message + ";"
                 if p.income_15_1 is True:
-                    messages_for_15_1 = messages_for_15_1 + p.message + ";"
+                    messages_for_15_1 = str(p.id_in_group) + messages_for_15_1 + p.message + ";"
                 if p.income_15_2 is True:
-                    messages_for_15_2 = messages_for_15_2 + p.message + ";"
+                    messages_for_15_2 = str(p.id_in_group) + messages_for_15_2 + p.message + ";"
                 if p.income_15_3 is True:
-                    messages_for_15_3 = messages_for_15_3 + p.message + ";"
+                    messages_for_15_3 = str(p.id_in_group) + messages_for_15_3 + p.message + ";"
                 if p.income_25_1 is True:
-                    messages_for_25_1 = messages_for_25_1 + p.message + ";"
+                    messages_for_25_1 = str(p.id_in_group) + messages_for_25_1 + p.message + ";"
                 if p.income_25_2 is True:
-                    messages_for_25_2 = messages_for_25_2 + p.message + ";"
+                    messages_for_25_2 = str(p.id_in_group) + messages_for_25_2 + p.message + ";"
                 if p.income_40 is True:
-                    messages_for_40 = messages_for_40 + p.message + ";"
+                    messages_for_40 = str(p.id_in_group) + messages_for_40 + p.message + ";"
                 if p.income_80 is True:
-                    messages_for_80 = messages_for_80 + p.message + ";"
+                    messages_for_80 = str(p.id_in_group) + messages_for_80 + p.message + ";"
                 if p.income_125 is True:
-                    messages_for_125 = messages_for_125 + p.message + ";"
+                    messages_for_125 = str(p.id_in_group) + messages_for_125 + p.message + ";"
         
         # 3. We'll assign the messages according to the players income
         for p in self.group.get_players():
@@ -203,13 +195,24 @@ class ReceivingMessage(Page):
 
         # Obtaining the received messages
         raw_messages = player.messages_received.split(";")
-        clean_messages = []
+        # It'll create an extra item with an empty value (''), so we'll remove it
+        raw_messages.remove('')
+        # Because we'll probably want some treatment variable that display players income, id or both
+        clean_messages_no_id_no_inc = {}
+        clean_messages_with_id_no_inc = {}
 
-        for item in raw_messages:
-            clean_messages.append(item.split(",", 1)[0]) # index out of range error: changed from 1 to 0
+        # for item in raw_messages:
+            # We are creating a list of lists that have 2 items: sender's id and the respective message
+            # 0 ids 1 msj (de ahi pensar en income)
+        #    clean_messages_no_id_no_inc["player_{}_message".format(item.split(",", 1)[0])] = item.split(",", 1)[1]
+        #    clean_messages_with_id_no_inc["player_{}_message".format(item.split(",", 1)[0])] = item.split(",", 1)[0]\
+        #                                                                                        + ': '\
+        #                                                                                        + item.split(",", 1)[1]
 
         # Loop across received messages in the html in order to show them distinctly (with another color, size, etc)
-        return {"received_messages": clean_messages}
+        # return clean_messages_no_id_no_inc
+        # return clean_messages_no_id_no_inc
+        return {'message': player.messages_received}
 
 
 class TaxSystem(Page):

@@ -277,14 +277,14 @@ class Player(BasePlayer):
 
         for earning in str_task_endowments:
             if earning != '15' and earning != '25':
-                receiver = 'income_{}'.format(str(earning))
+                receiver = 'income_{}'.format(earning)
                 message_receivers.append(receiver)
             elif earning == '15':
-                receiver = 'income_{}'.format(str(earning))+'_{}'.format(str(counter15))
+                receiver = 'income_{}'.format(earning)+'_{}'.format(str(counter15))
                 message_receivers.append(receiver)
                 counter15 += 1
             elif earning == '25':
-                receiver = 'income_{}'.format(str(earning))+'_{}'.format(str(counter25))
+                receiver = 'income_{}'.format(earning)+'_{}'.format(str(counter25))
                 message_receivers.append(receiver)
                 counter25 += 1
             else:
@@ -309,7 +309,7 @@ class Player(BasePlayer):
                                '_{}'.format(str(players15.index(self.id_in_group) + 1))
         elif self.id_in_group in players25:
             option_to_remove = 'income_{}'.format(string_income) + \
-                               '_{}'.format(str(players15.index(self.id_in_group) + 1))
+                               '_{}'.format(str(players25.index(self.id_in_group) + 1))
         message_receivers.remove(option_to_remove)
 
         print(str(message_receivers))
@@ -323,8 +323,8 @@ class Player(BasePlayer):
     income_15_1 = send_message_field('Income 15 (Player 1)')
     income_15_2 = send_message_field('Income 15 (Player 2)')
     income_15_3 = send_message_field('Income 15 (Player 3)')
-    income_25_1 = send_message_field('Income 15 (Player 1)')
-    income_25_2 = send_message_field('Income 15 (Player 2)')
+    income_25_1 = send_message_field('Income 25 (Player 1)')
+    income_25_2 = send_message_field('Income 25 (Player 2)')
     income_40 = send_message_field('Income 40')
     income_80 = send_message_field('Income 80')
     income_125 = send_message_field('Income 125')
