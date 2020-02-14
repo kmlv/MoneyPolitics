@@ -6,9 +6,18 @@
 {% endblock %}
 
 {% block content %}
-<html>
-    {{ message }}
-    
-    {% next_button %}
+<html xmlns="http://www.w3.org/1999/html">
+    <p>
+        After sending the messages. your current game earnings are {{ player.after_message_earnings }}<br>
+        This are the messages you've received <br>
+        {% autoescape off %}
+            {{ player.messages_received }}
+        {% endautoescape %}
+    </p>
+
+    <p>
+        {% next_button %}
+    </p>
+
 </html>
 {% endblock %}

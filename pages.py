@@ -145,23 +145,23 @@ class ProcessingMessage(WaitPage):
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
                 if p.income_9 is True:
-                    messages_for_9 = str(p.id_in_group) + messages_for_9 + p.message + ";"
+                    messages_for_9 = messages_for_9 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_15_1 is True:
-                    messages_for_15_1 = str(p.id_in_group) + messages_for_15_1 + p.message + ";"
+                    messages_for_15_1 = messages_for_15_1 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_15_2 is True:
-                    messages_for_15_2 = str(p.id_in_group) + messages_for_15_2 + p.message + ";"
+                    messages_for_15_2 = messages_for_15_2 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_15_3 is True:
-                    messages_for_15_3 = str(p.id_in_group) + messages_for_15_3 + p.message + ";"
+                    messages_for_15_3 = messages_for_15_3 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_25_1 is True:
-                    messages_for_25_1 = str(p.id_in_group) + messages_for_25_1 + p.message + ";"
+                    messages_for_25_1 = messages_for_25_1 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_25_2 is True:
-                    messages_for_25_2 = str(p.id_in_group) + messages_for_25_2 + p.message + ";"
+                    messages_for_25_2 = messages_for_25_2 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_40 is True:
-                    messages_for_40 = str(p.id_in_group) + messages_for_40 + p.message + ";"
+                    messages_for_40 = messages_for_40 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_80 is True:
-                    messages_for_80 = str(p.id_in_group) + messages_for_80 + p.message + ";"
+                    messages_for_80 = messages_for_80 + "<br>Player " + str(p.id_in_group) + ": " + p.message
                 if p.income_125 is True:
-                    messages_for_125 = str(p.id_in_group) + messages_for_125 + p.message + ";"
+                    messages_for_125 = messages_for_125 + "<br>Player " + str(p.id_in_group) + ": " + p.message
         
         # 3. We'll assign the messages according to the players income
         for p in self.group.get_players():
@@ -189,7 +189,8 @@ class ProcessingMessage(WaitPage):
 
 
 class ReceivingMessage(Page):
-
+    pass
+    """
     def vars_for_template(self):
         player = self.player
 
@@ -213,7 +214,7 @@ class ReceivingMessage(Page):
         # return clean_messages_no_id_no_inc
         # return clean_messages_no_id_no_inc
         return {'message': player.messages_received}
-
+    """
 
 class TaxSystem(Page):
     form_model = 'player'
