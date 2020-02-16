@@ -31,7 +31,8 @@ class Tetris(Page):
     def before_next_page(self):
         # for debugging (delete later)
         print(self.player.game_score)
-	
+
+
 class Diamonds(Page):
     def is_displayed(self):
         if self.session.config['treatment'] == "Diamonds":
@@ -190,106 +191,56 @@ class ProcessingMessage(WaitPage):
 
 class ReceivingMessage(Page):
     pass
-    """
-    def vars_for_template(self):
-        player = self.player
-
-        # Obtaining the received messages
-        raw_messages = player.messages_received.split(";")
-        # It'll create an extra item with an empty value (''), so we'll remove it
-        raw_messages.remove('')
-        # Because we'll probably want some treatment variable that display players income, id or both
-        clean_messages_no_id_no_inc = {}
-        clean_messages_with_id_no_inc = {}
-
-        # for item in raw_messages:
-            # We are creating a list of lists that have 2 items: sender's id and the respective message
-            # 0 ids 1 msj (de ahi pensar en income)
-        #    clean_messages_no_id_no_inc["player_{}_message".format(item.split(",", 1)[0])] = item.split(",", 1)[1]
-        #    clean_messages_with_id_no_inc["player_{}_message".format(item.split(",", 1)[0])] = item.split(",", 1)[0]\
-        #                                                                                        + ': '\
-        #                                                                                        + item.split(",", 1)[1]
-
-        # Loop across received messages in the html in order to show them distinctly (with another color, size, etc)
-        # return clean_messages_no_id_no_inc
-        # return clean_messages_no_id_no_inc
-        return {'message': player.messages_received}
-    """
-
-class TaxSystem(Page):
-    form_model = 'player'
-    form_fields = ['preferred_tax_system']
-
-    def before_next_page(self):
-        player = self.player
-        group = self.group
-
-        if player.preffered_tax_system == 0:
-            group.progressivity_votes += 1
-        elif player.preffered_tax_system == 1:
-            group.tax_rate_votes += 1
-        else:
-            print("Error: No value for tax_rate_votes")
-
-
-class TaxDecisionWaitPage(WaitPage):
-    def after_all_players_arrive(self):
-        # Count the number of 0s and 1s. According to that, decide which system is going to be implemented
-
-        group = self.group
-        if group.progressivity_votes >= group.tax_rate_votes:
-            # System Chosen: Progressivity Sys
-            group.tax_policy_system = 0
-        elif group.progressivity_votes < group.tax_rate_votes:
-            # System Chosen: Tax Rate Sys
-            group.tax_policy_system = 1
-        else:
-            print("Error: No value for Tax Policy System")
 
 
 class ProgressivityParameter(Page):
-    # Displayed only if tax rate sys loses
+    # Displayed only if tax rate sys is selected on the session config
 
     form_model = 'player'
     form_fields = ['progressivity']
 
     def is_displayed(self):
-        return self.group.tax_policy_system == 0
+        if self.session.config['tax_system'] == "progressivity":
+            return True
+        else:
+            return False
 
 
 class TaxRateParameter(Page):
-    # Displayed only if tax rate sys wins
+    # Displayed only if tax rate sys is selected on the session config
 
     form_model = 'player'
     form_fields = ['tax_rate']
 
     def is_displayed(self):
-        return self.group.tax_policy_system == 1
+        if self.session.config['tax_system'] == "tax_rate":
+            return True
+        else:
+            return False
 
 
 class ResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
-        pass
+        self.group.set_payoffs()
 
 
 class Results(Page):
-    pass
+    def vars_for_template(self):
+        tax_rate = round(self.group.chosen_tax_rate, 2)
+        return {'tax_rate': tax_rate}
 
 
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
     GroupingPage,
     Introduction,
-    RealEffort,
     Tetris,
-	Diamonds, 
+    Diamonds,
     EffortResultsWaitPage,
     RealEffortResults,
     PreparingMessage,
     ProcessingMessage,
     ReceivingMessage,
-    TaxSystem,
-    TaxDecisionWaitPage,
     ProgressivityParameter,
     TaxRateParameter,
     ResultsWaitPage,

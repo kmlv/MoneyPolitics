@@ -199,8 +199,16 @@ class Group(BaseGroup):
                 self.chosen_tax_rate = p.tax_rate
 
     def set_payoffs(self):
+        chosen_tax_rates = []
         for p in self.get_players():
-            p.payoff = p.base_earnings
+            chosen_tax_rates.append(p.tax_rate)
+
+        # Sorting the values so we can take the median tax rate
+        chosen_tax_rates.sort()
+        self.chosen_tax_rate = chosen_tax_rates[4]
+
+        for p in self.get_players():
+            p.payoff = (1 - self.chosen_tax_rate)*p.after_message_earnings
 
 
 # Function that creates a field to send messages according to the income of other player
@@ -246,7 +254,7 @@ class Player(BasePlayer):
     preferred_tax_system = models.CharField(choices=Constants.possible_tax_systems)
     # Preferred Tax Policy Parameters
     progressivity = models.FloatField(min=0)
-    tax_rate = models.FloatField(min=0)
+    tax_rate = models.FloatField(min=0, max=1, widget=widgets.Slider(attrs={'step': '0.05'}))
     
     # Player's score for game played
     game_score = models.IntegerField()

@@ -6,26 +6,22 @@
 {% endblock %}
 
 {% block content %}
-    Your real effort income was {% Player.real_effort_earnings %} </br>
-    The place you obtained in the real effort task was {% Player.ranking %} </br>
-    {% if Player.shuffled %}
-    Your income was shuffled </br>
-    After the shuffling, your new income is {% Player.base_earnings %} </br>
+    Your real effort income was {{ player.real_effort_earnings }} </br></br>
+    {% if player.shuffled %}
+    <b>Your income was shuffled</b></br>
+    After the shuffling, your new income is {{ player.base_earnings }} </br></br>
     {% else %}
-    Your income wasn't shuffled </br>
+    <b>Your income wasn't shuffled</b> </br></br>
     {% endif %}
+    Your messaging costs were {{ player.total_messaging_costs }} </br></br>
+    <b>The Tax System Chosen was the Tax Rate System</b> </br></br>
+    Your selected tax rate was {{ player.tax_rate }} </br>
+    The value of the base tax rate is {{ tax_rate }} </br></br>
+    <b>Your payoff for this round is {{ player.payoff }}</b></br>
 
-    {% if Group.tax_policy_system == 0 %}
-    The Tax System Chosen was the Progressivity System </br>
-    Your selected progressivity was {% Player.progressivity %} </br>
-    The value of the base progressivity is {% Group.chosen_progressivity %}
-    {% else %}
-    The Tax System Chosen was the Tax Rate System </br>
-    Your selected tax rate was {% Player.tax_rate %} </br>
-    The value of the base tax rate is {% Group.chosen_tax_rate %} </br>
-    {% endif %}
-    Your payoff for this round is {% Player.payoff %} </br>
+    <p>
     {% next_button %}
+    </p>
 
     <p>
     {% include Constants.instructions_button %}
