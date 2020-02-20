@@ -12,36 +12,31 @@
 <head>
   <title></title>
   <style>
-/*
-  html, body {
-    height: 100%;
-    margin: 10%;
-  }
-
-  body {
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-*/
-
-  canvas {
-    border: 1px solid black;
-  }
+	user_score
+	{
+/*		z-index: 100; */
+	}
+    canvas 
+	{
+    	border: 1px solid black;
+    }
   </style>
 </head>
 <body>
 
-    <!-- Hidden form that passes the player's score to oTree -->
-	<form>
-		<input type="hidden" id="game_score" name = "game_score" value="0"/>
-	</form>
-	{{ form.game_score.errors }} 
+<!-- Hidden form that passes the player's score to oTree -->
+<form>
+	<input type="hidden" id="game_score" name = "game_score" value="0"/>
+</form>
+{{ form.game_score.errors }} 
 
- 
+<!-- Tetris Game Box -->
 <canvas width="320" height="640" id="game"></canvas> 
-<!--	320 x 640-->
+
+<!-- Displays the user's current score -->
+<div id="user_score"></div> 
+	
+	
 <script>
 // https://tetris.fandom.com/wiki/Tetris_Guideline
 // get a random integer between the range of [min,max]
@@ -254,9 +249,11 @@ function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
 	
-  // pass the score to the hmtl template
+  // pass the score to the hmtl template and oTree
   var inputScore = document.getElementById("game_score");
-  inputScore.setAttribute('value', score); 
+  inputScore.setAttribute('value', score);
+  // pass score to be displayed to the user
+  document.getElementById('user_score').innerHTML = "Your score: " + score;
 
   // draw the playfield
   for (let row = 0; row < 20; row++) {
