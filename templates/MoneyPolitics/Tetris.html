@@ -12,41 +12,36 @@
 <head>
   <title></title>
   <style>
-/*
-  html, body {
-    height: 100%;
-    margin: 10%;
-  }
-
-  body {
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-*/
-
-  canvas {
-    border: 1px solid black;
-  }
+	user_score
+	{
+/*		z-index: 100; */
+	}
+    canvas
+	{
+    	border: 1px solid black;
+    }
   </style>
 </head>
 <body>
 
-    <!-- Hidden form that passes the player's score to oTree -->
-	<form>
-		<input type="hidden" id="game_score" name = "game_score" value="0"/>
-	</form>
-	{{ form.game_score.errors }} 
+<!-- Hidden form that passes the player's score to oTree -->
+<form>
+	<input type="hidden" id="game_score" name = "game_score" value="0"/>
+</form>
+{{ form.game_score.errors }}
 
- 
-<canvas width="320" height="640" id="game"></canvas> 
-<!--	320 x 640-->
+<!-- Tetris Game Box -->
+<canvas width="320" height="640" id="game"></canvas>
+
+<!-- Displays the user's current score -->
+<div id="user_score"></div>
+
+
 <script>
 // https://tetris.fandom.com/wiki/Tetris_Guideline
 // get a random integer between the range of [min,max]
 // @see https://stackoverflow.com/a/1527820/2124254
-	
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -141,7 +136,7 @@ function placeTetromino() {
     if (playfield[row].every(cell => !!cell)) {
 	  // increase score
 		score += 1;
-		console.log(score); 
+		console.log(score);
       // drop every row above this one
       for (let r = row; r >= 0; r--) {
         for (let c = 0; c < playfield[r].length; c++) {
@@ -243,7 +238,7 @@ const colors = {
   'L': 'orange'
 };
 
-let score = 0; 
+let score = 0;
 let count = 0;
 let tetromino = getNextTetromino();
 let rAF = null;  // keep track of the animation frame so we can cancel it
@@ -253,10 +248,12 @@ let gameOver = false;
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
-	
-  // pass the score to the hmtl template
+
+  // pass the score to the hmtl template and oTree
   var inputScore = document.getElementById("game_score");
-  inputScore.setAttribute('value', score); 
+  inputScore.setAttribute('value', score);
+  // pass score to be displayed to the user
+  document.getElementById('user_score').innerHTML = "Your score: " + score;
 
   // draw the playfield
   for (let row = 0; row < 20; row++) {
