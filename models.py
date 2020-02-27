@@ -6,6 +6,7 @@ from django import forms
 
 import controls as ctrl
 import random
+import math
 
 
 author = 'Marco Gutierrez and Skyler Stewart'
@@ -35,6 +36,10 @@ class Constants(BaseConstants):
 
     # Possible Tax Systems
     possible_tax_systems = ctrl.possible_tax_systems
+
+    # Private Sector Parameters
+    alpha = ctrl.alpha
+    beta = ctrl.beta
 
 
 class Subsession(BaseSubsession):
@@ -207,8 +212,16 @@ class Group(BaseGroup):
         chosen_tax_rates.sort()
         self.chosen_tax_rate = chosen_tax_rates[4]
 
+        total_public_contribution = 0
+
         for p in self.get_players():
-            p.payoff = (1 - self.chosen_tax_rate)*p.after_message_earnings
+            total_public_contribution += p.after_message_earnings*self.chosen_tax_rate
+
+        for p in self.get_players():
+            p.public_income = 101/(1+100*math.exp(-0.025*total_public_contribution)) - 1
+            private_productivity = Constants.alpha + Constants.beta*total_public_contribution
+            p.private_income = (1-self.chosen_tax_rate)*p.after_message_earnings*private_productivity
+            p.payoff = p.private_income + p.public_income
 
 
 # Function that creates a field to send messages according to the income of other player
@@ -260,6 +273,10 @@ class Player(BasePlayer):
     game_score = models.IntegerField()
     diamond_guess = models.IntegerField(min=0, max=1000)
     diamond_actual = models.IntegerField()
+
+    # Earnings of the player
+    private_income = models.CurrencyField(min=0)
+    public_income = models.CurrencyField(min=0)
 
     def message_receivers_choices(self):
         # Converts self income from currency to string (eliminates points label)
