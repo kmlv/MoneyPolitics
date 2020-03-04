@@ -190,13 +190,6 @@ class Group(BaseGroup):
             else:
                 print("Error: No 'luck' value for assignment of shuffled earning")
 
-    def tax_parameter_selection(self):
-        # Provisional function to determine the tax parameter (has to be changed later/only for demo purposes)
-
-        for p in self.get_players():
-            if p.id_in_group == 1:
-                self.chosen_progressivity = p.progressivity
-                self.chosen_tax_rate = p.tax_rate
 
     def set_payoffs(self):
         if self.session.config['tax_system'] == "tax_rate":
@@ -209,7 +202,8 @@ class Group(BaseGroup):
             self.chosen_tax_rate = chosen_tax_rates[4]
 
             for p in self.get_players():
-                p.payoff = (1 - self.chosen_tax_rate)*p.after_message_earnings
+                p.tax_payment = self.chosen_tax_rate*p.after_message_earnings
+                p.payoff = p.after_message_earnings - p.tax_payment
 
         elif self.session.config['tax_system'] == "progressivity":
             chosen_prog_level = []
@@ -220,17 +214,44 @@ class Group(BaseGroup):
             chosen_prog_level.sort()
             self.chosen_progressivity = chosen_prog_level[4]
 
-            # Before setting the payoffs, we need to acknowledge that at this point of the game, the players may have
-            # spent their money in sending messages to all the other players, so the income brackets would be income_{i}
-            # - 8 points (max possible total messaging costs)
+            # To access to the tax rates of an specific progressivity level, turn chosen_progressivity into a string
+            # so you can access the dictionary entry with the respective tax rates
+            string_progressivity_level = str(self.chosen_progressivity)
+            progressivity_tax_rates = ctrl.progressivity_levels_tax_rates[string_progressivity_level]
+
+            # Using the tax endowments to define the income brackets (we'll create a new list with unique
+            # endowments)
+            task_endowments = list(dict.fromkeys(ctrl.task_endowments))
+
             for p in self.get_players():
-                if p.after_message_earnings >=1 or p.after_message_earnings <= 9:
-                    p.payoff = (1 - self.chosen_tax_rate)*p.after_message_earnings
-                elif p.after_message_earnings >=7 or p.after_message_earnings <= 15:
-                elif p.after_message_earnings >=17 or p.after_message_earnings <= 25:
-                elif p.after_message_earnings >=33 or p.after_message_earnings <= 40:
-                elif p.after_message_earnings >=73 or p.after_message_earnings <= 80:
-                elif p.after_message_earnings >=118 or p.after_message_earnings <= 125:
+                if p.after_message_earnings <= task_endowments[0]:
+                    p.tax_payment = progressivity_tax_rates[0]*p.after_message_earnings
+                elif task_endowments[0] < p.after_message_earnings <= task_endowments[1]:
+                    p.tax_payment = progressivity_tax_rates[0]*task_endowments[0] + \
+                                    progressivity_tax_rates[1]*(p.after_message_earnings-task_endowments[0])
+                elif task_endowments[1] < p.after_message_earnings <= task_endowments[2]:
+                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
+                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
+                                    progressivity_tax_rates[2] * (p.after_message_earnings-task_endowments[1])
+                elif task_endowments[2] < p.after_message_earnings <= task_endowments[3]:
+                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
+                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
+                                    progressivity_tax_rates[2] * (task_endowments[2] - task_endowments[1]) + \
+                                    progressivity_tax_rates[3] * (p.after_message_earnings - task_endowments[2])
+                elif task_endowments[3] < p.after_message_earnings <= task_endowments[4]:
+                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
+                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
+                                    progressivity_tax_rates[2] * (task_endowments[2] - task_endowments[1]) + \
+                                    progressivity_tax_rates[3] * (task_endowments[3] - task_endowments[2]) + \
+                                    progressivity_tax_rates[4] * (p.after_message_earnings - task_endowments[3])
+                elif task_endowments[4] < p.after_message_earnings <= task_endowments[5]:
+                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
+                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
+                                    progressivity_tax_rates[2] * (task_endowments[2] - task_endowments[1]) + \
+                                    progressivity_tax_rates[3] * (task_endowments[3] - task_endowments[2]) + \
+                                    progressivity_tax_rates[4] * (task_endowments[4] - task_endowments[3]) + \
+                                    progressivity_tax_rates[5] * (p.after_message_earnings - task_endowments[4])
+                p.payoff = p.after_message_earnings - p.tax_payment
 
 
 # Function that creates a field to send messages according to the income of other player
@@ -276,7 +297,9 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
     tax_rate = models.FloatField(min=0, max=1, widget=widgets.Slider(attrs={'step': '0.05'}))
-    
+
+    tax_payment = models.CurrencyField(min=0)
+
     # Player's score for game played
     game_score = models.IntegerField()
     diamond_guess = models.IntegerField(min=0, max=1000)
