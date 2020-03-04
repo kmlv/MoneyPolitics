@@ -16,7 +16,7 @@
 	{
 /*		z-index: 100; */
 	}
-    canvas
+    canvas 
 	{
     	border: 1px solid black;
     }
@@ -28,15 +28,15 @@
 <form>
 	<input type="hidden" id="game_score" name = "game_score" value="0"/>
 </form>
-{{ form.game_score.errors }}
+{{ form.game_score.errors }} 
 
 <!-- Tetris Game Box -->
-<canvas width="320" height="640" id="game"></canvas>
+<canvas width="320" height="640" id="game"></canvas> 
 
 <!-- Displays the user's current score -->
-<div id="user_score"></div>
-
-
+<div id="user_score"></div> 
+	
+	
 <script>
 // https://tetris.fandom.com/wiki/Tetris_Guideline
 // get a random integer between the range of [min,max]
@@ -248,7 +248,7 @@ let gameOver = false;
 function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
-
+	
   // pass the score to the hmtl template and oTree
   var inputScore = document.getElementById("game_score");
   inputScore.setAttribute('value', score);

@@ -33,9 +33,7 @@ class Constants(BaseConstants):
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
     message_cost = ctrl.message_cost
-
-    # Possible Tax Systems
-    possible_tax_systems = ctrl.possible_tax_systems
+    progressivity_levels = ctrl.progressivity_levels
 
     # Private Sector Parameters
     alpha = ctrl.alpha
@@ -54,9 +52,6 @@ class Group(BaseGroup):
     # Votes for Tax Policy Systems
     progressivity_votes = models.IntegerField()
     tax_rate_votes = models.IntegerField()
-
-    # Chosen Tax Policy System
-    tax_policy_system = models.IntegerField(choices=Constants.possible_tax_systems)
 
     # Chosen Tax Policy Parameters
     chosen_progressivity = models.FloatField()
@@ -80,7 +75,7 @@ class Group(BaseGroup):
         # Ranking scores
         ranked_scores = {}
 
-        if(self.session.config['treatment'] == "Tetris"):
+        if self.session.config['treatment'] == "Tetris":
             sorted_list = sorted(game_scores.values(), reverse=True)
         else:
             # When playing Diamonds a higher score is worse (so we reverse the sort)
@@ -204,24 +199,38 @@ class Group(BaseGroup):
                 self.chosen_tax_rate = p.tax_rate
 
     def set_payoffs(self):
-        chosen_tax_rates = []
-        for p in self.get_players():
-            chosen_tax_rates.append(p.tax_rate)
+        if self.session.config['tax_system'] == "tax_rate":
+            chosen_tax_rates = []
+            for p in self.get_players():
+                chosen_tax_rates.append(p.tax_rate)
 
-        # Sorting the values so we can take the median tax rate
-        chosen_tax_rates.sort()
-        self.chosen_tax_rate = chosen_tax_rates[4]
+            # Sorting the values so we can take the median tax rate
+            chosen_tax_rates.sort()
+            self.chosen_tax_rate = chosen_tax_rates[4]
 
-        total_public_contribution = 0
+            for p in self.get_players():
+                p.payoff = (1 - self.chosen_tax_rate)*p.after_message_earnings
 
-        for p in self.get_players():
-            total_public_contribution += p.after_message_earnings*self.chosen_tax_rate
+        elif self.session.config['tax_system'] == "progressivity":
+            chosen_prog_level = []
+            for p in self.get_players():
+                chosen_prog_level.append(p.progressivity)
 
-        for p in self.get_players():
-            p.public_income = 101/(1+100*math.exp(-0.025*total_public_contribution)) - 1
-            private_productivity = Constants.alpha + Constants.beta*total_public_contribution
-            p.private_income = (1-self.chosen_tax_rate)*p.after_message_earnings*private_productivity
-            p.payoff = p.private_income + p.public_income
+            # Sorting the values so we can take the median progressivity
+            chosen_prog_level.sort()
+            self.chosen_progressivity = chosen_prog_level[4]
+
+            # Before setting the payoffs, we need to acknowledge that at this point of the game, the players may have
+            # spent their money in sending messages to all the other players, so the income brackets would be income_{i}
+            # - 8 points (max possible total messaging costs)
+            for p in self.get_players():
+                if p.after_message_earnings >=1 or p.after_message_earnings <= 9:
+                    p.payoff = (1 - self.chosen_tax_rate)*p.after_message_earnings
+                elif p.after_message_earnings >=7 or p.after_message_earnings <= 15:
+                elif p.after_message_earnings >=17 or p.after_message_earnings <= 25:
+                elif p.after_message_earnings >=33 or p.after_message_earnings <= 40:
+                elif p.after_message_earnings >=73 or p.after_message_earnings <= 80:
+                elif p.after_message_earnings >=118 or p.after_message_earnings <= 125:
 
 
 # Function that creates a field to send messages according to the income of other player
@@ -264,9 +273,8 @@ class Player(BasePlayer):
     # Total cost for sending the messages
     total_messaging_costs = models.CurrencyField()
 
-    preferred_tax_system = models.CharField(choices=Constants.possible_tax_systems)
     # Preferred Tax Policy Parameters
-    progressivity = models.FloatField(min=0)
+    progressivity = models.IntegerField(choices=Constants.progressivity_levels)
     tax_rate = models.FloatField(min=0, max=1, widget=widgets.Slider(attrs={'step': '0.05'}))
     
     # Player's score for game played
