@@ -156,34 +156,34 @@ class ProcessingMessage(WaitPage):
             
             sender_identifier = ""
             if self.session.config['show_id'] is True:
-                sender_identifier = sender_identifier + "Player " + str(p.id_in_group)
+                sender_identifier = sender_identifier + "<b>Player " + str(p.id_in_group)
                 if self.session.config['show_income'] is True:
-                    sender_identifier = sender_identifier + " (Income " + string_income + "): "
+                    sender_identifier = sender_identifier + " (Income " + string_income + ")</b>: "
                 else:
-                    sender_identifier = sender_identifier + ": "
+                    sender_identifier = sender_identifier + "</b>: "
             elif self.session.config['show_income'] is True:
-                sender_identifier = "Player of Income " + string_income + ": "
+                sender_identifier = "<b>Player of Income " + string_income + "</b>: "
 
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
                 if p.income_9 is True:
-                    messages_for_9 = messages_for_9 + "<br>" + sender_identifier + p.message
+                    messages_for_9 = messages_for_9 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_15_1 is True:
-                    messages_for_15_1 = messages_for_15_1 + "<br>" + sender_identifier + p.message
+                    messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_15_2 is True:
-                    messages_for_15_2 = messages_for_15_2 + "<br>" + sender_identifier + p.message
+                    messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_15_3 is True:
-                    messages_for_15_3 = messages_for_15_3 + "<br>" + sender_identifier + p.message
+                    messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_25_1 is True:
-                    messages_for_25_1 = messages_for_25_1 + "<br>" + sender_identifier + p.message
+                    messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_25_2 is True:
-                    messages_for_25_2 = messages_for_25_2 + "<br>" + sender_identifier + p.message
+                    messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_40 is True:
-                    messages_for_40 = messages_for_40 + "<br>" + sender_identifier + p.message
+                    messages_for_40 = messages_for_40 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_80 is True:
-                    messages_for_80 = messages_for_80 + "<br>" + sender_identifier + p.message
+                    messages_for_80 = messages_for_80 + "<li>" + sender_identifier + p.message + "</li>"
                 if p.income_125 is True:
-                    messages_for_125 = messages_for_125 + "<br>" + sender_identifier + p.message
+                    messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message + "</li>"
         
         # 3. We'll assign the messages according to the players income
         for p in self.group.get_players():
