@@ -190,7 +190,6 @@ class Group(BaseGroup):
             else:
                 print("Error: No 'luck' value for assignment of shuffled earning")
 
-
     def set_payoffs(self):
         if self.session.config['tax_system'] == "tax_rate":
             chosen_tax_rates = []
@@ -201,9 +200,10 @@ class Group(BaseGroup):
             chosen_tax_rates.sort()
             self.chosen_tax_rate = chosen_tax_rates[4]
 
+            total_public_contribution = 0
+
             for p in self.get_players():
-                p.tax_payment = self.chosen_tax_rate*p.after_message_earnings
-                p.payoff = p.after_message_earnings - p.tax_payment
+                total_public_contribution += p.after_message_earnings * self.chosen_tax_rate
 
         elif self.session.config['tax_system'] == "progressivity":
             chosen_prog_level = []
@@ -222,6 +222,7 @@ class Group(BaseGroup):
             # Using the tax endowments to define the income brackets (we'll create a new list with unique
             # endowments)
             task_endowments = list(dict.fromkeys(ctrl.task_endowments))
+            task_endowments.sort()
 
             for p in self.get_players():
                 if p.after_message_earnings <= task_endowments[0]:
@@ -251,7 +252,21 @@ class Group(BaseGroup):
                                     progressivity_tax_rates[3] * (task_endowments[3] - task_endowments[2]) + \
                                     progressivity_tax_rates[4] * (task_endowments[4] - task_endowments[3]) + \
                                     progressivity_tax_rates[5] * (p.after_message_earnings - task_endowments[4])
-                p.payoff = p.after_message_earnings - p.tax_payment
+
+            total_public_contribution = 0
+
+            for p in self.get_players():
+                total_public_contribution += p.tax_payment
+
+        for p in self.get_players():
+            if total_public_contribution <= 192:
+                p.public_income = 101 / (1 + 100 * math.exp(-0.025 * total_public_contribution)) - 1
+                private_productivity = Constants.alpha + Constants.beta * total_public_contribution
+            else:
+                p.public_income = 101 / (1 + 100 * math.exp(-0.025 * 192)) - 1
+                private_productivity = Constants.alpha + Constants.beta * 192
+            p.private_income = (p.after_message_earnings - p.tax_payment) * private_productivity
+            p.payoff = p.private_income + p.public_income
 
 
 # Function that creates a field to send messages according to the income of other player

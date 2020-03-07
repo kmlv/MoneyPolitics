@@ -247,9 +247,15 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     def vars_for_template(self):
-        tax_rate = round(self.group.chosen_tax_rate, 2)
-        return {'tax_rate': tax_rate}
-
+        tax_system = self.session.config['tax_system']
+        if self.session.config['tax_system'] == "tax_rate":
+            tax_rate = round(self.group.chosen_tax_rate, 2)
+            return {'tax_system': tax_system, 'tax_rate': tax_rate}
+        elif self.session.config['tax_system'] == "progressivity":
+            progressivity = round(self.group.chosen_progressivity)
+            return {'tax_system': tax_system, 'progressivity': progressivity}
+        else:
+            print('Tax system undefined')
 
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
