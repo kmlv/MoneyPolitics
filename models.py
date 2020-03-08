@@ -200,10 +200,8 @@ class Group(BaseGroup):
             chosen_tax_rates.sort()
             self.chosen_tax_rate = chosen_tax_rates[4]
 
-            total_public_contribution = 0
-
             for p in self.get_players():
-                total_public_contribution += p.after_message_earnings * self.chosen_tax_rate
+                p.tax_payment = p.after_message_earnings * self.chosen_tax_rate
 
         elif self.session.config['tax_system'] == "progressivity":
             chosen_prog_level = []
@@ -228,35 +226,20 @@ class Group(BaseGroup):
                 if p.after_message_earnings <= task_endowments[0]:
                     p.tax_payment = progressivity_tax_rates[0]*p.after_message_earnings
                 elif task_endowments[0] < p.after_message_earnings <= task_endowments[1]:
-                    p.tax_payment = progressivity_tax_rates[0]*task_endowments[0] + \
-                                    progressivity_tax_rates[1]*(p.after_message_earnings-task_endowments[0])
+                    p.tax_payment = progressivity_tax_rates[1]*p.after_message_earnings
                 elif task_endowments[1] < p.after_message_earnings <= task_endowments[2]:
-                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
-                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
-                                    progressivity_tax_rates[2] * (p.after_message_earnings-task_endowments[1])
+                    p.tax_payment = progressivity_tax_rates[2]*p.after_message_earnings
                 elif task_endowments[2] < p.after_message_earnings <= task_endowments[3]:
-                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
-                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
-                                    progressivity_tax_rates[2] * (task_endowments[2] - task_endowments[1]) + \
-                                    progressivity_tax_rates[3] * (p.after_message_earnings - task_endowments[2])
+                    p.tax_payment = progressivity_tax_rates[3]*p.after_message_earnings
                 elif task_endowments[3] < p.after_message_earnings <= task_endowments[4]:
-                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
-                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
-                                    progressivity_tax_rates[2] * (task_endowments[2] - task_endowments[1]) + \
-                                    progressivity_tax_rates[3] * (task_endowments[3] - task_endowments[2]) + \
-                                    progressivity_tax_rates[4] * (p.after_message_earnings - task_endowments[3])
+                    p.tax_payment = progressivity_tax_rates[4]*p.after_message_earnings
                 elif task_endowments[4] < p.after_message_earnings <= task_endowments[5]:
-                    p.tax_payment = progressivity_tax_rates[0] * task_endowments[0] + \
-                                    progressivity_tax_rates[1] * (task_endowments[1] - task_endowments[0]) + \
-                                    progressivity_tax_rates[2] * (task_endowments[2] - task_endowments[1]) + \
-                                    progressivity_tax_rates[3] * (task_endowments[3] - task_endowments[2]) + \
-                                    progressivity_tax_rates[4] * (task_endowments[4] - task_endowments[3]) + \
-                                    progressivity_tax_rates[5] * (p.after_message_earnings - task_endowments[4])
+                    p.tax_payment = progressivity_tax_rates[5]*p.after_message_earnings
 
-            total_public_contribution = 0
+        total_public_contribution = 0
 
-            for p in self.get_players():
-                total_public_contribution += p.tax_payment
+        for p in self.get_players():
+            total_public_contribution += p.tax_payment
 
         for p in self.get_players():
             if total_public_contribution <= 192:
