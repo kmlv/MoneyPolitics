@@ -4,6 +4,7 @@ from otree.api import (
 
 from django import forms
 
+import settings
 import controls as ctrl
 import random
 import math
@@ -294,7 +295,7 @@ class Player(BasePlayer):
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
-    tax_rate = models.FloatField(min=0, max=1, widget=widgets.Slider(attrs={'step': '0.05'}))
+    tax_rate = models.FloatField(min=0, max=1, widget=widgets.Slider(attrs={'step': ctrl.tax_step}))
 
     tax_payment = models.CurrencyField(min=0)
 
