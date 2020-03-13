@@ -202,7 +202,7 @@ class Group(BaseGroup):
             self.chosen_tax_rate = chosen_tax_rates[4]
 
             for p in self.get_players():
-                p.tax_payment = p.after_message_earnings * self.chosen_tax_rate
+                p.tax_payment = p.base_earnings * self.chosen_tax_rate
 
         elif self.session.config['tax_system'] == "progressivity":
             chosen_prog_level = []
@@ -224,18 +224,18 @@ class Group(BaseGroup):
             task_endowments.sort()
 
             for p in self.get_players():
-                if p.after_message_earnings <= task_endowments[0]:
-                    p.tax_payment = progressivity_tax_rates[0]*p.after_message_earnings
-                elif task_endowments[0] < p.after_message_earnings <= task_endowments[1]:
-                    p.tax_payment = progressivity_tax_rates[1]*p.after_message_earnings
-                elif task_endowments[1] < p.after_message_earnings <= task_endowments[2]:
-                    p.tax_payment = progressivity_tax_rates[2]*p.after_message_earnings
-                elif task_endowments[2] < p.after_message_earnings <= task_endowments[3]:
-                    p.tax_payment = progressivity_tax_rates[3]*p.after_message_earnings
-                elif task_endowments[3] < p.after_message_earnings <= task_endowments[4]:
-                    p.tax_payment = progressivity_tax_rates[4]*p.after_message_earnings
-                elif task_endowments[4] < p.after_message_earnings <= task_endowments[5]:
-                    p.tax_payment = progressivity_tax_rates[5]*p.after_message_earnings
+                if p.base_earnings <= task_endowments[0]:
+                    p.tax_payment = progressivity_tax_rates[0]*p.base_earnings
+                elif task_endowments[0] < p.base_earnings <= task_endowments[1]:
+                    p.tax_payment = progressivity_tax_rates[1]*p.base_earnings
+                elif task_endowments[1] < p.base_earnings <= task_endowments[2]:
+                    p.tax_payment = progressivity_tax_rates[2]*p.base_earnings
+                elif task_endowments[2] < p.base_earnings <= task_endowments[3]:
+                    p.tax_payment = progressivity_tax_rates[3]*p.base_earnings
+                elif task_endowments[3] < p.base_earnings <= task_endowments[4]:
+                    p.tax_payment = progressivity_tax_rates[4]*p.base_earnings
+                elif task_endowments[4] < p.base_earnings <= task_endowments[5]:
+                    p.tax_payment = progressivity_tax_rates[5]*p.base_earnings
 
         total_public_contribution = 0
 
@@ -249,7 +249,7 @@ class Group(BaseGroup):
             else:
                 p.public_income = 101 / (1 + 100 * math.exp(-0.025 * 192)) - 1
                 private_productivity = Constants.alpha + Constants.beta * 192
-            p.private_income = (p.after_message_earnings - p.tax_payment) * private_productivity
+            p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
             p.payoff = p.private_income + p.public_income
 
 

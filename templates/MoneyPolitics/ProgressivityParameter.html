@@ -2,13 +2,18 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-Progressivity Tax System
+Choosing the Tax Rates
 {% endblock %}
 
 {% block content %}
 
     <p>
-        Choose your preferred value for the progressivity rate
+        Choose your preferred set of tax rates. Remember that as the level increases, the tax payment of the players
+        with the highest income is going to increase and the one of the players with the lowest will decrease
+    </p>
+
+    <p>
+        The tax rates are going to be applied to the income before sending the messages.
     </p>
 
     <p>
@@ -20,7 +25,7 @@ Progressivity Tax System
     </p>
 
     <p>
-        The following table contains the <b>effective</b> tax rates respective to each of the progressivity levels
+        The following table contains the <b>effective</b> tax rates for each of the possible tax levels
     </p>
     <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
@@ -47,7 +52,7 @@ Progressivity Tax System
         <td class="tg-u3q6">Level 5</td>
       </tr>
       <tr>
-        <td class="tg-uzvj">[0 - 9]</td>
+        <td class="tg-uzvj">9</td>
         <td class="tg-9wq8">0.4</td>
         <td class="tg-9wq8"> 0.3</td>
         <td class="tg-9wq8"> 0.2</td>
@@ -55,7 +60,7 @@ Progressivity Tax System
         <td class="tg-9wq8">0</td>
       </tr>
       <tr>
-        <td class="tg-uzvj">]9 - 15]</td>
+        <td class="tg-uzvj">15</td>
         <td class="tg-9wq8">0.4</td>
         <td class="tg-9wq8">0.35</td>
         <td class="tg-9wq8">0.3</td>
@@ -63,7 +68,7 @@ Progressivity Tax System
         <td class="tg-9wq8">0</td>
       </tr>
       <tr>
-        <td class="tg-uzvj">]15 - 25]</td>
+        <td class="tg-uzvj">25</td>
         <td class="tg-9wq8">0.4</td>
         <td class="tg-9wq8">0.375</td>
         <td class="tg-9wq8">0.35</td>
@@ -71,7 +76,7 @@ Progressivity Tax System
         <td class="tg-9wq8">0.15</td>
       </tr>
       <tr>
-        <td class="tg-uzvj">]25 - 40]</td>
+        <td class="tg-uzvj">40</td>
         <td class="tg-9wq8">0.4</td>
         <td class="tg-9wq8">0.4</td>
         <td class="tg-9wq8">0.4</td>
@@ -79,7 +84,7 @@ Progressivity Tax System
         <td class="tg-9wq8">0.6</td>
       </tr>
       <tr>
-        <td class="tg-uzvj">]40 - 80]</td>
+        <td class="tg-uzvj">80</td>
         <td class="tg-9wq8">0.4</td>
         <td class="tg-9wq8">0.45</td>
         <td class="tg-9wq8">0.55</td>
@@ -87,7 +92,7 @@ Progressivity Tax System
         <td class="tg-9wq8">0.8</td>
       </tr>
       <tr>
-        <td class="tg-amwm">]80 - 125]</td>
+        <td class="tg-amwm">125</td>
         <td class="tg-nrix">0.4</td>
         <td class="tg-nrix">0.55</td>
         <td class="tg-nrix">0.65</td>
