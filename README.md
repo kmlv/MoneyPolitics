@@ -31,6 +31,10 @@ doc = """"
 Control parameters for MoneyPolitics
 """
 
+doc = """"
+Control parameters for MoneyPolitics
+"""
+
 task_endowments = [125, 80, 40, 25, 25, 15, 15, 15, 9]
 
 # Because oTree doesn't let us work with the multiple checkbox multiple choiice widget, we are going to create a list
@@ -62,7 +66,21 @@ possible_message_receivers_9.remove(possible_message_receivers[8])
 
 message_cost = 1
 number_of_messages = 1
-possible_tax_systems = [[0, 'Progressivity System'], [1, "Tax Rate System"]]
+progressivity_levels = [[1, 'Level 1'], [2, 'Level 2'], [3, 'Level 3'],
+                        [4, 'Level 4'], [5, 'Level 5']]
+
+progressivity_levels_tax_rates = {'1': [0.4, 0.4, 0.4, 0.4, 0.4, 0.4],
+                                  '2': [0.3, 0.32, 0.342, 0.364, 0.407, 0.458],
+                                  '3': [0.2, 0.24, 0.284, 0.328, 0.439, 0.515],
+                                  '4': [0.1, 0.14, 0.204, 0.278, 0.464, 0.585],
+                                  '5': [0, 0, 0.06, 0.263, 0.531, 0.664]}
+
+# Private Sector Parameters
+alpha = 5
+beta = 1/16
+
+# Steps for tax rate
+tax_step = '0.05'
 ```
  
 ## Basic Outiline
