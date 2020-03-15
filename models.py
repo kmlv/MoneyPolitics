@@ -237,8 +237,8 @@ class Group(BaseGroup):
                 elif task_endowments[4] < p.base_earnings <= task_endowments[5]:
                     p.tax_payment = progressivity_tax_rates[5]*p.base_earnings
 
+        # For both tax systems
         total_public_contribution = 0
-
         for p in self.get_players():
             total_public_contribution += p.tax_payment
 
@@ -249,8 +249,9 @@ class Group(BaseGroup):
             else:
                 p.public_income = 101 / (1 + 100 * math.exp(-0.025 * 192)) - 1
                 private_productivity = Constants.alpha + Constants.beta * 192
+
             p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
-            p.payoff = p.private_income + p.public_income
+            p.payoff = p.private_income + p.public_income - p.total_messaging_costs
 
 
 # Function that creates a field to send messages according to the income of other player
