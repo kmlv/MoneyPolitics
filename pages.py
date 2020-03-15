@@ -92,6 +92,9 @@ class PreparingMessage(Page):
         choices = self.player.message_receivers_choices()
         return message+choices
 
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system']}
+
     def before_next_page(self):
         messages_sent = 0
         player = self.player
@@ -256,6 +259,7 @@ class Results(Page):
             return {'tax_system': tax_system, 'progressivity': progressivity}
         else:
             print('Tax system undefined')
+
 
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [

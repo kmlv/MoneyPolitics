@@ -8,7 +8,7 @@ Choosing the Tax Rates
 {% block content %}
 
     <p>
-        Choose your preferred set of tax rates. Remember that as the level increases, the tax payment of the players
+        Choose your preferred system of tax rates. Remember that as the level increases, the tax payment of the players
         with the highest income is going to increase and the one of the players with the lowest will decrease
     </p>
 
@@ -17,16 +17,11 @@ Choosing the Tax Rates
     </p>
 
     <p>
-    {% formfields %}
+        The following table contains the <b>average</b> tax rates for each of the possible tax levels. Click on
+        your preferred system and on the "next" button to move forward.
     </p>
 
     <p>
-    {% next_button %}
-    </p>
-
-    <p>
-        The following table contains the <b>effective</b> tax rates for each of the possible tax levels
-    </p>
     <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
     .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
@@ -42,14 +37,14 @@ Choosing the Tax Rates
     <table class="tg">
       <tr>
         <th class="tg-3kls" rowspan="2">Base Income</th>
-        <th class="tg-x028" colspan="5">Effective Tax Rates by Progressivity Level</th>
+        <th class="tg-x028" colspan="5">Average Tax Rates by Tax System</th>
       </tr>
       <tr>
-        <td class="tg-u3q6">Level 1</td>
-        <td class="tg-u3q6">Level 2</td>
-        <td class="tg-u3q6">Level 3</td>
-        <td class="tg-u3q6">Level 4</td>
-        <td class="tg-u3q6">Level 5</td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="1" class="btn btn-primary btn-block">System 1</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="2" class="btn btn-primary btn-block">System 2</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="3" class="btn btn-primary btn-block">System 3</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="4" class="btn btn-primary btn-block">System 4</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="5" class="btn btn-primary btn-block">System 5</button></td>
       </tr>
       <tr>
         <td class="tg-uzvj">9</td>
@@ -100,9 +95,32 @@ Choosing the Tax Rates
         <td class="tg-nrix">0.9</td>
       </tr>
     </table>
+    </p>
 
     <p>
+        The median of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 1.
+        The other 8 members of your group have chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low
+        to high we have <br>
+        1: 1<br>
+        2: 1<br>
+        3: 2<br>
+        4: 2<br>
+        <b>5: 4 (= median tax)</b><br>
+        6: 4<br>
+        7: 5<br>
+        8: 5<br>
+        9: 5
+    </p>
+    <p>
+        The median in the example would be 4. Therefore, this is the tax rate that is going to be applied to the income
+        of the whole group.
+    </p>
+    <p>
     {% include Constants.instructions_button %}
+    </p>
+
+    <p>
+    {% next_button %}
     </p>
 
 {% endblock %}

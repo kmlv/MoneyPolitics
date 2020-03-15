@@ -296,7 +296,7 @@ class Player(BasePlayer):
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
-    tax_rate = models.FloatField(min=0, max=1, widget=widgets.Slider(attrs={'step': ctrl.tax_step}))
+    tax_rate = models.FloatField(min=0, max=1, label="Choose your preferred tax rate", widget=widgets.Slider(attrs={'step': ctrl.tax_step}))
 
     tax_payment = models.CurrencyField(min=0)
 
