@@ -44,7 +44,7 @@ The main tasks are to program an app following this provisional structure:
 
 1. Deciding which policy parameter should be chosen for voting
     
-    They will be asked about which policy system they prefer: 
+    There are two possibilities: 
     
     1. Taxes: They can vote which should be the base tax rate (let's say 20%) that the people with low income should 
     pay, but not the proportion in which this tax rate will increase when people have a greater income (there could be 
