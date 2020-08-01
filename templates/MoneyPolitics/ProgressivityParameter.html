@@ -1,43 +1,24 @@
 {% extends "global/Page.html" %}
-{% load otree static %}
+{% load staticfiles otree_tags %}
 
 {% block title %}
-    Messaging Section
+Choosing the Tax Rates
 {% endblock %}
 
 {% block content %}
-<html>
-<head>
-</head>
-<body>
 
-    {% if tax_system == "tax_rate" %}
     <p>
-        After this page, you are vote to decide which tax rate should be applied to all the members of your group,
-        including yourself.
+        Choose your preferred system of tax rates. Remember that as the level increases, the tax payment of the players
+        with the highest income is going to increase and the one of the players with the lowest will decrease
     </p>
+
     <p>
-        The median of all the selected taxes is going to be chosen. <b>Example:</b> Suppose you have chosen a tax rate
-        of 0.5. The other 8 members of your group have chosen: 0.1, 0.4, 0.8, 0.2, 0.5, 0.4, 0.9, 0.2. Sorted from low
-        to high we have <br>
-        1: 0.1<br>
-        2: 0.2<br>
-        3: 0.2<br>
-        4: 0.4<br>
-        <b>5: 0.4 (= median tax)</b><br>
-        6: 0.5<br>
-        7: 0.5<br>
-        8: 0.8<br>
-        9: 0.9
+        The tax rates are going to be applied to the income before sending the messages.
     </p>
+
     <p>
-        The median in the example would be 0.4. Therefore, this is the tax rate that is going to be applied to the income
-        of the whole group.
-    </p>
-    {% else %}
-    <p>
-        After this page, you are vote to decide which tax rates should be applied to all the members of your group,
-        including yourself. They are divided by tax systems, which you can check here:
+        The following table contains the <b>average</b> tax rates for each of the possible tax levels. Click on
+        your preferred system and on the "next" button to move forward.
     </p>
 
     <p>
@@ -59,11 +40,11 @@
         <th class="tg-x028" colspan="5">Average Tax Rates by Tax System</th>
       </tr>
       <tr>
-        <td class="tg-u3q6">System 1</td>
-        <td class="tg-u3q6">System 2</td>
-        <td class="tg-u3q6">System 3</td>
-        <td class="tg-u3q6">System 4</td>
-        <td class="tg-u3q6">System 5</td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="1" class="btn btn-primary btn-block">System 1</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="2" class="btn btn-primary btn-block">System 2</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="3" class="btn btn-primary btn-block">System 3</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="4" class="btn btn-primary btn-block">System 4</button></td>
+        <td class="tg-u3q6"><button name="progressivity" style="background-color:grey;border-color:grey" value="5" class="btn btn-primary btn-block">System 5</button></td>
       </tr>
       <tr>
         <td class="tg-uzvj">9</td>
@@ -113,57 +94,33 @@
         <td class="tg-nrix">0.8</td>
         <td class="tg-nrix">0.9</td>
       </tr>
-    </table>    
+    </table>
     </p>
 
     <p>
-        <br>
-        The <b>median</b> of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 1.
+        The median of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 1.
         The other 8 members of your group have chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low
-        to high we have <br><br>
+        to high we have <br>
         1: 1<br>
         2: 1<br>
         3: 2<br>
         4: 2<br>
-        <b>5: 4 (= median tax)</b><br>
+        <b>5: 4 (= median system)</b><br>
         6: 4<br>
         7: 5<br>
         8: 5<br>
         9: 5
     </p>
     <p>
-        The <b>median</b> in the example would be 4. Therefore, this is the tax rate that is going to be applied to the income
+        The median in the example would be 4. Therefore, this is the tax system that is going to be applied to the income
         of the whole group.
     </p>
-    {% endif %}
     <p>
-
+    {% include Constants.instructions_button %}
     </p>
-
-    <p>
-        Before voting, you can <b>send a message</b> to the other players by filling the box in the bottom of this page.
-        You can select which players will receive your message in this page.
-
-    </p>
-    <p>
-        The cost per message sent is {{ Constants.message_cost }}
-        and your current endowment is {{ player.base_earnings }}
-        The amount spend on sending the messages is going to be taken from your income after taxes.
-    </p>
-
-    <p>
-        <br>
-        <h4>Sending your message</h4>
-    </p>
-    {% formfields %}
 
     <p>
     {% next_button %}
     </p>
 
-    <p>
-    {% include Constants.instructions_button %}
-    </p>
-</body>
-</html>
 {% endblock %}

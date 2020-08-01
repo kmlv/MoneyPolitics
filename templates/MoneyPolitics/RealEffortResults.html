@@ -1,0 +1,24 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+Real Effort Task Results
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Your ranking in the task was {{ ranking }} </br>
+        The computer has selected you to receive your income according to: {{ effort_or_luck }} </br>
+        Because of that, your pre-tax income is {{ income }}
+    </p>
+
+    <p>
+    {% next_button %}
+    </p>
+
+    <p>
+    {% include Constants.instructions_button %}
+    </p>
+
+{% endblock %}

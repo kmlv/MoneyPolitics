@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+Introduction
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    {% include Constants.instructions_template %}
+    </p>
+
+    <p>
+        The instructions will be on a collapsible at the bottom of the following pages.
+        {% if show_id %}
+            <br> Your ID in this experimental group is {{ id_in_group }}
+        {% endif %}
+    </p>
+
+    <p>
+    {% next_button %}
+    </p>
+
+{% endblock %}

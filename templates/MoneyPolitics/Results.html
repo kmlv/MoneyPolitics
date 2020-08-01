@@ -2,12 +2,39 @@
 {% load otree static %}
 
 {% block title %}
-    Page title
+    Results
 {% endblock %}
 
 {% block content %}
+    Your real effort income was {{ player.real_effort_earnings }} </br></br>
+    {% if player.shuffled %}
+    <b>Your income was shuffled</b></br>
+    After shuffling, your new income is {{ player.base_earnings }} </br></br>
+    {% else %}
+    <b>Your income wasn't shuffled</b> </br></br>
+    {% endif %}
+    Your messaging costs were {{ player.total_messaging_costs }} </br></br>
 
+    {% if tax_system == 'tax_rate' %}
+        Your selected tax rate was {{ player.tax_rate }} </br>
+        The value of the base tax rate is {{ tax_rate }} </br></br>
+    {% else %}
+        Your selected progressivity level was {{ player.progressivity }} </br>
+        The value of the base progressivity level is {{ progressivity }} </br></br>
+    {% endif %}
+
+    <b>The public income obtained from the taxes is {{ player.public_income }}</b></br>
+    <b>The private income is {{ player.private_income }}</b></br>
+    <b>Your payoff for this round is {{ player.payoff }}</b></br>
+
+    <p>
     {% next_button %}
+    </p>
+
+    <p>
+    {% include Constants.instructions_button %}
+    </p>
+
 {% endblock %}
 
 

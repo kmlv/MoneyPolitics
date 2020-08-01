@@ -2,19 +2,22 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-Real Effort Task
+Information about Nature of Income
 {% endblock %}
 
 {% block content %}
-
 <html>
-	<head></head>
-	<body>
-		<p>Click the next button to play the game.</p>
-	</body>
-</html>
+    <p>
+        Your income is {{ income }} 
+        Income was received by {{ effort_or_luck }}
+    </p>
+
+    <p>
     {% next_button %}
+    </p>
+
     <p>
     {% include Constants.instructions_button %}
     </p>
+</html>
 {% endblock %}

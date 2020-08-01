@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
 
-</body>
+{% block title %}
+ Receiving Your Messages
+{% endblock %}
+
+{% block content %}
+<html xmlns="http://www.w3.org/1999/html">
+    <p>
+        After sending the messages. your current game earnings are {{ player.after_message_earnings }}<br>
+        This are the messages you've received:
+    </p>
+        <ul>
+        {% autoescape off %}
+            {{ player.messages_received }}
+        {% endautoescape %}
+        </ul>
+
+
+    <p>
+        {% next_button %}
+    </p>
+
 </html>
+{% endblock %}
