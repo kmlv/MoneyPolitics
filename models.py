@@ -116,6 +116,7 @@ class Group(BaseGroup):
 
     def base_income_assignment(self):
         # Assignment of income by luck/effort
+        # Not working properly: People who earn sth by luck/effort are getting the same endowments (e.g. 125)
         # luck: 0 if 3 people is going to be paid by luck, 1 if they are going to be 6
         luck = random.SystemRandom().randint(0, 1)
 
