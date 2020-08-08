@@ -8,7 +8,7 @@ import settings
 import controls as ctrl
 import random
 import math
-
+listyone = []
 
 author = 'Marco Gutierrez and Skyler Stewart'
 
