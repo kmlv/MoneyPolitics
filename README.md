@@ -1,5 +1,5 @@
 # Money in Politics
-**Programmers:** Marco Gutierrez and Skyler Stewart
+**Programmers:** Marco Gutierrez and John Elliott
 
 ## Instructions
 
