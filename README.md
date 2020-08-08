@@ -124,26 +124,34 @@ The main tasks are to program an app following this provisional structure:
 
 1. Payoffs: Still need to be defined
 
-## TODO Backend - Marco and Skyler
+## TODO Backend - John and Marco
 
-1. Fix the `ranking_income_assignment` method in the Group Class (models.py) - Marco (DONE)
+1. Create a session of few players (2 or 3)
 
-1. Randomize the players whose income will be by luck - Marco (DONE)
+1. Ensure assignment of income when players tie is random and not based on player ID
+
+1. We might need to randomize or to explain the median in a different way - Discuss with Kristian
 
 
-1. Program Diamond Game and create a constant in models to include the template anywhere - Skyler (DONE)
+## TODO Frontend - John and Marco
 
-1. Make Tetris and the Diamond Game includable templates that should appear on the Real Effort template
-depending on a session config parameter - Skyler
+1. Adapt the code for english and spanish sessions
 
-1. The players should be able to send messages to the rest of the players without any restriction - Marco (DONE)
+1. Explain in instructions there will be people with the same income (How?) - Discuss with Kristian
 
-1. The players should receive a message separated by a ";" value between each of them - Marco
+1. Move explanation of sending section to instructions
 
-1. Create a session config parameter that determines if the player will see the ID in group, the income, both
-or none of the receiver - Marco
+1. Slider needs to be changed for a continuum of values with radio buttons - Discuss with Kristian
+    1. Empty slider is another option
+    1. Pull down list is possible too
 
-We currently have a simple functioning version of the diamond game (it only supports a square board for now). The size of the board is currently set to 15x15. 
+1. Adding some kind of ex ante idea of the scale at which the points are converted to final income (Final payoff scale must be familiar, maybe a Hoover Table) - Discuss with Kristian
+
+1. Instead of saying “player 1” or “player 2” in the messaging page we need to have a #1 or #2 so that it is not misleading
+
+### About Diamond Game
+
+A version of the diamond game has been coded, but requires debugging (it only supports a square board for now). The size of the board is currently set to 15x15. 
 
 The player enters their guess, which is compared to the actual number of diamonds on their board. Their score is equal to: 
     | guess - actual |
@@ -155,36 +163,18 @@ A task in which the player counts the number of small diamonds in rectangular sc
 mainly with small circles
 ```
 
-1. Include the Tetris Game in the Real Effort template - Skyler
-
-Might be difficult (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This would also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
-
-
-1. Program payoff function - Marco
-
-## TODO Frontend - Marco and Skyler
-
-1. The message senders should see checkboxes with the receivers income to send them a message, but they shouldn't
-see themselves in those boxes (e.g. if my Income is 9, I should only see checkboxes with the income of the rest of the
-players). DONE
-
-
-1. The received messages should have an anonymous sender id (e.g. "Sender X: 'message of sender x' "). This should
- depend on a session config parameter (the one mentioned in the last item of the Backend todo list) - Skyler
-
-A skeleton template is displayed now (not populated). The logic for sending messages is still being working on. Once that's done, this step should be fairly quick and easy. Also, an indexing error with clean_messages was crashing the server, so I modified it. 
-
-1. We need to sum up all the info presented to the player at the end of the round (Results page)  - Marco
-
-
 If you want to test something that may cause some troubles, it should be done here:
 ### Testing space: branch `testing`
 
 After testing, bring your changes to the main branch
 ### Main space: branch `master`
 
+###
+
 ### Note:
 Remember that because this is app is for an ongoing project, there are going to be many changes in its structure
 so try to program it as dynamically as possible, avoiding hard coding and documenting everything that is required.
 
 Also, try to define what was done in every commit pushed to the remote repo 
+
+Might be difficult to set up the real effort tasks as includable templates (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This would also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
