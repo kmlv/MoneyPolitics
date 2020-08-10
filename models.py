@@ -19,7 +19,8 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9
+    # players_per_group = 9 # value for production
+    players_per_group = 2 # only for testing
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -199,7 +200,10 @@ class Group(BaseGroup):
 
             # Sorting the values so we can take the median tax rate
             chosen_tax_rates.sort()
-            self.chosen_tax_rate = chosen_tax_rates[4]
+            if Constants.players_per_group == 9: # for production
+                self.chosen_tax_rate = chosen_tax_rates[4]
+            elif Constants.players_per_group == 2: # for testing
+                self.chosen_tax_rate = (chosen_tax_rates[0] + chosen_tax_rates[1])/2
 
             for p in self.get_players():
                 p.tax_payment = p.base_earnings * self.chosen_tax_rate

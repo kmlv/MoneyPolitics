@@ -1,15 +1,18 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
- Receiving Your Messages
+{% blocktrans trimmed %}Receiving Your Messages{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 <html xmlns="http://www.w3.org/1999/html">
     <p>
-        After sending the messages. your current game earnings are {{ player.after_message_earnings }}<br>
+        {% blocktrans with after_message_earnings=player.after_message_earnings %}
+        After sending the messages. your current game earnings are {{ after_message_earnings }}<br>
         This are the messages you've received:
+        {% endblocktrans %}
     </p>
         <ul>
         {% autoescape off %}

@@ -1,8 +1,11 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
+{% load i18n %}
 
 {% block title %}
+    {% blocktrans trimmed %}
     Messaging Section
+    {% endblocktrans %}
 {% endblock %}
 
 {% block content %}
@@ -13,13 +16,18 @@
 
     {% if tax_system == "tax_rate" %}
     <p>
+      {% blocktrans trimmed %}
         After this page, you are vote to decide which tax rate should be applied to all the members of your group,
         including yourself.
+      {% endblocktrans %}
     </p>
     <p>
+        {% blocktrans trimmed %}
         The median of all the selected taxes is going to be chosen. <b>Example:</b> Suppose you have chosen a tax rate
         of 0.5. The other 8 members of your group have chosen: 0.1, 0.4, 0.8, 0.2, 0.5, 0.4, 0.9, 0.2. Sorted from low
         to high we have <br>
+        {% endblocktrans %}
+        
         1: 0.1<br>
         2: 0.2<br>
         3: 0.2<br>
@@ -31,13 +39,17 @@
         9: 0.9
     </p>
     <p>
+        {% blocktrans trimmed %}
         The median in the example would be 0.4. Therefore, this is the tax rate that is going to be applied to the income
         of the whole group.
+        {% endblocktrans %}
     </p>
     {% else %}
     <p>
+        {% blocktrans trimmed %}
         After this page, you are vote to decide which tax rates should be applied to all the members of your group,
         including yourself. They are divided by tax systems, which you can check here:
+        {% endblocktrans %}
     </p>
 
     <p>
@@ -55,15 +67,15 @@
     </style>
     <table class="tg">
       <tr>
-        <th class="tg-3kls" rowspan="2">Base Income</th>
-        <th class="tg-x028" colspan="5">Average Tax Rates by Tax System</th>
+        <th class="tg-3kls" rowspan="2">{% blocktrans trimmed %}Base Income{% endblocktrans %}</th>
+        <th class="tg-x028" colspan="5">{% blocktrans trimmed %}Average Tax Rates by Tax System{% endblocktrans %}</th>
       </tr>
       <tr>
-        <td class="tg-u3q6">System 1</td>
-        <td class="tg-u3q6">System 2</td>
-        <td class="tg-u3q6">System 3</td>
-        <td class="tg-u3q6">System 4</td>
-        <td class="tg-u3q6">System 5</td>
+        <td class="tg-u3q6">{% blocktrans trimmed %}System 1{% endblocktrans %}</td>
+        <td class="tg-u3q6">{% blocktrans trimmed %}System 2{% endblocktrans %}</td>
+        <td class="tg-u3q6">{% blocktrans trimmed %}System 3{% endblocktrans %}</td>
+        <td class="tg-u3q6">{% blocktrans trimmed %}System 4{% endblocktrans %}</td>
+        <td class="tg-u3q6">{% blocktrans trimmed %}System 5{% endblocktrans %}</td>
       </tr>
       <tr>
         <td class="tg-uzvj">9</td>
@@ -118,9 +130,11 @@
 
     <p>
         <br>
+        {% blocktrans trimmed %}
         The <b>median</b> of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 1.
         The other 8 members of your group have chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low
         to high we have <br><br>
+        {% endblocktrans %}
         1: 1<br>
         2: 1<br>
         3: 2<br>
@@ -132,8 +146,10 @@
         9: 5
     </p>
     <p>
+      {% blocktrans trimmed %}
         The <b>median</b> in the example would be 4. Therefore, this is the tax rate that is going to be applied to the income
         of the whole group.
+      {% endblocktrans %}
     </p>
     {% endif %}
     <p>
@@ -141,19 +157,24 @@
     </p>
 
     <p>
+      {% blocktrans trimmed %}
         Before voting, you can <b>send a message</b> to the other players by filling the box in the bottom of this page.
         You can select which players will receive your message in this page.
-
+      {% endblocktrans %}
     </p>
     <p>
-        The cost per message sent is {{ Constants.message_cost }}
-        and your current endowment is {{ player.base_earnings }}
+      {% blocktrans with message_cost=Constants.message_cost %}
+        The cost per message sent is {{ message_cost }}
+      {% endblocktrans %}
+      {% blocktrans with base_earnings=player.base_earnings %}
+        and your current endowment is {{ base_earnings }}
         The amount spend on sending the messages is going to be taken from your income after taxes.
+      {% endblocktrans %}
     </p>
 
     <p>
         <br>
-        <h4>Sending your message</h4>
+        <h4>{% blocktrans trimmed %}Sending your message{% endblocktrans %}</h4>
     </p>
     {% formfields %}
 
