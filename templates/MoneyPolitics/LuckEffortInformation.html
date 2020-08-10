@@ -1,15 +1,18 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Information about Nature of Income
+{% blocktrans trimmed %}Information about Nature of Income{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 <html>
     <p>
+        {% blocktrans trimmed %}
         Your income is {{ income }} 
         Income was received by {{ effort_or_luck }}
+        {% endblocktrans %}
     </p>
 
     <p>

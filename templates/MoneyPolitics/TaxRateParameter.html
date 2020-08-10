@@ -1,5 +1,6 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
 Tax Rate System
@@ -8,31 +9,37 @@ Tax Rate System
 {% block content %}
 
     <p>
+        {% blocktrans trimmed %}
         Choose your preferred value for the tax rate. The median of all the selected taxes is going to be chosen.
         <b>Example:</b> Suppose you have chosen a tax rate
         of 0.5. The other 8 members of your group have chosen: 0.1, 0.4, 0.8, 0.2, 0.5, 0.4, 0.9, 0.2. Sorted from low
         to high we have <br>
+        {% endblocktrans %}
         1: 0.1<br>
         2: 0.2<br>
         3: 0.2<br>
         4: 0.4<br>
-        <b>5: 0.4 (= median tax)</b><br>
+        <b>5: 0.4 {% blocktrans trimmed %}(= median tax){% endblocktrans %}</b><br>
         6: 0.5<br>
         7: 0.5<br>
         8: 0.8<br>
         9: 0.9
     </p>
     <p>
+        {% blocktrans trimmed %}
         The median in the example would be 0.4. Therefore, this is the tax rate that is going to be applied to the income
         of the whole group.
+        {% endblocktrans %}
     </p>
     <p>
+        {% blocktrans trimmed %}
         Remember that the amount spend on sending the messages is going to be taken from your income after taxes.
+        {% endblocktrans %}
     </p>
 
     <p>
         <br>
-        <h4>Selecting the tax rate</h4>
+        <h4>{% blocktrans trimmed %}Selecting the tax rate{% endblocktrans %}</h4>
     </p>
 
     {% formfields %}

@@ -1,16 +1,19 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Real Effort Task Results
+{% blocktrans trimmed %}Real Effort Task Results{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 
     <p>
+        {% blocktrans trimmed %}
         Your ranking in the task was {{ ranking }} </br>
         The computer has selected you to receive your income according to: {{ effort_or_luck }} </br>
         Because of that, your pre-tax income is {{ income }}
+        {% endblocktrans %}
     </p>
 
     <p>

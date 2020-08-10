@@ -1,31 +1,51 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
+{% load i18n %}
 
 {% block title %}
-    Results
+    {% blocktrans trimmed %}Results{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
-    Your real effort income was {{ player.real_effort_earnings }} </br></br>
+    {% blocktrans with real_effort_earnings=player.real_effort_earnings %}
+    Your real effort income was {{ real_effort_earnings }} </br></br>
+    {% endblocktrans %}
     {% if player.shuffled %}
-    <b>Your income was shuffled</b></br>
-    After shuffling, your new income is {{ player.base_earnings }} </br></br>
+        {% blocktrans with base_earnings=player.base_earnings %}
+        <b>Your income was shuffled</b></br>
+        After shuffling, your new income is {{ base_earnings }} </br></br>
+        {% endblocktrans %}
     {% else %}
-    <b>Your income wasn't shuffled</b> </br></br>
+        {% blocktrans trimmed %}
+        <b>Your income wasn't shuffled</b> </br></br>
+        {% endblocktrans %}
     {% endif %}
-    Your messaging costs were {{ player.total_messaging_costs }} </br></br>
+
+    {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
+    Your messaging costs were {{ total_messaging_costs }} </br></br>
+    {% endblocktrans %}
 
     {% if tax_system == 'tax_rate' %}
-        Your selected tax rate was {{ player.tax_rate }} </br>
+        {% blocktrans with player_tax_rate=player.tax_rate %}
+        Your selected tax rate was {{ player_tax_rate }} </br>
+        {% endblocktrans %}
+        {% blocktrans trimmed %}
         The value of the base tax rate is {{ tax_rate }} </br></br>
+        {% endblocktrans %}
     {% else %}
-        Your selected progressivity level was {{ player.progressivity }} </br>
+        {% blocktrans with player_progressivity=player.progressivity %}
+        Your selected progressivity level was {{ player_progressivity }} </br>
+        {% endblocktrans %}
+        {% blocktrans trimmed %}
         The value of the base progressivity level is {{ progressivity }} </br></br>
+        {% endblocktrans %}
     {% endif %}
 
-    <b>The public income obtained from the taxes is {{ player.public_income }}</b></br>
-    <b>The private income is {{ player.private_income }}</b></br>
-    <b>Your payoff for this round is {{ player.payoff }}</b></br>
+    {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
+    <b>The public income obtained from the taxes is {{ player_public_income }}</b></br>
+    <b>The private income is {{ player_private_income }}</b></br>
+    <b>Your payoff for this round is {{ player_payoff }}</b></br>
+    {% endblocktrans %}
 
     <p>
     {% next_button %}

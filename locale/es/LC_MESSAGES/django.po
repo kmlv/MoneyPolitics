@@ -1,0 +1,342 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-09 21:09-0500\n"
+"PO-Revision-Date: 2020-08-09 21:20-0500\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.4\n"
+
+#: .\templates\MoneyPolitics\Diamonds.html:6
+msgid "Diamonds Game"
+msgstr "Juego de los Diamantes"
+
+#: .\templates\MoneyPolitics\Instructions.html:7
+msgid "Instructions"
+msgstr "Instrucciones"
+
+#: .\templates\MoneyPolitics\Instructions.html:11
+msgid "Some instructions here"
+msgstr "Instrucciones Aquí"
+
+#: .\templates\MoneyPolitics\Instructions_Button.html:29
+msgid "Click for Instructions"
+msgstr "Click para ver Instrucciones"
+
+#: .\templates\MoneyPolitics\Introduction.html:6
+msgid "Introduction"
+msgstr "Introducción"
+
+#: .\templates\MoneyPolitics\Introduction.html:18
+msgid ""
+"The instructions will be on a collapsible at the bottom of the following "
+"pages."
+msgstr ""
+"Las instrucciones aparecerán en un botón desplegable en la parte inferior de "
+"las siguientes páginas"
+
+#: .\templates\MoneyPolitics\Introduction.html:23
+msgid "Your ID in this experimental group is"
+msgstr "Tu ID en el grupo experimental es"
+
+#: .\templates\MoneyPolitics\LuckEffortInformation.html:6
+msgid "Information about Nature of Income"
+msgstr "Información sobre la Naturaleza de los Ingresos"
+
+#: .\templates\MoneyPolitics\LuckEffortInformation.html:12
+#, python-format
+msgid "Your income is %(income)s Income was received by %(effort_or_luck)s"
+msgstr "Tu ingreso es %(income)s Este fue recibido por %(effort_or_luck)s"
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:6
+msgid "Messaging Section"
+msgstr "Sección de Mensajes"
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:19
+msgid ""
+"After this page, you are vote to decide which tax rate should be applied to "
+"all the members of your group, including yourself."
+msgstr ""
+"Después de esta página, votarás por la tasa de impuestos que debe ser "
+"aplicada a todos los miembros de tu grupo, incluyéndote a ti."
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:25
+msgid ""
+"The median of all the selected taxes is going to be chosen. <b>Example:</b> "
+"Suppose you have chosen a tax rate of 0.5. The other 8 members of your group "
+"have chosen: 0.1, 0.4, 0.8, 0.2, 0.5, 0.4, 0.9, 0.2. Sorted from low to high "
+"we have <br>"
+msgstr ""
+"La mediana de todos los impuestos seleccionados será elegida. <b>Ejemplo:</"
+"b> Supón que escogiste una tasa de 0.5. Los otros 8 miembros de tu grupo "
+"escogieron: 0.1, 0.4, 0.8, 0.2, 0.5, 0.4, 0.9, 0.2. Ordenados de menor a "
+"mayor, tenemos <br>"
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:42
+#: .\templates\MoneyPolitics\TaxRateParameter.html:29
+msgid ""
+"The median in the example would be 0.4. Therefore, this is the tax rate that "
+"is going to be applied to the income of the whole group."
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:49
+msgid ""
+"After this page, you are vote to decide which tax rates should be applied to "
+"all the members of your group, including yourself. They are divided by tax "
+"systems, which you can check here:"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:70
+msgid "Base Income"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:71
+msgid "Average Tax Rates by Tax System"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:74
+msgid "System 1"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:75
+msgid "System 2"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:76
+msgid "System 3"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:77
+msgid "System 4"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:78
+msgid "System 5"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:133
+msgid ""
+"The <b>median</b> of all the selected systems is going to be chosen. "
+"<b>Example:</b> Suppose you have chosen System 1. The other 8 members of "
+"your group have chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low to "
+"high we have <br><br>"
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:149
+msgid ""
+"The <b>median</b> in the example would be 4. Therefore, this is the tax rate "
+"that is going to be applied to the income of the whole group."
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:160
+msgid ""
+"Before voting, you can <b>send a message</b> to the other players by filling "
+"the box in the bottom of this page. You can select which players will "
+"receive your message in this page."
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:166
+#, python-format
+msgid ""
+"\n"
+"        The cost per message sent is %(message_cost)s\n"
+"      "
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:169
+#, python-format
+msgid ""
+"\n"
+"        and your current endowment is %(base_earnings)s\n"
+"        The amount spend on sending the messages is going to be taken from "
+"your income after taxes.\n"
+"      "
+msgstr ""
+
+#: .\templates\MoneyPolitics\PreparingMessage.html:177
+msgid "Sending your message"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:6
+msgid "Choosing the Tax Rates"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:12
+msgid ""
+"Choose your preferred system of tax rates. Remember that as the level "
+"increases, the tax payment of the players with the highest income is going "
+"to increase and the one of the players with the lowest will decrease"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:19
+msgid ""
+"The tax rates are going to be applied to the income before sending the "
+"messages."
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:25
+msgid ""
+"The following table contains the <b>average</b> tax rates for each of the "
+"possible tax levels. Click on your preferred system and on the \"next\" "
+"button to move forward."
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:108
+msgid ""
+"The median of all the selected systems is going to be chosen. <b>Example:</"
+"b> Suppose you have chosen System 1. The other 8 members of your group have "
+"chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low to high we have <br>"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:117
+msgid "(= median system)"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ProgressivityParameter.html:124
+msgid ""
+"The median in the example would be 4. Therefore, this is the tax system that "
+"is going to be applied to the income of the whole group."
+msgstr ""
+
+#: .\templates\MoneyPolitics\RealEffort.html:6
+msgid "Real Effort Task"
+msgstr ""
+
+#: .\templates\MoneyPolitics\RealEffort.html:14
+msgid "Click the next button to play the game."
+msgstr ""
+
+#: .\templates\MoneyPolitics\RealEffortResults.html:6
+msgid "Real Effort Task Results"
+msgstr ""
+
+#: .\templates\MoneyPolitics\RealEffortResults.html:12
+#, python-format
+msgid ""
+"Your ranking in the task was %(ranking)s </br> The computer has selected you "
+"to receive your income according to: %(effort_or_luck)s </br> Because of "
+"that, your pre-tax income is %(income)s"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ReceivingMessage.html:6
+msgid "Receiving Your Messages"
+msgstr ""
+
+#: .\templates\MoneyPolitics\ReceivingMessage.html:12
+#, python-format
+msgid ""
+"\n"
+"        After sending the messages. your current game earnings are "
+"%(after_message_earnings)s<br>\n"
+"        This are the messages you've received:\n"
+"        "
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:6
+msgid "Results"
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:10
+#, python-format
+msgid ""
+"\n"
+"    Your real effort income was %(real_effort_earnings)s </br></br>\n"
+"    "
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:14
+#, python-format
+msgid ""
+"\n"
+"        <b>Your income was shuffled</b></br>\n"
+"        After shuffling, your new income is %(base_earnings)s </br></br>\n"
+"        "
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:19
+msgid "<b>Your income wasn't shuffled</b> </br></br>"
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:24
+#, python-format
+msgid ""
+"\n"
+"    Your messaging costs were %(total_messaging_costs)s </br></br>\n"
+"    "
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:29
+#, python-format
+msgid ""
+"\n"
+"        Your selected tax rate was %(player_tax_rate)s </br>\n"
+"        "
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:32
+#, python-format
+msgid "The value of the base tax rate is %(tax_rate)s </br></br>"
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:36
+#, python-format
+msgid ""
+"\n"
+"        Your selected progressivity level was %(player_progressivity)s </"
+"br>\n"
+"        "
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:39
+#, python-format
+msgid ""
+"The value of the base progressivity level is %(progressivity)s </br></br>"
+msgstr ""
+
+#: .\templates\MoneyPolitics\Results.html:44
+#, python-format
+msgid ""
+"\n"
+"    <b>The public income obtained from the taxes is "
+"%(player_public_income)s</b></br>\n"
+"    <b>The private income is %(player_private_income)s</b></br>\n"
+"    <b>Your payoff for this round is %(player_payoff)s</b></br>\n"
+"    "
+msgstr ""
+
+#: .\templates\MoneyPolitics\TaxRateParameter.html:12
+msgid ""
+"Choose your preferred value for the tax rate. The median of all the selected "
+"taxes is going to be chosen. <b>Example:</b> Suppose you have chosen a tax "
+"rate of 0.5. The other 8 members of your group have chosen: 0.1, 0.4, 0.8, "
+"0.2, 0.5, 0.4, 0.9, 0.2. Sorted from low to high we have <br>"
+msgstr ""
+
+#: .\templates\MoneyPolitics\TaxRateParameter.html:22
+msgid "(= median tax)"
+msgstr ""
+
+#: .\templates\MoneyPolitics\TaxRateParameter.html:35
+msgid ""
+"Remember that the amount spend on sending the messages is going to be taken "
+"from your income after taxes."
+msgstr ""
+
+#: .\templates\MoneyPolitics\TaxRateParameter.html:42
+msgid "Selecting the tax rate"
+msgstr ""
+
+#: .\templates\MoneyPolitics\Tetris.html:6
+msgid "Real Effort Task: Tetris Game"
+msgstr ""
