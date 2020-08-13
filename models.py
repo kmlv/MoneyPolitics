@@ -92,6 +92,7 @@ class Group(BaseGroup):
                     ranked_scores[key] = value
         print(ranked_scores) # for debugging
 
+    
         # Control ranked_scores (They are correctly ranked)
         print(ranked_scores)
 
@@ -376,11 +377,11 @@ class Player(BasePlayer):
 
     # Fields to choose the message receivers according to income
     income_9 = send_message_field('Income 9')
-    income_15_1 = send_message_field('Income 15 (Player 1)')
-    income_15_2 = send_message_field('Income 15 (Player 2)')
-    income_15_3 = send_message_field('Income 15 (Player 3)')
-    income_25_1 = send_message_field('Income 25 (Player 1)')
-    income_25_2 = send_message_field('Income 25 (Player 2)')
+    income_15_1 = send_message_field('Income 15 (#1)')
+    income_15_2 = send_message_field('Income 15 (#2)')
+    income_15_3 = send_message_field('Income 15 (#3)')
+    income_25_1 = send_message_field('Income 25 (#1)')
+    income_25_2 = send_message_field('Income 25 (#2)')
     income_40 = send_message_field('Income 40')
     income_80 = send_message_field('Income 80')
     income_125 = send_message_field('Income 125')
