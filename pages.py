@@ -148,6 +148,7 @@ class ProcessingMessage(WaitPage):
                 players25.append(p.id_in_group)
 
         # 2. The messages are going to be classified according to which player should receive them
+    
         for p in self.group.get_players():
             # To obtain each player income for our identifier
             if p.base_earnings < 10:
