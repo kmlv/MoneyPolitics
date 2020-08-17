@@ -7,6 +7,7 @@ from django import forms
 import settings
 import controls as ctrl
 import random
+import numpy
 import math
 
 
@@ -300,7 +301,7 @@ class Player(BasePlayer):
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
-    tax_rate = models.FloatField(min=0, max=1, label="Choose your preferred tax rate", widget=widgets.RadioSelect(attrs={'step': ctrl.tax_step}))
+    tax_rate = models.FloatField(min=0, max=1, label="Choose your preferred tax rate", widget=widgets.RadioSelectHorizontal, choices=[round(item, 2) for item in list(numpy.arange(0, 1.05, 0.05))])
 
     tax_payment = models.CurrencyField(min=0)
 
