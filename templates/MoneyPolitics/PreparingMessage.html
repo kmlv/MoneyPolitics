@@ -22,23 +22,27 @@
       {% endblocktrans %}
     </p>
     <p>
+      {% blocktrans trimmed %}
         The median of all the selected taxes is going to be chosen. <b>Example:</b> As an example of a median, 
         suppose you and your friends must all choose an amount to contribute for food at a party. If you select $5 
         and the other 8 members of your group have chosen: 
         $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br>
+      {% endblocktrans %}
         1: $1<br>
         2: $2<br>
         3: $4<br>
         4: $5<br>
-        <b>5: $7 (= median amount)</b><br>
+        <b>5: $7 (= {% blocktrans trimmed %}median amount{% endblocktrans %})</b><br>
         6: $8<br>
         7: $8<br>
         8: $9<br>
         9: $10
     </p>
     <p>
-        The median in the example would be $7. Which is the middle amount in a sorted list. When you select a tax rate
-        in this section, along with other members of your group, the actual tax rate applied will be calculated using the median.
+      {% blocktrans trimmed %}
+          The median in the example would be $7. Which is the middle amount in a sorted list. When you select a tax rate
+          in this section, along with other members of your group, the actual tax rate applied will be calculated using the median.
+      {% endblocktrans %}
     </p>
     {% else %}
     <p>
