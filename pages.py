@@ -4,6 +4,7 @@ from .models import Constants
 
 import re
 
+from django.conf import settings
 
 class GroupingPage(WaitPage):
     group_by_arrival_time = True
@@ -159,14 +160,27 @@ class ProcessingMessage(WaitPage):
                 string_income = str(p.base_earnings)[:3]
             
             sender_identifier = ""
+            player_str = None
+            income_str = None
+            player_income_str = None
+
+            if settings.LANGUAGE_CODE=="en":
+                player_str = "<b>Player "
+                income_str = " (Income "
+                player_income_str = "<b>Player of Income "
+            elif settings.LANGUAGE_CODE=="es":
+                player_str = "<b>Participante "
+                income_str = " (Ingreso "
+                player_income_str = "<b>Jugador de Ingreso "
+
             if self.session.config['show_id'] is True:
-                sender_identifier = sender_identifier + "<b>Player " + str(p.id_in_group)
+                sender_identifier = sender_identifier + player_str + str(p.id_in_group)
                 if self.session.config['show_income'] is True:
-                    sender_identifier = sender_identifier + " (Income " + string_income + ")</b>: "
+                    sender_identifier = sender_identifier + income_str + string_income + ")</b>: "
                 else:
                     sender_identifier = sender_identifier + "</b>: "
             elif self.session.config['show_income'] is True:
-                sender_identifier = "<b>Player of Income " + string_income + "</b>: "
+                sender_identifier = player_income_str + string_income + "</b>: "
 
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive

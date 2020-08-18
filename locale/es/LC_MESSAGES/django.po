@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-16 21:33-0500\n"
-"PO-Revision-Date: 2020-08-16 22:08-0500\n"
+"POT-Creation-Date: 2020-08-18 13:43-0500\n"
+"PO-Revision-Date: 2020-08-18 13:44-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
@@ -393,6 +393,10 @@ msgstr ""
 "    <b> Los ingresos privados son %(player_private_income)s </b> </br>\n"
 "    <b> Su recompensa para esta ronda es %(player_payoff)s </b> </br>\n"
 "    "
+
+#: .\MoneyPolitics\templates\MoneyPolitics\TaxRateParameter.html:6
+msgid "Tax Rate System"
+msgstr "Seleccionar Tasa impositiva"
 
 #: .\MoneyPolitics\templates\MoneyPolitics\TaxRateParameter.html:36
 msgid ""
