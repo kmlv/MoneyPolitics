@@ -160,7 +160,7 @@ The main tasks are to program an app following this provisional structure:
 
 ## TODO Backend - John and Marco
 
-1. Create a session of few players (2 or 3) (Marco)
+1. Create a session of few players (2 or 3) (Marco) - Done
 
 1. Ensure assignment of income when players tie is random and not based on player ID (John)
 

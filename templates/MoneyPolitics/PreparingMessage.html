@@ -22,27 +22,27 @@
       {% endblocktrans %}
     </p>
     <p>
-        {% blocktrans trimmed %}
-        The median of all the selected taxes is going to be chosen. <b>Example:</b> Suppose you have chosen a tax rate
-        of 0.5. The other 8 members of your group have chosen: 0.1, 0.4, 0.8, 0.2, 0.5, 0.4, 0.9, 0.2. Sorted from low
-        to high we have <br>
-        {% endblocktrans %}
-        
-        1: 0.1<br>
-        2: 0.2<br>
-        3: 0.2<br>
-        4: 0.4<br>
-        <b>5: 0.4 (= median tax)</b><br>
-        6: 0.5<br>
-        7: 0.5<br>
-        8: 0.8<br>
-        9: 0.9
+      {% blocktrans trimmed %}
+        The median of all the selected taxes is going to be chosen. <b>Example:</b> As an example of a median, 
+        suppose you and your friends must all choose an amount to contribute for food at a party. If you select $5 
+        and the other 8 members of your group have chosen: 
+        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br>
+      {% endblocktrans %}
+        1: $1<br>
+        2: $2<br>
+        3: $4<br>
+        4: $5<br>
+        <b>5: $7 (= {% blocktrans trimmed %}median amount{% endblocktrans %})</b><br>
+        6: $8<br>
+        7: $8<br>
+        8: $9<br>
+        9: $10
     </p>
     <p>
-        {% blocktrans trimmed %}
-        The median in the example would be 0.4. Therefore, this is the tax rate that is going to be applied to the income
-        of the whole group.
-        {% endblocktrans %}
+      {% blocktrans trimmed %}
+          The median in the example would be $7. Which is the middle amount in a sorted list. When you select a tax rate
+          in this section, along with other members of your group, the actual tax rate applied will be calculated using the median.
+      {% endblocktrans %}
     </p>
     {% else %}
     <p>
@@ -130,26 +130,22 @@
 
     <p>
         <br>
-        {% blocktrans trimmed %}
-        The <b>median</b> of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 1.
-        The other 8 members of your group have chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low
+        The <b>median</b> of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 15.
+        The other 8 members of your group have chosen systems: 15, 45, 55, 25, 55, 45, 55, 25. Sorted from low
         to high we have <br><br>
-        {% endblocktrans %}
-        1: 1<br>
-        2: 1<br>
-        3: 2<br>
-        4: 2<br>
-        <b>5: 4 (= median tax)</b><br>
-        6: 4<br>
-        7: 5<br>
-        8: 5<br>
-        9: 5
+        1: 15<br>
+        2: 15<br>
+        3: 25<br>
+        4: 25<br>
+        <b>5: 45 (= median tax)</b><br>
+        6: 45<br>
+        7: 55<br>
+        8: 55<br>
+        9: 55
     </p>
     <p>
-      {% blocktrans trimmed %}
-        The <b>median</b> in the example would be 4. Therefore, this is the tax rate that is going to be applied to the income
-        of the whole group.
-      {% endblocktrans %}
+        The <b>median</b> in the example would be 45. Therefore, this is the tax system that is going to be 
+        applied to the income of the whole group.
     </p>
     {% endif %}
     <p>
@@ -169,7 +165,9 @@
       {% blocktrans with base_earnings=player.base_earnings %}
         and your current endowment is {{ base_earnings }}
         The amount spend on sending the messages is going to be taken from your income after taxes.
+        Please note that you may not send a message that conveys a threat or has inappropriate language.
       {% endblocktrans %}
+        
     </p>
 
     <p>
