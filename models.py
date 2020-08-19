@@ -21,8 +21,8 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    # players_per_group = 9 # value for production
-    players_per_group = 2 # only for testing
+    players_per_group = 9 # value for production
+    #players_per_group = 2 # only for testing
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
