@@ -1,24 +1,31 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Choosing the Tax Rates
+{% blocktrans trimmed %}Choosing the Tax Rates{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 
     <p>
+      {% blocktrans trimmed %}
         Choose your preferred system of tax rates. Remember that as the level increases, the tax payment of the players
         with the highest income is going to increase and the one of the players with the lowest will decrease
+      {% endblocktrans %}
     </p>
 
     <p>
+      {% blocktrans trimmed %}
         The tax rates are going to be applied to the income before sending the messages.
+      {% endblocktrans %}
     </p>
 
     <p>
+      {% blocktrans trimmed %}
         The following table contains the <b>average</b> tax rates for each of the possible tax levels. Click on
         your preferred system and on the "next" button to move forward.
+      {% endblocktrans %}
     </p>
 
     <p>
@@ -98,22 +105,26 @@ Choosing the Tax Rates
     </p>
 
     <p>
+      {% blocktrans trimmed %}
         The median of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 1.
         The other 8 members of your group have chosen systems: 1, 4, 5, 2, 5, 4, 5, 2. Sorted from low
         to high we have <br>
+      {% endblocktrans %}
         1: 1<br>
         2: 1<br>
         3: 2<br>
         4: 2<br>
-        <b>5: 4 (= median system)</b><br>
+        <b>5: 4 {% blocktrans trimmed %}(= median system){% endblocktrans %}</b><br>
         6: 4<br>
         7: 5<br>
         8: 5<br>
         9: 5
     </p>
     <p>
+      {% blocktrans trimmed %}
         The median in the example would be 4. Therefore, this is the tax system that is going to be applied to the income
         of the whole group.
+      {% endblocktrans %}
     </p>
     <p>
     {% include Constants.instructions_button %}

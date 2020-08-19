@@ -1,10 +1,20 @@
 {% load otree_tags staticfiles %}
+{% load i18n %}
 
 <div class="instructions well well-lg">
 
     <h3 class="panel-sub-heading">
+        {% blocktrans trimmed %}
         Instructions
+        {% endblocktrans %}
     </h3>
+    {% blocktrans trimmed %}
+        The following experiment is a public goods game in which you and other members of your group will perform effort tasks
+        and then be assigned an income either in accordance to your performance on the task or by luck. Therefor some people
+        will have lucky income while others have income based on their performance. The players will then have the chance 
+        to send messages to others explaining what tax system should be chosen before players vote on their preference for a 
+        tax system.
+    {% endblocktrans %}
 
     <p>
         The following experiment is a public goods game in which you and other members of your group will perform effort tasks

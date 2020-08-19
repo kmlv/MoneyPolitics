@@ -6,11 +6,30 @@
 1. Install otree: `pip3 install -U otree`
 1. Create a project: `otree startproject klo_lp_apps`. The name doesn't
 really matter.
-1. In settings.py, edit SESSION CONFIGS to look like this: 
+1. In settings.py, add this at the beggining
+
+```
+from os.path import dirname, abspath
+import gettext as _
+
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+SITE_ROOT = dirname(DJANGO_ROOT)
+USE_I18N = True
+```
+
+This should be at the end:
+```
+LOCALE_PATHS = (
+    SITE_ROOT + '/locale',
+)
+```
+
+Also, edit SESSION CONFIGS to look like this: 
 ```
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
+        'display_name': "Money Politics (Production)",
         'num_demo_participants': 9,
         'app_sequence': ['MoneyPolitics'],
         # Display player ID
@@ -20,10 +39,25 @@ SESSION_CONFIGS = [
         # Which game will be played (Tetris or Diamonds)
         'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
-        'tax_system': "tax_rate"
+        'tax_system': "tax_rate",
+    },
+    {
+        'name': 'MoneyPoliticsTest',
+        'display_name': "Money Politics (Test)",
+        'num_demo_participants': 2,
+        'app_sequence': ['MoneyPolitics'],
+        # Display player ID
+        'show_id': True,
+        # Display player income
+        'show_income': True,
+        # Which game will be played (Tetris or Diamonds)
+        'treatment': "Tetris",
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
     },
 ]
 ```
+
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
 ```

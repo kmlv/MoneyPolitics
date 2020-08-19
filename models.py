@@ -3,10 +3,12 @@ from otree.api import (
 )
 
 from django import forms
+from django.conf import settings
 
 import settings
 import controls as ctrl
 import random
+import numpy
 import math
 
 
@@ -19,7 +21,8 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9
+    # players_per_group = 9 # value for production
+    players_per_group = 2 # only for testing
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -200,7 +203,10 @@ class Group(BaseGroup):
 
             # Sorting the values so we can take the median tax rate
             chosen_tax_rates.sort()
-            self.chosen_tax_rate = chosen_tax_rates[4]
+            if Constants.players_per_group == 9: # for production
+                self.chosen_tax_rate = chosen_tax_rates[4]
+            elif Constants.players_per_group == 2: # for testing
+                self.chosen_tax_rate = (chosen_tax_rates[0] + chosen_tax_rates[1])/2
 
             for p in self.get_players():
                 p.tax_payment = p.base_earnings * self.chosen_tax_rate
@@ -282,8 +288,12 @@ class Player(BasePlayer):
     # Earnings after messaging
     after_message_earnings = models.CurrencyField(min=0)
 
-    message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
-
+    if settings.LANGUAGE_CODE=="en": # label in english
+        message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
+    elif settings.LANGUAGE_CODE=="es": # labels in spanish
+        message = models.LongStringField(max_length=500, blank=True, label='Escribe el mensaje que quieres enviar (max. 500 caracteres)')
+    else:
+        print("ERROR: Undefined LANGUAGE_CODE used")
     # Field for deciding the message receiver
     # message_receivers = models.CharField(label='', initial = None, default='Unspecified',
     #                                     widget=forms.widgets.CheckboxSelectMultiple)
@@ -297,7 +307,12 @@ class Player(BasePlayer):
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
-    tax_rate = models.FloatField(min=0, max=1, label="Choose your preferred tax rate", widget=widgets.Slider(attrs={'step': ctrl.tax_step}))
+    if settings.LANGUAGE_CODE=="en": # label in english
+        tax_rate = models.FloatField(min=0, max=1, label="Choose your preferred tax rate", widget=widgets.RadioSelectHorizontal, choices=[round(item, 2) for item in list(numpy.arange(0, 1.05, 0.05))])
+    elif settings.LANGUAGE_CODE=="es": # labels in spanish
+        tax_rate = models.FloatField(min=0, max=1, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelectHorizontal, choices=[round(item, 2) for item in list(numpy.arange(0, 1.05, 0.05))])
+    else:
+        print("ERROR: Undefined LANGUAGE_CODE used")
 
     tax_payment = models.CurrencyField(min=0)
 
@@ -311,6 +326,10 @@ class Player(BasePlayer):
     public_income = models.CurrencyField(min=0)
 
     def message_receivers_choices(self):
+        """
+        Determines the list of possible message receivers in experiment
+        """
+
         # Converts self income from currency to string (eliminates points label)
         if self.base_earnings < 10:
             string_income = str(self.base_earnings)[:1]
@@ -376,12 +395,27 @@ class Player(BasePlayer):
     messages_receivers = models.StringField(initial="")
 
     # Fields to choose the message receivers according to income
-    income_9 = send_message_field('Income 9')
-    income_15_1 = send_message_field('Income 15 (#1)')
-    income_15_2 = send_message_field('Income 15 (#2)')
-    income_15_3 = send_message_field('Income 15 (#3)')
-    income_25_1 = send_message_field('Income 25 (#1)')
-    income_25_2 = send_message_field('Income 25 (#2)')
-    income_40 = send_message_field('Income 40')
-    income_80 = send_message_field('Income 80')
-    income_125 = send_message_field('Income 125')
+    if settings.LANGUAGE_CODE=="en": # labels in english
+        income_9 = send_message_field('Income 9')
+        income_15_1 = send_message_field('Income 15 (#1)')
+        income_15_2 = send_message_field('Income 15 (#2)')
+        income_15_3 = send_message_field('Income 15 (#3)')
+        income_25_1 = send_message_field('Income 25 (#1)')
+        income_25_2 = send_message_field('Income 25 (#2)')
+        income_40 = send_message_field('Income 40')
+        income_80 = send_message_field('Income 80')
+        income_125 = send_message_field('Income 125')
+
+    elif settings.LANGUAGE_CODE=="es": # labels in spanish
+        income_9 = send_message_field('Ingreso 9')
+        income_15_1 = send_message_field('Ingreso 15 (#1)')
+        income_15_2 = send_message_field('Ingreso 15 (#2)')
+        income_15_3 = send_message_field('Ingreso 15 (#3)')
+        income_25_1 = send_message_field('Ingreso 25 (#1)')
+        income_25_2 = send_message_field('Ingreso 25 (#2)')
+        income_40 = send_message_field('Ingreso 40')
+        income_80 = send_message_field('Ingreso 80')
+        income_125 = send_message_field('Ingreso 125')
+    
+    else:
+        print("ERROR: Undefined LANGUAGE_CODE used")

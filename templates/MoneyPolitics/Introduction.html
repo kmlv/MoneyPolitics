@@ -1,8 +1,11 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
+{% blocktrans trimmed %}
 Introduction
+{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
@@ -12,9 +15,15 @@ Introduction
     </p>
 
     <p>
+        {% blocktrans trimmed %}
         The instructions will be on a collapsible at the bottom of the following pages.
+        {% endblocktrans %}
+        
         {% if show_id %}
-            <br> Your ID in this experimental group is {{ id_in_group }}
+            <br>{% blocktrans trimmed %}
+            Your ID in this experimental group is
+            {% endblocktrans %}
+            {{ id_in_group }}
         {% endif %}
     </p>
 
