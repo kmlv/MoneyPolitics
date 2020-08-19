@@ -23,9 +23,11 @@
         The value of the base progressivity level is {{ progressivity }} </br></br>
     {% endif %}
 
-    <b>The public income obtained from the taxes is {{ player.public_income }}</b></br>
-    <b>The private income is {{ player.private_income }}</b></br>
-    <b>Your payoff for this round is {{ player.payoff }}</b></br>
+    <b>The public portion of your payoff, which is obtained from the tax redistribution is {{ player.public_income }}</b></br>
+    <b>The private portion of your payoff, obtained in the real effort task or by luck {{ player.private_income }}</b></br>
+    <b>Your total payoff, as described in the instructions, for this round is {{ player.payoff }}</b></br>
+    Your payoff will be converted to USD at a fixed conversion rate for payment</b>
+    
 
     <p>
     {% next_button %}
