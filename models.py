@@ -21,8 +21,8 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9 # value for production
-    #players_per_group = 2 # only for testing
+    # players_per_group = 9 # value for production
+    players_per_group = 2 # only for testing
     num_rounds = 2
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
@@ -308,6 +308,7 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
     if settings.LANGUAGE_CODE=="en": # label in english
+
         tax_rate = models.FloatField(min=0, max=100, label="Choose your preferred tax rate percentage", widget=widgets.RadioSelect, choices=[round(item*100,0) for item in list(numpy.arange(0, 1.05, .05))])
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
         tax_rate = models.FloatField(min=0, max=100, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelect, choices=[round(item*100,0) for item in list(numpy.arange(0, 1.05, .05))])
