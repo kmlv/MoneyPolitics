@@ -199,7 +199,7 @@ class Group(BaseGroup):
         if self.session.config['tax_system'] == "tax_rate":
             chosen_tax_rates = []
             for p in self.get_players():
-                chosen_tax_rates.append(p.tax_rate)
+                chosen_tax_rates.append(p.tax_rate/100)
 
             # Sorting the values so we can take the median tax rate
             chosen_tax_rates.sort()
