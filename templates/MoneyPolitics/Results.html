@@ -42,9 +42,12 @@
     {% endif %}
 
     {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
-    <b>The public income obtained from the taxes is {{ player_public_income }}</b></br>
-    <b>The private income is {{ player_private_income }}</b></br>
-    <b>Your payoff for this round is {{ player_payoff }}</b></br>
+
+    <b>The public portion of your payoff, which is obtained from the tax redistribution is {{ player_public_income }}</b></br>
+    <b>The private portion of your payoff, obtained in the real effort task or by luck {{ player_private_income }}</b></br>
+    <b>Your total payoff, as described in the instructions, for this round is {{ player_payoff }}</b></br>
+    Your payoff will be converted to USD at a fixed conversion rate for payment
+
     {% endblocktrans %}
 
     <p>

@@ -199,7 +199,7 @@ class Group(BaseGroup):
         if self.session.config['tax_system'] == "tax_rate":
             chosen_tax_rates = []
             for p in self.get_players():
-                chosen_tax_rates.append(p.tax_rate)
+                chosen_tax_rates.append(p.tax_rate/100)
 
             # Sorting the values so we can take the median tax rate
             chosen_tax_rates.sort()
@@ -308,9 +308,9 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
     if settings.LANGUAGE_CODE=="en": # label in english
-        tax_rate = models.FloatField(min=0, max=1, label="Choose your preferred tax rate", widget=widgets.RadioSelectHorizontal, choices=[round(item, 2) for item in list(numpy.arange(0, 1.05, 0.05))])
+        tax_rate = models.FloatField(min=0, max=100, label="Choose your preferred tax rate percentage", widget=widgets.RadioSelect, choices=[round(item*100,0) for item in list(numpy.arange(0, 1.05, .05))])
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
-        tax_rate = models.FloatField(min=0, max=1, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelectHorizontal, choices=[round(item, 2) for item in list(numpy.arange(0, 1.05, 0.05))])
+        tax_rate = models.FloatField(min=0, max=100, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelect, choices=[round(item*100,0) for item in list(numpy.arange(0, 1.05, .05))])
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
 
