@@ -158,30 +158,6 @@ The main tasks are to program an app following this provisional structure:
 
 1. Payoffs: Still need to be defined
 
-## TODO Backend - John and Marco
-
-1. Create a session of few players (2 or 3) (Marco) - Done
-
-1. Ensure assignment of income when players tie is random and not based on player ID (John)
-
-## TODO Frontend - John and Marco
-
-1. Adapt the code for english and spanish sessions (Marco)
-
-1. Explain in instructions there will be people with the same income (How?) - Discuss with Kristian
-
-1. Move explanation of sending section to instructions (John)
-
-1. Slider needs to be changed for a continuum of values with radio buttons - Discuss with Kristian
-    1. Empty slider is another option
-    1. Pull down list is possible too
-
-1. Adding some kind of ex ante idea of the scale at which the points are converted to final income (Final payoff scale must be familiar, maybe a Hoover Table) - Discuss with Kristian
-
-1. Instead of saying “player 1” or “player 2” in the messaging page we need to have a #1 or #2 so that it is not misleading (John)
-
-1. We might need to randomize or to explain the median in a different way - Discuss with Kristian
-
 ### About Diamond Game
 
 A version of the diamond game has been coded, but requires debugging (it only supports a square board for now). The size of the board is currently set to 15x15. 
