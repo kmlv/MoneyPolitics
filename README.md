@@ -11,6 +11,7 @@ really matter.
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
+        'display_name': "Money Politics (Production)",
         'num_demo_participants': 9,
         'app_sequence': ['MoneyPolitics'],
         # Display player ID
@@ -20,7 +21,21 @@ SESSION_CONFIGS = [
         # Which game will be played (Tetris or Diamonds)
         'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
-        'tax_system': "tax_rate"
+        'tax_system': "tax_rate",
+    },
+    {
+        'name': 'MoneyPoliticsTest',
+        'display_name': "Money Politics (Test)",
+        'num_demo_participants': 2,
+        'app_sequence': ['MoneyPolitics'],
+        # Display player ID
+        'show_id': True,
+        # Display player income
+        'show_income': True,
+        # Which game will be played (Tetris or Diamonds)
+        'treatment': "Tetris",
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
     },
 ]
 ```
