@@ -172,9 +172,6 @@ A task in which the player counts the number of small diamonds in rectangular sc
 mainly with small circles
 ```
 
-If you want to test something that may cause some troubles, it should be done here:
-### Testing space: branch `testing`
-
 After testing, bring your changes to the main branch
 ### Main space: branch `master`
 
