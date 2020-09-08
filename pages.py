@@ -11,10 +11,11 @@ class GroupingPage(WaitPage):
 
 
 class Introduction(Page):
-    def vars_for_template(self):
-        show_id = self.session.config['show_id']
-        id_in_group = self.player.id_in_group
-        return {'show_id': show_id, 'id_in_group': id_in_group}
+    pass
+    # def vars_for_template(self):
+    #     show_id = self.session.config['show_id']
+    #     id_in_group = self.player.id_in_group
+    #     return {'show_id': show_id, 'id_in_group': id_in_group}
 
 
 class RealEffort(Page):
@@ -22,11 +23,11 @@ class RealEffort(Page):
 
 
 class Tetris(Page):
-    def is_displayed(self):
-        if self.session.config['treatment'] == "Tetris":
-            return True
-        else: 
-            return False
+    # def is_displayed(self):
+    #     if self.session.config['treatment'] == "Tetris":
+    #         return True
+    #     else: 
+    #         return False
     
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
@@ -37,23 +38,23 @@ class Tetris(Page):
         print(self.player.game_score)
 
 
-class Diamonds(Page):
-    def is_displayed(self):
-        if self.session.config['treatment'] == "Diamonds":
-            return True
-        else: 
-            return False
+# class Diamonds(Page):
+#     def is_displayed(self):
+#         if self.session.config['treatment'] == "Diamonds":
+#             return True
+#         else: 
+#             return False
 
-    form_model = 'player'
-    form_fields = ['diamond_guess', 'diamond_actual']
-    timeout_seconds = 60
+#     form_model = 'player'
+#     form_fields = ['diamond_guess', 'diamond_actual']
+#     timeout_seconds = 60
 
-    def before_next_page(self):
-        self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
-        # for debugging (delete later)
-        print(self.player.diamond_guess)
-        print(self.player.diamond_actual)
-        print(self.player.game_score)
+#     def before_next_page(self):
+#         self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
+#         # for debugging (delete later)
+#         print(self.player.diamond_guess)
+#         print(self.player.diamond_actual)
+#         print(self.player.game_score)
 
 
 class EffortResultsWaitPage(WaitPage):
@@ -156,31 +157,26 @@ class ProcessingMessage(WaitPage):
                 string_income = str(p.base_earnings)[:1]
             elif p.base_earnings < 100:
                 string_income = str(p.base_earnings)[:2]
+
+                # adding an identifier for same income players
+                if p.base_earnings == 15:
+                    string_income = string_income + " (#" + str(players15.index(p.id_in_group) + 1) + ")"
+                elif p.base_earnings == 25:
+                    string_income = string_income + " (#" + str(players25.index(p.id_in_group) + 1) + ")"
             else:
                 string_income = str(p.base_earnings)[:3]
             
             sender_identifier = ""
-            player_str = None
-            income_str = None
+            # player_str = None
+            # income_str = None
             player_income_str = None
 
             if settings.LANGUAGE_CODE=="en":
-                player_str = "<b>Player "
-                income_str = " (Income "
                 player_income_str = "<b>Player of Income "
             elif settings.LANGUAGE_CODE=="es":
-                player_str = "<b>Participante "
-                income_str = " (Ingreso "
                 player_income_str = "<b>Jugador de Ingreso "
 
-            if self.session.config['show_id'] is True:
-                sender_identifier = sender_identifier + player_str + str(p.id_in_group)
-                if self.session.config['show_income'] is True:
-                    sender_identifier = sender_identifier + income_str + string_income + ")</b>: "
-                else:
-                    sender_identifier = sender_identifier + "</b>: "
-            elif self.session.config['show_income'] is True:
-                sender_identifier = player_income_str + string_income + "</b>: "
+            sender_identifier = player_income_str + string_income + "</b>: "
 
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
@@ -281,7 +277,7 @@ page_sequence = [
     GroupingPage,
     Introduction,
     Tetris,
-    Diamonds,
+#    Diamonds,
     EffortResultsWaitPage,
     RealEffortResults,
     PreparingMessage,

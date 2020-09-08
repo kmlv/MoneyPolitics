@@ -43,6 +43,9 @@ class Constants(BaseConstants):
     alpha = ctrl.alpha
     beta = ctrl.beta
 
+    # Max. Characters Allowed Per message
+    max_chars = 280
+
 
 class Subsession(BaseSubsession):
     pass
@@ -79,11 +82,12 @@ class Group(BaseGroup):
         # Ranking scores
         ranked_scores = {}
 
-        if self.session.config['treatment'] == "Tetris":
-            sorted_list = sorted(game_scores.values(), reverse=True)
-        else:
-            # When playing Diamonds a higher score is worse (so we reverse the sort)
-            sorted_list = sorted(game_scores.values()) 
+        sorted_list = sorted(game_scores.values(), reverse=True)
+        # if self.session.config['treatment'] == "Tetris":
+        #     sorted_list = sorted(game_scores.values(), reverse=True)
+        # else:
+        #     # When playing Diamonds a higher score is worse (so we reverse the sort)
+        #     sorted_list = sorted(game_scores.values()) 
         print(sorted_list) # for debugging
 
         # Control sorted_list
@@ -288,16 +292,8 @@ class Player(BasePlayer):
     # Earnings after messaging
     after_message_earnings = models.CurrencyField(min=0)
 
-    if settings.LANGUAGE_CODE=="en": # label in english
-        message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
-    elif settings.LANGUAGE_CODE=="es": # labels in spanish
-        message = models.LongStringField(max_length=500, blank=True, label='Escribe el mensaje que quieres enviar (max. 500 caracteres)')
-    else:
-        print("ERROR: Undefined LANGUAGE_CODE used")
-    # Field for deciding the message receiver
-    # message_receivers = models.CharField(label='', initial = None, default='Unspecified',
-    #                                     widget=forms.widgets.CheckboxSelectMultiple)
-
+    message = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
+    
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
     # Number of messages received
