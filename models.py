@@ -19,11 +19,11 @@ Money and Politics App
 """
 
 
+
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    players_per_group = 9 # value for production
-    #players_per_group = 2 # only for testing
-    num_rounds = 2
+    num_rounds = 1
+    players_per_group = 9
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
 
@@ -36,7 +36,6 @@ class Constants(BaseConstants):
     # .py/txt file (If you find a better way, feel free to update the code with it)
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
-    message_cost = ctrl.message_cost
     progressivity_levels = ctrl.progressivity_levels
 
     # Private Sector Parameters
@@ -64,8 +63,12 @@ class Group(BaseGroup):
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
+    #Treatment for the group
+
     # TODO: The ranking_income_assignment is assigning values, but not according to the game scores
     # (We need to fix that)
+
+
 
     def ranking_income_assignment(self):
         # Assignment of endowment based on ranking
@@ -203,9 +206,9 @@ class Group(BaseGroup):
 
             # Sorting the values so we can take the median tax rate
             chosen_tax_rates.sort()
-            if Constants.players_per_group == 9: # for production
+            if self.session.config['num_demo_participants'] == 9: # for production
                 self.chosen_tax_rate = chosen_tax_rates[4]
-            elif Constants.players_per_group == 2: # for testing
+            elif self.session.config['num_demo_participants'] == 2: # for testing
                 self.chosen_tax_rate = (chosen_tax_rates[0] + chosen_tax_rates[1])/2
 
             for p in self.get_players():

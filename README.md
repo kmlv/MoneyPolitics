@@ -94,7 +94,7 @@ possible_message_receivers_152.remove(possible_message_receivers[6])
 possible_message_receivers_151.remove(possible_message_receivers[7])
 possible_message_receivers_9.remove(possible_message_receivers[8])
 
-message_cost = 1
+message_cost = 2 or 0
 number_of_messages = 1
 progressivity_levels = [[1, 'Level 1'], [2, 'Level 2'], [3, 'Level 3'],
                         [4, 'Level 4'], [5, 'Level 5']]
