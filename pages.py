@@ -23,21 +23,11 @@ class RealEffort(Page):
 
 
 class Tetris(Page):
-<<<<<<< HEAD
-
-
-    def is_displayed(self):
-        if self.session.config['treatment'] == "Tetris":
-            return True
-        else: 
-            return False
-=======
     # def is_displayed(self):
     #     if self.session.config['treatment'] == "Tetris":
     #         return True
     #     else: 
     #         return False
->>>>>>> db6e930f4c4d20fab277ae0d1d29267aa643e2b9
     
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated

@@ -29,15 +29,10 @@ Also, edit SESSION CONFIGS to look like this:
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
+        'display_name': 'Base Code MoneyPolitics',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
         # Cost per message
@@ -49,15 +44,10 @@ SESSION_CONFIGS = [
     },
     {
         'name': 'MoneyPoliticsTest',
+        'display_name': 'MoneyPolitics (Test with 2 players)',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 2, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
         # Cost per message
@@ -68,16 +58,11 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP - Free Cost x Single MSG',
+        'name': 'MP_Free_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics with Free Single Messaging',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
         # Cost per message
@@ -88,16 +73,11 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP - Free Cost x Double MSG',
+        'name': 'MP_Free_Cost_x_Double_MSG',
+        'display_name': 'MoneyPolitics with Free Dual Messaging',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
         # Cost per message
@@ -108,16 +88,11 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP - 2 Point Cost x Single MSG',
+        'name': 'MP_2Point_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics with 2 Point Cost Single Messaging',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
         # Cost per message
@@ -128,16 +103,11 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP - 2 Point Cost x Double MSG',
+        'name': 'MP_2Point_x_Double_MSG',
+        'display_name': 'MoneyPolitics with 2 Point Cost Dual Messaging',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
         # Cost per message
