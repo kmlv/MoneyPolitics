@@ -68,7 +68,7 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP_Free_SingleMSG',
+        'name': 'MP - Free Cost x Single MSG',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
@@ -88,7 +88,7 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP_Free_DoubleMSG',
+        'name': 'MP - Free Cost x Double MSG',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
@@ -108,7 +108,7 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP_Costly_SingleMSG',
+        'name': 'MP - 2 Point Cost x Single MSG',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
@@ -128,7 +128,7 @@ SESSION_CONFIGS = [
         'randomness': 'system1'
     },
     {
-        'name': 'MP_Costly_DoubleMSG',
+        'name': 'MP - 2 Point Cost x Double MSG',
         #Set to 2 for demo but will be 9 for actual testing
         'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
