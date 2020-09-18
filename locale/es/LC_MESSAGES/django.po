@@ -171,11 +171,11 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"        The cost per message sent is %(message_cost)s\n"
+"        The cost per message sent is %(self.session.config['msg'])s\n"
 "      "
 msgstr ""
 "\n"
-"        El costo por mensaje enviado es %(message_cost)s\n"
+"        El costo por mensaje enviado es %(self.session.config['msg'])s\n"
 "      "
 
 #: .\MoneyPolitics\templates\MoneyPolitics\PreparingMessage.html:165

@@ -29,31 +29,93 @@ Also, edit SESSION CONFIGS to look like this:
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
-        'display_name': "Money Politics (Production)",
-        'num_demo_participants': 9,
+        'display_name': 'Base Code MoneyPolitics',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
     },
     {
         'name': 'MoneyPoliticsTest',
-        'display_name': "Money Politics (Test)",
-        'num_demo_participants': 2,
+        'display_name': 'MoneyPolitics (Test with 2 players)',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 2, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_Free_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics with Free Single Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(0),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_Free_Cost_x_Double_MSG',
+        'display_name': 'MoneyPolitics with Free Dual Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(0),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'double',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_2Point_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics with 2 Point Cost Single Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_2Point_x_Double_MSG',
+        'display_name': 'MoneyPolitics with 2 Point Cost Dual Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'double',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
     },
 ]
 ```
@@ -94,7 +156,7 @@ possible_message_receivers_152.remove(possible_message_receivers[6])
 possible_message_receivers_151.remove(possible_message_receivers[7])
 possible_message_receivers_9.remove(possible_message_receivers[8])
 
-message_cost = 1
+message_cost = 2 or 0
 number_of_messages = 1
 progressivity_levels = [[1, 'Level 1'], [2, 'Level 2'], [3, 'Level 3'],
                         [4, 'Level 4'], [5, 'Level 5']]

@@ -95,7 +95,8 @@ class PreparingMessage(Page):
         return message+choices
 
     def vars_for_template(self):
-        return {'tax_system': self.session.config['tax_system']}
+        return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg']}
+
 
     def before_next_page(self):
         messages_sent = 0
@@ -122,7 +123,7 @@ class PreparingMessage(Page):
             messages_sent += 1
 
         # Calculating and discounting the total message cost
-        player.total_messaging_costs = messages_sent*Constants.message_cost
+        player.total_messaging_costs = messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
 
 
@@ -264,7 +265,7 @@ class Results(Page):
         tax_system = self.session.config['tax_system']
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'tax_system': tax_system, 'tax_rate': tax_rate}
+            return {'tax_system': tax_system, 'tax_rate': tax_rate*100}
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
             return {'tax_system': tax_system, 'progressivity': progressivity}
