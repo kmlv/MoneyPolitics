@@ -69,11 +69,6 @@ class Group(BaseGroup):
 
     #Treatment for the group
 
-    # TODO: The ranking_income_assignment is assigning values, but not according to the game scores
-    # (We need to fix that)
-
-
-
     def ranking_income_assignment(self):
         # Assignment of endowment based on ranking
         game_scores = {}
@@ -417,7 +412,7 @@ class Player(BasePlayer):
                                '_{}'.format(str(players25.index(self.id_in_group) + 1))
         message_receivers.remove(option_to_remove)
 
-        #TODO: 3.2. Excluding in dual messaging
+        # 3.2. Excluding in dual messaging
         if self.session.conf['msg_type'] == 'dual':
             if self.id_in_group not in players15 and self.id_in_group not in players25:
                 option_to_remove = 'income_{}_d'.format(string_income)
@@ -483,3 +478,6 @@ class Player(BasePlayer):
 
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
+    
+    # Message page counter
+    message_page_counter = models.IntegerField(initial=0)

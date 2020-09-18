@@ -60,23 +60,35 @@ class RealEffortResults(Page):
 class PreparingMessage(Page):
     form_model = 'player'
 
-    #TODO: add `is_displayed` for case when of single messaging (should appear once in single, twice in dual)
-
     def get_form_fields(self):
-        #TODO: update for dual messaging case (in first appearance (controlled by # of page), keep first half of choices)
         message = ['message']
-        choices = self.player.message_receivers_choices()
-        return message+choices
+        self.player.message_page_counter += 1
+
+        if self.session.config['msg_type'] == 'single':
+            choices = self.player.message_receivers_choices()
+            return message+choices            
+        
+        elif self.session.config['msg_type'] == 'dual':
+            numb_of_receivers = len(self.player.message_receivers_choices())
+
+            # keeping only the first half of receivers when the page appears for first time
+            if self.player.message_page_counter == 1:
+                choices = self.player.message_receivers_choices()[:numb_of_receivers/2]
+            elif self.player.message_page_counter == 2:
+                choices = self.player.message_receivers_choices()[numb_of_receivers/2:]
+                message = message[0] + "_d"
+
+        else:
+            print(f"Error: invalid value for self.session.config['msg_type'] {self.session.config['msg_type']}")
 
     def vars_for_template(self):
         return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg']}
 
-
     def before_next_page(self):
         messages_sent = 0
         player = self.player
-        # To count the messages, we won't use elif, because sending a message to someone is not exclusive: you can
-        # send them to multiple people and that's independent from sending to another one before
+        #NOTE: To count the messages, we won't use elif, because sending a message to someone is not exclusive; 
+        # you can send them to multiple people and that's independent from sending to another one before
         if player.income_9 is True:
             messages_sent += 1
         if player.income_15_1 is True:
@@ -96,12 +108,42 @@ class PreparingMessage(Page):
         if player.income_125 is True:
             messages_sent += 1
 
+        if player.message_page_counter == 2: # if player on dual messaging and second time the page appears
+            if player.income_9_d is True:
+                messages_sent += 1
+            if player.income_15_1_d is True:
+                messages_sent += 1
+            if player.income_15_2_d is True:
+                messages_sent += 1
+            if player.income_15_3_d is True:
+                messages_sent += 1
+            if player.income_25_1_d is True:
+                messages_sent += 1
+            if player.income_25_2_d is True:
+                messages_sent += 1
+            if player.income_40_d is True:
+                messages_sent += 1
+            if player.income_80_d is True:
+                messages_sent += 1
+            if player.income_125_d is True:
+                messages_sent += 1
+
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
 
+    def is_displayed(self):
+        if self.session.config['msg_type'] == 'single':
+            if self.player.message_page_counter == 1: # we only want to display once when single msging is on
+                return True
+            else:
+                return False
+
+        elif self.session.config['msg_type'] == 'dual':
+            return True
 
 class ProcessingMessage(WaitPage):
+    #TODO: update the processing page to handle the dual messaging
     def after_all_players_arrive(self):
         messages_for_9 = ""
         messages_for_15_1 = ""
@@ -142,8 +184,6 @@ class ProcessingMessage(WaitPage):
                 string_income = str(p.base_earnings)[:3]
             
             sender_identifier = ""
-            # player_str = None
-            # income_str = None
             player_income_str = None
 
             if settings.LANGUAGE_CODE=="en":
@@ -252,9 +292,9 @@ page_sequence = [
     GroupingPage,
     Introduction,
     Tetris,
-#    Diamonds,
     EffortResultsWaitPage,
     RealEffortResults,
+    PreparingMessage,
     PreparingMessage,
     ProcessingMessage,
     ReceivingMessage,
