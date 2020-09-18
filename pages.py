@@ -60,7 +60,10 @@ class RealEffortResults(Page):
 class PreparingMessage(Page):
     form_model = 'player'
 
+    #TODO: add `is_displayed` for case when of single messaging (should appear once in single, twice in dual)
+
     def get_form_fields(self):
+        #TODO: update for dual messaging case (in first appearance (controlled by # of page), keep first half of choices)
         message = ['message']
         choices = self.player.message_receivers_choices()
         return message+choices
