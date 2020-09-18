@@ -299,7 +299,7 @@ class Player(BasePlayer):
     # Number of messages received
     amount_messages_received = models.IntegerField(min=0)
     # Total cost for sending the messages
-    total_messaging_costs = models.CurrencyField()
+    total_messaging_costs = models.CurrencyField(initial=0)
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
@@ -392,6 +392,7 @@ class Player(BasePlayer):
 
     # Fields to choose the message receivers according to income
     if settings.LANGUAGE_CODE=="en": # labels in english
+        # selecting receiver fields for first message
         income_9 = send_message_field('Income 9')
         income_15_1 = send_message_field('Income 15 (#1)')
         income_15_2 = send_message_field('Income 15 (#2)')
@@ -402,7 +403,19 @@ class Player(BasePlayer):
         income_80 = send_message_field('Income 80')
         income_125 = send_message_field('Income 125')
 
+        # selecting receiver fields for second message
+        income_9_d = send_message_field('Income 9')
+        income_15_1_d = send_message_field('Income 15 (#1)')
+        income_15_2_d = send_message_field('Income 15 (#2)')
+        income_15_3_d = send_message_field('Income 15 (#3)')
+        income_25_1_d = send_message_field('Income 25 (#1)')
+        income_25_2_d = send_message_field('Income 25 (#2)')
+        income_40_d = send_message_field('Income 40')
+        income_80_d = send_message_field('Income 80')
+        income_125_d = send_message_field('Income 125')
+
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
+        # selecting receiver fields for first message
         income_9 = send_message_field('Ingreso 9')
         income_15_1 = send_message_field('Ingreso 15 (#1)')
         income_15_2 = send_message_field('Ingreso 15 (#2)')
@@ -413,5 +426,16 @@ class Player(BasePlayer):
         income_80 = send_message_field('Ingreso 80')
         income_125 = send_message_field('Ingreso 125')
     
+        # selecting receiver fields for first message
+        income_9_d = send_message_field('Ingreso 9')
+        income_15_1_d = send_message_field('Ingreso 15 (#1)')
+        income_15_2_d = send_message_field('Ingreso 15 (#2)')
+        income_15_3_d = send_message_field('Ingreso 15 (#3)')
+        income_25_1_d = send_message_field('Ingreso 25 (#1)')
+        income_25_2_d = send_message_field('Ingreso 25 (#2)')
+        income_40_d = send_message_field('Ingreso 40')
+        income_80_d = send_message_field('Ingreso 80')
+        income_125_d = send_message_field('Ingreso 125')
+
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")

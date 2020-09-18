@@ -12,10 +12,6 @@ class GroupingPage(WaitPage):
 
 class Introduction(Page):
     pass
-    # def vars_for_template(self):
-    #     show_id = self.session.config['show_id']
-    #     id_in_group = self.player.id_in_group
-    #     return {'show_id': show_id, 'id_in_group': id_in_group}
 
 
 class RealEffort(Page):
@@ -23,12 +19,6 @@ class RealEffort(Page):
 
 
 class Tetris(Page):
-    # def is_displayed(self):
-    #     if self.session.config['treatment'] == "Tetris":
-    #         return True
-    #     else: 
-    #         return False
-    
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 120 #60 # we may want to give players more time 
@@ -36,25 +26,6 @@ class Tetris(Page):
     def before_next_page(self):
         # for debugging (delete later)
         print(self.player.game_score)
-
-
-# class Diamonds(Page):
-#     def is_displayed(self):
-#         if self.session.config['treatment'] == "Diamonds":
-#             return True
-#         else: 
-#             return False
-
-#     form_model = 'player'
-#     form_fields = ['diamond_guess', 'diamond_actual']
-#     timeout_seconds = 60
-
-#     def before_next_page(self):
-#         self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
-#         # for debugging (delete later)
-#         print(self.player.diamond_guess)
-#         print(self.player.diamond_actual)
-#         print(self.player.game_score)
 
 
 class EffortResultsWaitPage(WaitPage):
@@ -122,7 +93,7 @@ class PreparingMessage(Page):
             messages_sent += 1
 
         # Calculating and discounting the total message cost
-        player.total_messaging_costs = messages_sent*Constants.message_cost
+        player.total_messaging_costs += messages_sent*Constants.message_cost # accumulating message costs
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
 
 
