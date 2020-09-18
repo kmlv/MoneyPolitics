@@ -175,68 +175,102 @@ beta = 1/16
 tax_step = '0.05'
 
 ```
-### Gitignore Code:
+# Gitignore Code:
 __pycache__/
 *.py[cod]
+
 _builtin/
 
-# Byte-compiled / optimized / DLL files
+### Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
-# C extensions
+### C extensions
 *.so
 
-# Distribution / packaging
+### Distribution / packaging
 .Python
+
 env/
+
 build/
+
 develop-eggs/
+
 dist/
+
 downloads/
+
 eggs/
+
 .eggs/
+
 lib/
+
 lib64/
+
 parts/
+
 sdist/
+
 var/
+
 *.egg-info/
+
 .installed.cfg
+
 *.egg
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+
+### PyInstaller
+### Usually these files are written by a python script from a template
+### before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
+
 *.spec
 
-# Installer logs
+### Installer logs
 pip-log.txt
+
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+
+### Unit test / coverage reports
 htmlcov/
+
 .tox/
+
 .coverage
+
 .coverage.*
+
 .cache
+
 nosetests.xml
+
 coverage.xml
+
 *,cover
 
-# Translations
+
+### Translations
 *.mo
+
 *.pot
 
-# Django stuff:
+
+### Django stuff:
 *.log
 
-# Sphinx documentation
+
+
+### Sphinx documentation
 docs/_build/
 
-# PyBuilder
+
+### PyBuilder
 target/
+
 
 '''
 
