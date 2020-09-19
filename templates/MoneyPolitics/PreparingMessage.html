@@ -3,9 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-    {% blocktrans trimmed %}
-    Messaging Section
-    {% endblocktrans %}
+{% autoescape off %}
+      {% blocktrans trimmed %}
+        Messaging Section:  {{ message_page }} 
+      {% endblocktrans %}
+    {% endautoescape %}
 {% endblock %}
 
 {% block content %}
@@ -16,10 +18,27 @@
 
     {% if tax_system == "tax_rate" %}
     <p>
-      {% blocktrans trimmed %}
-        After this page, you are vote to decide which tax rate should be applied to all the members of your group,
-        including yourself.
-      {% endblocktrans %}
+      {% if msg_type == "single" %}
+        {% blocktrans trimmed %}
+          After this page, you are vote to decide which tax rate should be applied to all the members of your group,
+          including yourself.
+        {% endblocktrans %}
+      
+      {% else %}
+        {% if msg_type == "dual" %}
+          {% if message_page_number == 1 %}
+            {% blocktrans trimmed %}
+              After a couple of pages, you are vote to decide which tax rate should be applied to all the members of your group,
+              including yourself.
+            {% endblocktrans %}
+          {% else %}
+            {% blocktrans trimmed %}
+              After this page, you are vote to decide which tax rate should be applied to all the members of your group,
+              including yourself.
+            {% endblocktrans %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
     </p>
     <p>
       {% blocktrans trimmed %}

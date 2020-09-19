@@ -58,6 +58,7 @@ class RealEffortResults(Page):
 
 
 class PreparingMessage(Page):
+    #TODO: add vars_for_template with info for diff pages dual msg
     form_model = 'player'
 
     def get_form_fields(self):
@@ -132,6 +133,20 @@ class PreparingMessage(Page):
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
 
+    def vars_for_template(self):
+        msg_type = self.session.config['msg_type'] # storing the message type
+        message_page = "" # string to indicate the page number to the player
+        message_page_number = self.player.message_page_counter
+
+        if msg_type == 'dual': # creating a message for the player to differentiate the message
+            if self.player.message_page_counter == 1:
+                message_page = "First Message"
+            elif self.player.message_page_counter == 2:
+                message_page = "Second Message"        
+        return {"msg_type": msg_type, 
+                "message_page": message_page, 
+                "message_page_number": message_page_number}
+
     def is_displayed(self):
         if self.session.config['msg_type'] == 'single':
             if self.player.message_page_counter == 1: # we only want to display once when single msging is on
@@ -141,9 +156,9 @@ class PreparingMessage(Page):
 
         elif self.session.config['msg_type'] == 'dual':
             return True
+    
 
 class ProcessingMessage(WaitPage):
-    #TODO: update the processing page to handle the dual messaging
     def after_all_players_arrive(self):
         messages_for_9 = ""
         messages_for_15_1 = ""
@@ -214,6 +229,29 @@ class ProcessingMessage(WaitPage):
                 if p.income_125 is True:
                     messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message + "</li>"
         
+            # required confiditonal for dual messaging and  send_id + p.msg_d
+            if self.session.config['msg_type'] == 'dual':
+                if p.message_d != "":
+                    # Again, we won't use elif, because sending a message to someone is not exclusive
+                    if p.income_9 is True:
+                        messages_for_9 = messages_for_9 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_15_1 is True:
+                        messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_15_2 is True:
+                        messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_15_3 is True:
+                        messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_25_1 is True:
+                        messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_25_2 is True:
+                        messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_40 is True:
+                        messages_for_40 = messages_for_40 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_80 is True:
+                        messages_for_80 = messages_for_80 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_125 is True:
+                        messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message_d + "</li>"
+
         # 3. We'll assign the messages according to the players income
         for p in self.group.get_players():
             # Now we'll use elif because a player can only have a unique income
