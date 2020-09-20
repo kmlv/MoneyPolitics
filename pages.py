@@ -58,26 +58,33 @@ class RealEffortResults(Page):
 
 
 class PreparingMessage(Page):
-    #TODO: add vars_for_template with info for diff pages dual msg
     form_model = 'player'
 
     def get_form_fields(self):
         message = ['message']
-        self.player.message_page_counter += 1
+        print(f"call of get_form_fields #{self.player.message_page_counter}")
 
         if self.session.config['msg_type'] == 'single':
             choices = self.player.message_receivers_choices()
             return message+choices            
         
-        elif self.session.config['msg_type'] == 'dual':
+        elif self.session.config['msg_type'] == 'double':
+            print("iterance")
             numb_of_receivers = len(self.player.message_receivers_choices())
+            print(numb_of_receivers)
+            print(self.player.message_page_counter)
+            print("end iterance")
 
             # keeping only the first half of receivers when the page appears for first time
-            if self.player.message_page_counter == 1:
-                choices = self.player.message_receivers_choices()[:numb_of_receivers/2]
-            elif self.player.message_page_counter == 2:
-                choices = self.player.message_receivers_choices()[numb_of_receivers/2:]
-                message = message[0] + "_d"
+            if self.player.message_page_counter == 0:
+                print("first page")
+                choices = self.player.message_receivers_choices()[:int(numb_of_receivers/2)]
+            elif self.player.message_page_counter == 1:
+                print("second page")
+                choices = self.player.message_receivers_choices()[int(numb_of_receivers/2):]
+                message = [message[0] + "_d"]
+            
+            return message+choices  
 
         else:
             print(f"Error: invalid value for self.session.config['msg_type'] {self.session.config['msg_type']}")
@@ -88,6 +95,7 @@ class PreparingMessage(Page):
     def before_next_page(self):
         messages_sent = 0
         player = self.player
+        self.player.message_page_counter += 1
         #NOTE: To count the messages, we won't use elif, because sending a message to someone is not exclusive; 
         # you can send them to multiple people and that's independent from sending to another one before
         if player.income_9 is True:
@@ -109,7 +117,7 @@ class PreparingMessage(Page):
         if player.income_125 is True:
             messages_sent += 1
 
-        if player.message_page_counter == 2: # if player on dual messaging and second time the page appears
+        if player.message_page_counter == 1: # if player on double messaging and second time the page appears
             if player.income_9_d is True:
                 messages_sent += 1
             if player.income_15_1_d is True:
@@ -138,23 +146,26 @@ class PreparingMessage(Page):
         message_page = "" # string to indicate the page number to the player
         message_page_number = self.player.message_page_counter
 
-        if msg_type == 'dual': # creating a message for the player to differentiate the message
-            if self.player.message_page_counter == 1:
+        if msg_type == 'double': # creating a message for the player to differentiate the message
+            if self.player.message_page_counter == 0:
                 message_page = "First Message"
-            elif self.player.message_page_counter == 2:
+            elif self.player.message_page_counter == 1:
                 message_page = "Second Message"        
         return {"msg_type": msg_type, 
                 "message_page": message_page, 
-                "message_page_number": message_page_number}
+                "message_page_number": message_page_number,
+                "tax_system": self.session.config["tax_system"],
+                "message_cost": self.session.config["msg"]}
 
     def is_displayed(self):
         if self.session.config['msg_type'] == 'single':
-            if self.player.message_page_counter == 1: # we only want to display once when single msging is on
+            if self.player.message_page_counter == 0: # we only want to display once when single msging is on
                 return True
             else:
                 return False
 
-        elif self.session.config['msg_type'] == 'dual':
+        elif self.session.config['msg_type'] == 'double':
+            print("debug")
             return True
     
 
@@ -229,8 +240,8 @@ class ProcessingMessage(WaitPage):
                 if p.income_125 is True:
                     messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message + "</li>"
         
-            # required confiditonal for dual messaging and  send_id + p.msg_d
-            if self.session.config['msg_type'] == 'dual':
+            # required confiditonal for double messaging and  send_id + p.msg_d
+            if self.session.config['msg_type'] == 'double':
                 if p.message_d != "":
                     # Again, we won't use elif, because sending a message to someone is not exclusive
                     if p.income_9 is True:

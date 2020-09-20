@@ -287,8 +287,8 @@ class Player(BasePlayer):
 
     # Possible messages
     message = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
-    if self.session.conf['msg_type'] == 'dual': # Message when dual msging is activated
-        message_d = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
+    #if session.conf['msg_type'] == 'double': # Message when double msging is activated
+    message_d = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
 
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
@@ -325,7 +325,7 @@ class Player(BasePlayer):
         Input: None
         Output: List with name of message receivers fields
             if single messaging is activated, it'll contain only the single msg receiver fields
-            if dual messaging is activated, it'll contain both the single and dual msg receiver fields
+            if double messaging is activated, it'll contain both the single and double msg receiver fields
         """
 
         # Converts self income from currency to string (eliminates points label)
@@ -367,9 +367,9 @@ class Player(BasePlayer):
             else:
                 print("Error: Invalid Income Analyzed")
 
-        # 1.2. Defining list of message receiver fields for second message (dual messaging only)
-        if self.session.conf['msg_type'] == 'dual':
-            # counter of players with income of 15 points (dual messaging)
+        # 1.2. Defining list of message receiver fields for second message (double messaging only)
+        if self.session.config['msg_type'] == 'double':
+            # counter of players with income of 15 points (double messaging)
             counter15_d = 1
             counter25_d = 1
 
@@ -412,8 +412,8 @@ class Player(BasePlayer):
                                '_{}'.format(str(players25.index(self.id_in_group) + 1))
         message_receivers.remove(option_to_remove)
 
-        # 3.2. Excluding in dual messaging
-        if self.session.conf['msg_type'] == 'dual':
+        # 3.2. Excluding in double messaging
+        if self.session.config['msg_type'] == 'double':
             if self.id_in_group not in players15 and self.id_in_group not in players25:
                 option_to_remove = 'income_{}_d'.format(string_income)
             elif self.id_in_group in players15:
@@ -442,16 +442,16 @@ class Player(BasePlayer):
         income_80 = send_message_field('Income 80')
         income_125 = send_message_field('Income 125')
 
-        if self.session.conf['msg_type'] == 'dual': # defining receiver fields for second message
-            income_9_d = send_message_field('Income 9')
-            income_15_1_d = send_message_field('Income 15 (#1)')
-            income_15_2_d = send_message_field('Income 15 (#2)')
-            income_15_3_d = send_message_field('Income 15 (#3)')
-            income_25_1_d = send_message_field('Income 25 (#1)')
-            income_25_2_d = send_message_field('Income 25 (#2)')
-            income_40_d = send_message_field('Income 40')
-            income_80_d = send_message_field('Income 80')
-            income_125_d = send_message_field('Income 125')
+        # if self.session.conf['msg_type'] == 'double': # defining receiver fields for second message
+        income_9_d = send_message_field('Income 9')
+        income_15_1_d = send_message_field('Income 15 (#1)')
+        income_15_2_d = send_message_field('Income 15 (#2)')
+        income_15_3_d = send_message_field('Income 15 (#3)')
+        income_25_1_d = send_message_field('Income 25 (#1)')
+        income_25_2_d = send_message_field('Income 25 (#2)')
+        income_40_d = send_message_field('Income 40')
+        income_80_d = send_message_field('Income 80')
+        income_125_d = send_message_field('Income 125')
 
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
         # defining receiver fields for first message
@@ -465,16 +465,16 @@ class Player(BasePlayer):
         income_80 = send_message_field('Ingreso 80')
         income_125 = send_message_field('Ingreso 125')
     
-        if self.session.conf['msg_type'] == 'dual': # defining receiver fields for second message
-            income_9_d = send_message_field('Ingreso 9')
-            income_15_1_d = send_message_field('Ingreso 15 (#1)')
-            income_15_2_d = send_message_field('Ingreso 15 (#2)')
-            income_15_3_d = send_message_field('Ingreso 15 (#3)')
-            income_25_1_d = send_message_field('Ingreso 25 (#1)')
-            income_25_2_d = send_message_field('Ingreso 25 (#2)')
-            income_40_d = send_message_field('Ingreso 40')
-            income_80_d = send_message_field('Ingreso 80')
-            income_125_d = send_message_field('Ingreso 125')
+        # if self.session.conf['msg_type'] == 'double': # defining receiver fields for second message
+        income_9_d = send_message_field('Ingreso 9')
+        income_15_1_d = send_message_field('Ingreso 15 (#1)')
+        income_15_2_d = send_message_field('Ingreso 15 (#2)')
+        income_15_3_d = send_message_field('Ingreso 15 (#3)')
+        income_25_1_d = send_message_field('Ingreso 25 (#1)')
+        income_25_2_d = send_message_field('Ingreso 25 (#2)')
+        income_40_d = send_message_field('Ingreso 40')
+        income_80_d = send_message_field('Ingreso 80')
+        income_125_d = send_message_field('Ingreso 125')
 
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
