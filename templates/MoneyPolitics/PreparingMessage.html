@@ -3,9 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-    {% blocktrans trimmed %}
-    Messaging Section
-    {% endblocktrans %}
+{% autoescape off %}
+      {% blocktrans trimmed %}
+        Messaging Section:  {{ message_page }} 
+      {% endblocktrans %}
+    {% endautoescape %}
 {% endblock %}
 
 {% block content %}
@@ -16,17 +18,34 @@
 
     {% if tax_system == "tax_rate" %}
     <p>
-      {% blocktrans trimmed %}
-        After this page, you are vote to decide which tax rate should be applied to all the members of your group,
-        including yourself.
-      {% endblocktrans %}
+      {% if msg_type == "single" %}
+        {% blocktrans trimmed %}
+          After this page, you are voting to decide which tax rate should be applied to all the members of your group,
+          including yourself.
+        {% endblocktrans %}
+      
+      {% else %}
+        {% if msg_type == "double" %}
+          {% if message_page_number == 0 %}
+            {% blocktrans trimmed %}
+              After a couple of pages, you are voting to decide which tax rate should be applied to all the members of your group,
+              including yourself.
+            {% endblocktrans %}
+          {% else %}
+            {% blocktrans trimmed %}
+              After this page, you are voting to decide which tax rate should be applied to all the members of your group,
+              including yourself.
+            {% endblocktrans %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
     </p>
     <p>
       {% blocktrans trimmed %}
         The median of all the selected taxes is going to be chosen. <b>Example:</b> As an example of a median, 
         suppose you and your friends must all choose an amount to contribute for food at a party. If you select $5 
         and the other 8 members of your group have chosen: 
-        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br>
+        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br><br>
       {% endblocktrans %}
         1: $1<br>
         2: $2<br>
@@ -51,7 +70,7 @@
         including yourself. They are divided by tax systems, which you can check here:
         {% endblocktrans %}
     </p>
-
+    
     <p>
     <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
@@ -178,13 +197,23 @@
     <p>Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})</p>
     {% formfields %}
 
-    <script>
-      let charcount = document.getElementById('char-count')
-      let messageInput = document.querySelector('[name=message]');
-      messageInput.oninput = function() {
-      charcount.innerText = messageInput.value.length;
-      };
-    </script>
+    {% if message_page_number == 0 %}
+      <script>
+        let charcount = document.getElementById('char-count')
+        let messageInput = document.querySelector('[name=message]');
+        messageInput.oninput = function() {
+        charcount.innerText = messageInput.value.length;
+        };
+      </script>
+    {% else %}
+      <script>
+        let charcount = document.getElementById('char-count')
+        let messageInput = document.querySelector('[name=message_d]');
+        messageInput.oninput = function() {
+        charcount.innerText = messageInput.value.length;
+        };
+      </script>
+    {% endif %}
 
     <p>
     {% next_button %}

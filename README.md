@@ -176,6 +176,8 @@ tax_step = '0.05'
 
 ```
 # Gitignore Code:
+
+```
 __pycache__/
 *.py[cod]
 
@@ -272,7 +274,7 @@ docs/_build/
 target/
 
 
-'''
+```
 
 ## Basic Outiline
 
