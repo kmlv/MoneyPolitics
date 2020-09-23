@@ -8,7 +8,7 @@
 really matter.
 1. In settings.py, add this at the beggining
 
-```
+```python
 from os.path import dirname, abspath
 import gettext as _
 
@@ -25,7 +25,8 @@ LOCALE_PATHS = (
 ```
 
 Also, edit SESSION CONFIGS to look like this: 
-```
+
+```python
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
@@ -122,7 +123,7 @@ SESSION_CONFIGS = [
 
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
-```
+```python
 doc = """
 Control parameters for MoneyPolitics
 """
