@@ -116,9 +116,12 @@ class Group(BaseGroup):
                     print("Error: No value of 'p.id_in_group' could be matched with any key")
 
     def base_income_assignment(self):
-        # Assignment of income by luck/effort
-        # Not working properly: People who earn sth by luck/effort are getting the same endowments (e.g. 125)
-        # luck: 0 if 3 people is going to be paid by luck, 1 if they are going to be 6
+        """
+        Method to assign income by luck/effort to each player inside a group
+
+        Input: None
+        Output: None
+        """
         luck = random.SystemRandom().randint(0, 1)
 
         to_shuffle_earnings = []
@@ -193,6 +196,12 @@ class Group(BaseGroup):
                 print("Error: No 'luck' value for assignment of shuffled earning")
 
     def set_payoffs(self):
+        """
+        Method to set round final payoffs
+
+        Input: None
+        Output: None
+        """
         if self.session.config['tax_system'] == "tax_rate":
             chosen_tax_rates = []
             for p in self.get_players():
@@ -480,4 +489,4 @@ class Player(BasePlayer):
         print("ERROR: Undefined LANGUAGE_CODE used")
     
     # Message page counter
-    message_page_counter = models.IntegerField(initial=0)
+    # message_page_counter = models.IntegerField(initial=0)
