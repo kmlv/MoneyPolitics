@@ -175,8 +175,10 @@
         <h4>{% blocktrans trimmed %}Sending your message{% endblocktrans %} </h4>
     </p>
 
-    <p>Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})</p>
-    {% formfields %}
+    <p>
+      Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
+    </p>
+
 
     <script>
       let charcount = document.getElementById('char-count')
@@ -185,6 +187,22 @@
       charcount.innerText = messageInput.value.length;
       };
     </script>
+
+    <p>
+      <div class="container" style="display: flex; height: 500px;">
+          <div style="width: 40%; background: grey;">
+             Message #1
+             {% formfields %}
+          </div>
+          <div style="width: 5%; background: white;">
+            
+          </div>
+          <div style="width: 40%; background: grey;">
+             Message #2
+             {% formfields %}
+         </div>
+     </div>
+    </p>
 
     <p>
     {% next_button %}
