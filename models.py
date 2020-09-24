@@ -12,7 +12,7 @@ import numpy
 import math
 
 
-author = 'Marco Gutierrez and Skyler Stewart'
+author = 'Marco Gutierrez, Skyler Stewart, and John Elliott'
 
 doc = """
 Money and Politics App
