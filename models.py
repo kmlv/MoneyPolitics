@@ -451,7 +451,7 @@ class Player(BasePlayer):
         income_80 = send_message_field('Income 80')
         income_125 = send_message_field('Income 125')
 
-        # if self.session.conf['msg_type'] == 'double': # defining receiver fields for second message
+        #if session.conf['msg_type'] == 'double': # defining receiver fields for second message
         income_9_d = send_message_field('Income 9')
         income_15_1_d = send_message_field('Income 15 (#1)')
         income_15_2_d = send_message_field('Income 15 (#2)')
@@ -474,7 +474,7 @@ class Player(BasePlayer):
         income_80 = send_message_field('Ingreso 80')
         income_125 = send_message_field('Ingreso 125')
     
-        # if self.session.conf['msg_type'] == 'double': # defining receiver fields for second message
+        #if self.session.conf['msg_type'] == 'double': # defining receiver fields for second message
         income_9_d = send_message_field('Ingreso 9')
         income_15_1_d = send_message_field('Ingreso 15 (#1)')
         income_15_2_d = send_message_field('Ingreso 15 (#2)')

@@ -189,21 +189,36 @@
         };
       </script>
 
-    <p>
-      <div class="container" style="display: flex; height: 500px;">
-          <div style="width: 40%; background: grey;">
-             Message #1
-             {% formfield player.message %}
-          </div>
-          <div style="width: 5%; background: white;">
+    {% if msg_type == "double" %} 
+      <p>
+       <div class="container" style="display: flex; height: 500px;">
+            <div style="width: 40%; background: grey;">
+               Message #1
+               {% formfield player.message %}
+              
+           </div>
+           <div style="width: 5%; background: white;">
             
-          </div>
-          <div style="width: 40%; background: grey;">
-             Message #2
-             {% formfield player.message_d %}  
-         </div>
-     </div>
-    </p>
+           </div>
+           <div style="width: 40%; background: grey;">
+               Message #2
+              {% formfield player.message_d %}
+              
+           </div>
+       </div>
+      </p>
+    {% elif msg_type == "single" %}
+      <p>
+        <div class="container" style="display: flex; height: 500px;">
+             <div style="width: 40%; background: grey;">
+                Message #1
+                {% formfield player.message %}
+                {% formfield player.choices %}
+            </div>
+        </div>
+       </p>
+
+    {% endif %}
 
     <p>
     {% next_button %}
