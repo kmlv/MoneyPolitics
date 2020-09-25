@@ -62,7 +62,8 @@ class PreparingMessage(Page):
 
     def get_form_fields(self):
         message = ['message']
-        
+
+
         if self.session.config['msg_type'] == 'single':
             choices = self.player.message_receivers_choices()
             return message+choices            
