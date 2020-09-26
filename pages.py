@@ -85,8 +85,9 @@ class PreparingMessage(Page):
     def vars_for_template(self):
         income_id_dict = {} # dict with ids ordered by income (from lower to higher)
         players = self.group.get_players() # list of players objects in group
-        unique_task_endowments = list(set(Constants.task_endowments)).sort() # ordered from lower to higher
-        
+        unique_task_endowments = list(set(Constants.task_endowments)) # ordered from lower to higher
+        unique_task_endowments.sort()
+
         income_15_counter = 1 
         income_25_counter = 1 
 
@@ -111,8 +112,13 @@ class PreparingMessage(Page):
                     else:
                         income_id_dict[f"income_{string_income}"] = p.id_in_group
 
-        return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg'],
-                'player_id': self.player.id_in_group, **income_id_dict}
+        # merging our dictionaries to create our variables
+        output = {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type'], **income_id_dict}
+        
+        print(output)
+        return {**output}
+            
 
     def before_next_page(self):
         messages_sent = 0
@@ -164,11 +170,6 @@ class PreparingMessage(Page):
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
-
-    def vars_for_template(self):      
-        return {"msg_type": self.session.config['msg_type'], 
-                "tax_system": self.session.config["tax_system"],
-                "message_cost": self.session.config["msg"]}
 
 
 class ProcessingMessage(WaitPage):
