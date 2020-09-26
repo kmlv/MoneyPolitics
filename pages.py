@@ -93,14 +93,23 @@ class PreparingMessage(Page):
         for income in unique_task_endowments: # looping accross incomes to get income ordered list                       
             for p in players: # looping accross player ids to capture income specific ids 
                 if p.base_earnings == income: # if player has current income, append id to ordered list
+                    
+                    # extracting the base earnings without zeros
+                    if p.base_earnings < 10:
+                        string_income = str(p.base_earnings)[:1]
+                    elif p.base_earnings < 100:
+                        string_income = str(p.base_earnings)[:2]
+                    else:
+                        string_income = str(p.base_earnings)[:3]
+
                     if p.base_earnings == 15:
-                        income_id_dict[f"income_{p.base_earnings}_{income_15_counter}"] = p.id_in_group
+                        income_id_dict[f"income_{string_income}_{income_15_counter}"] = p.id_in_group
                         income_15_counter += 1 # updating each time a player of income 15 is found
                     elif p.base_earnings == 25:
-                        income_id_dict[f"income_{p.base_earnings}_{income_25_counter}"] = p.id_in_group
+                        income_id_dict[f"income_{string_income}_{income_25_counter}"] = p.id_in_group
                         income_25_counter += 1 # updating each time a player of income 25 is found
                     else:
-                        income_id_dict[f"income_{p.base_earnings}"] = p.id_in_group
+                        income_id_dict[f"income_{string_income}"] = p.id_in_group
 
         return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg'],
                 'player_id': self.player.id_in_group, **income_id_dict}
