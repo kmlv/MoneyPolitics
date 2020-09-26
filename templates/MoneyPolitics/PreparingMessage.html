@@ -3,9 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-    {% blocktrans trimmed %}
-    Messaging Section
-    {% endblocktrans %}
+{% autoescape off %}
+      {% blocktrans trimmed %}
+        Messaging Section:
+      {% endblocktrans %}
+    {% endautoescape %}
 {% endblock %}
 
 {% block content %}
@@ -17,7 +19,7 @@
     {% if tax_system == "tax_rate" %}
     <p>
       {% blocktrans trimmed %}
-        After this page, you are vote to decide which tax rate should be applied to all the members of your group,
+        After this page, you are voting to decide which tax rate should be applied to all the members of your group,
         including yourself.
       {% endblocktrans %}
     </p>
@@ -26,7 +28,7 @@
         The median of all the selected taxes is going to be chosen. <b>Example:</b> As an example of a median, 
         suppose you and your friends must all choose an amount to contribute for food at a party. If you select $5 
         and the other 8 members of your group have chosen: 
-        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br>
+        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br><br>
       {% endblocktrans %}
         1: $1<br>
         2: $2<br>
@@ -51,7 +53,7 @@
         including yourself. They are divided by tax systems, which you can check here:
         {% endblocktrans %}
     </p>
-
+    
     <p>
     <style type="text/css">
     .tg  {border-collapse:collapse;border-spacing:0;}
@@ -159,7 +161,7 @@
       {% endblocktrans %}
     </p>
     <p>
-      {% blocktrans with message_cost=Constants.message_cost %}
+      {% blocktrans %}
         The cost per message sent is {{ message_cost }}
       {% endblocktrans %}
       {% blocktrans with base_earnings=player.base_earnings %}
@@ -172,9 +174,51 @@
 
     <p>
         <br>
-        <h4>{% blocktrans trimmed %}Sending your message{% endblocktrans %}</h4>
+        <h4>{% blocktrans trimmed %}Sending your message{% endblocktrans %} </h4>
     </p>
-    {% formfields %}
+
+    <p>
+      Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
+    </p>
+      
+      <script>
+        let charcount = document.getElementById('char-count')
+        let messageInput = document.querySelector('[name=message_d]');
+        messageInput.oninput = function() {
+        charcount.innerText = messageInput.value.length;
+        };
+      </script>
+
+    {% if msg_type == "double" %} 
+      <p>
+       <div class="container" style="display: flex; height: 500px;">
+            <div style="width: 40%; background: grey;">
+               Message #1
+               {% formfield player.message %}
+              
+           </div>
+           <div style="width: 5%; background: white;">
+            
+           </div>
+           <div style="width: 40%; background: grey;">
+               Message #2
+              {% formfield player.message_d %}
+              
+           </div>
+       </div>
+      </p>
+    {% elif msg_type == "single" %}
+      <p>
+        <div class="container" style="display: flex; height: 500px;">
+             <div style="width: 40%; background: grey;">
+                Message #1
+                {% formfield player.message %}
+                {% formfield player.choices %}
+            </div>
+        </div>
+       </p>
+
+    {% endif %}
 
     <p>
     {% next_button %}

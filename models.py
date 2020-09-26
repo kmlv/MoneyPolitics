@@ -12,18 +12,19 @@ import numpy
 import math
 
 
-author = 'Marco Gutierrez and Skyler Stewart'
+author = 'Marco Gutierrez, Skyler Stewart, and John Elliott'
 
 doc = """
 Money and Politics App
 """
 
 
+
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    # players_per_group = 9 # value for production
-    players_per_group = 2 # only for testing
-    num_rounds = 2
+    num_rounds = 1
+    players_per_group = 2
+
     instructions_template = "MoneyPolitics/Instructions.html"
     instructions_button = "MoneyPolitics/Instructions_Button.html"
 
@@ -36,12 +37,14 @@ class Constants(BaseConstants):
     # .py/txt file (If you find a better way, feel free to update the code with it)
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
-    message_cost = ctrl.message_cost
     progressivity_levels = ctrl.progressivity_levels
 
     # Private Sector Parameters
     alpha = ctrl.alpha
     beta = ctrl.beta
+
+    # Max. Characters Allowed Per message
+    max_chars = 280
 
 
 class Subsession(BaseSubsession):
@@ -64,8 +67,7 @@ class Group(BaseGroup):
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
-    # TODO: The ranking_income_assignment is assigning values, but not according to the game scores
-    # (We need to fix that)
+    #Treatment for the group
 
     def ranking_income_assignment(self):
         # Assignment of endowment based on ranking
@@ -79,11 +81,7 @@ class Group(BaseGroup):
         # Ranking scores
         ranked_scores = {}
 
-        if self.session.config['treatment'] == "Tetris":
-            sorted_list = sorted(game_scores.values(), reverse=True)
-        else:
-            # When playing Diamonds a higher score is worse (so we reverse the sort)
-            sorted_list = sorted(game_scores.values()) 
+        sorted_list = sorted(game_scores.values(), reverse=True)
         print(sorted_list) # for debugging
 
         # Control sorted_list
@@ -94,7 +92,6 @@ class Group(BaseGroup):
                 if value == sorted_value:
                     ranked_scores[key] = value
         print(ranked_scores) # for debugging
-
     
         # Control ranked_scores (They are correctly ranked)
         print(ranked_scores)
@@ -119,9 +116,12 @@ class Group(BaseGroup):
                     print("Error: No value of 'p.id_in_group' could be matched with any key")
 
     def base_income_assignment(self):
-        # Assignment of income by luck/effort
-        # Not working properly: People who earn sth by luck/effort are getting the same endowments (e.g. 125)
-        # luck: 0 if 3 people is going to be paid by luck, 1 if they are going to be 6
+        """
+        Method to assign income by luck/effort to each player inside a group
+
+        Input: None
+        Output: None
+        """
         luck = random.SystemRandom().randint(0, 1)
 
         to_shuffle_earnings = []
@@ -196,16 +196,22 @@ class Group(BaseGroup):
                 print("Error: No 'luck' value for assignment of shuffled earning")
 
     def set_payoffs(self):
+        """
+        Method to set round final payoffs
+
+        Input: None
+        Output: None
+        """
         if self.session.config['tax_system'] == "tax_rate":
             chosen_tax_rates = []
             for p in self.get_players():
-                chosen_tax_rates.append(p.tax_rate)
+                chosen_tax_rates.append(p.tax_rate/100)
 
             # Sorting the values so we can take the median tax rate
             chosen_tax_rates.sort()
-            if Constants.players_per_group == 9: # for production
+            if self.session.config['num_demo_participants'] == 9: # for production
                 self.chosen_tax_rate = chosen_tax_rates[4]
-            elif Constants.players_per_group == 2: # for testing
+            elif self.session.config['num_demo_participants'] == 2: # for testing
                 self.chosen_tax_rate = (chosen_tax_rates[0] + chosen_tax_rates[1])/2
 
             for p in self.get_players():
@@ -288,27 +294,21 @@ class Player(BasePlayer):
     # Earnings after messaging
     after_message_earnings = models.CurrencyField(min=0)
 
-    if settings.LANGUAGE_CODE=="en": # label in english
-        message = models.LongStringField(max_length=500, blank=True, label='Write the message you want to send (max. 500 characters)')
-    elif settings.LANGUAGE_CODE=="es": # labels in spanish
-        message = models.LongStringField(max_length=500, blank=True, label='Escribe el mensaje que quieres enviar (max. 500 caracteres)')
-    else:
-        print("ERROR: Undefined LANGUAGE_CODE used")
-    # Field for deciding the message receiver
-    # message_receivers = models.CharField(label='', initial = None, default='Unspecified',
-    #                                     widget=forms.widgets.CheckboxSelectMultiple)
+    # Possible messages
+    message = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
+    #if session.conf['msg_type'] == 'double': # Message when double msging is activated
+    message_d = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
 
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
     # Number of messages received
     amount_messages_received = models.IntegerField(min=0)
     # Total cost for sending the messages
-    total_messaging_costs = models.CurrencyField()
+    total_messaging_costs = models.CurrencyField(initial=0)
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(choices=Constants.progressivity_levels)
     if settings.LANGUAGE_CODE=="en": # label in english
-
         tax_rate = models.FloatField(min=0, max=100, label="Choose your preferred tax rate percentage", widget=widgets.RadioSelect, choices=[round(item*100,0) for item in list(numpy.arange(0, 1.05, .05))])
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
         tax_rate = models.FloatField(min=0, max=100, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelect, choices=[round(item*100,0) for item in list(numpy.arange(0, 1.05, .05))])
@@ -328,7 +328,13 @@ class Player(BasePlayer):
 
     def message_receivers_choices(self):
         """
-        Determines the list of possible message receivers in experiment
+        Determines the list of possible message receivers in experiment.
+        It can be a list with messaging
+
+        Input: None
+        Output: List with name of message receivers fields
+            if single messaging is activated, it'll contain only the single msg receiver fields
+            if double messaging is activated, it'll contain both the single and double msg receiver fields
         """
 
         # Converts self income from currency to string (eliminates points label)
@@ -343,15 +349,18 @@ class Player(BasePlayer):
         # the players self income
         message_receivers = []
 
-        # 1. The complete set of choices without excluding ourselves is going to be defined
+        # 1. Defining the complete set of choices without excluding ourselves
+
+        # counter of players with income of 15 points (first message)
         counter15 = 1
         counter25 = 1
 
-        # 1.5 Because the task endowments are integers, we need to convert them to strings
+        # Because the task endowments are integers, we need to convert them to strings
         str_task_endowments = []
         for endowment in Constants.task_endowments:
             str_task_endowments.append(str(endowment))
 
+        # 1.1. Defining list of message receiver fields for single messaging
         for earning in str_task_endowments:
             if earning != '15' and earning != '25':
                 receiver = 'income_{}'.format(earning)
@@ -366,6 +375,27 @@ class Player(BasePlayer):
                 counter25 += 1
             else:
                 print("Error: Invalid Income Analyzed")
+
+        # 1.2. Defining list of message receiver fields for second message (double messaging only)
+        if self.session.config['msg_type'] == 'double':
+            # counter of players with income of 15 points (double messaging)
+            counter15_d = 1
+            counter25_d = 1
+
+            for earning in str_task_endowments:
+                if earning != '15' and earning != '25':
+                    receiver = 'income_{}_d'.format(earning)
+                    message_receivers.append(receiver)
+                elif earning == '15':
+                    receiver = 'income_{}'.format(earning)+'_{}_d'.format(str(counter15_d))
+                    message_receivers.append(receiver)
+                    counter15_d += 1
+                elif earning == '25':
+                    receiver = 'income_{}'.format(earning)+'_{}_d'.format(str(counter25_d))
+                    message_receivers.append(receiver)
+                    counter25_d += 1
+                else:
+                    print("Error: Invalid Income Analyzed")
         print(str(message_receivers))
 
         # 2. We'll identify who are the ids of the ones whose income is 15 or 25
@@ -379,6 +409,8 @@ class Player(BasePlayer):
                 players25.append(p.id_in_group)
 
         # 3. The exclusion of ourselves from the alternatives is going to take place
+        
+        # 3.1. Excluding in single messaging
         if self.id_in_group not in players15 and self.id_in_group not in players25:
             option_to_remove = 'income_{}'.format(string_income)
         elif self.id_in_group in players15:
@@ -389,7 +421,18 @@ class Player(BasePlayer):
                                '_{}'.format(str(players25.index(self.id_in_group) + 1))
         message_receivers.remove(option_to_remove)
 
-        print(str(message_receivers))
+        # 3.2. Excluding in double messaging
+        if self.session.config['msg_type'] == 'double':
+            if self.id_in_group not in players15 and self.id_in_group not in players25:
+                option_to_remove = 'income_{}_d'.format(string_income)
+            elif self.id_in_group in players15:
+                option_to_remove = 'income_{}'.format(string_income) + \
+                                '_{}_d'.format(str(players15.index(self.id_in_group) + 1))
+            elif self.id_in_group in players25:
+                option_to_remove = 'income_{}'.format(string_income) + \
+                                '_{}_d'.format(str(players25.index(self.id_in_group) + 1))
+            message_receivers.remove(option_to_remove)
+
         return message_receivers
 
     # Id of players who received the message of an specific player
@@ -397,6 +440,7 @@ class Player(BasePlayer):
 
     # Fields to choose the message receivers according to income
     if settings.LANGUAGE_CODE=="en": # labels in english
+        # defining receiver fields for first message
         income_9 = send_message_field('Income 9')
         income_15_1 = send_message_field('Income 15 (#1)')
         income_15_2 = send_message_field('Income 15 (#2)')
@@ -407,7 +451,19 @@ class Player(BasePlayer):
         income_80 = send_message_field('Income 80')
         income_125 = send_message_field('Income 125')
 
+        #if session.conf['msg_type'] == 'double': # defining receiver fields for second message
+        income_9_d = send_message_field('Income 9')
+        income_15_1_d = send_message_field('Income 15 (#1)')
+        income_15_2_d = send_message_field('Income 15 (#2)')
+        income_15_3_d = send_message_field('Income 15 (#3)')
+        income_25_1_d = send_message_field('Income 25 (#1)')
+        income_25_2_d = send_message_field('Income 25 (#2)')
+        income_40_d = send_message_field('Income 40')
+        income_80_d = send_message_field('Income 80')
+        income_125_d = send_message_field('Income 125')
+
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
+        # defining receiver fields for first message
         income_9 = send_message_field('Ingreso 9')
         income_15_1 = send_message_field('Ingreso 15 (#1)')
         income_15_2 = send_message_field('Ingreso 15 (#2)')
@@ -418,5 +474,19 @@ class Player(BasePlayer):
         income_80 = send_message_field('Ingreso 80')
         income_125 = send_message_field('Ingreso 125')
     
+        #if self.session.conf['msg_type'] == 'double': # defining receiver fields for second message
+        income_9_d = send_message_field('Ingreso 9')
+        income_15_1_d = send_message_field('Ingreso 15 (#1)')
+        income_15_2_d = send_message_field('Ingreso 15 (#2)')
+        income_15_3_d = send_message_field('Ingreso 15 (#3)')
+        income_25_1_d = send_message_field('Ingreso 25 (#1)')
+        income_25_2_d = send_message_field('Ingreso 25 (#2)')
+        income_40_d = send_message_field('Ingreso 40')
+        income_80_d = send_message_field('Ingreso 80')
+        income_125_d = send_message_field('Ingreso 125')
+
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
+    
+    # Message page counter
+    # message_page_counter = models.IntegerField(initial=0)

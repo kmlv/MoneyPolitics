@@ -11,10 +11,7 @@ class GroupingPage(WaitPage):
 
 
 class Introduction(Page):
-    def vars_for_template(self):
-        show_id = self.session.config['show_id']
-        id_in_group = self.player.id_in_group
-        return {'show_id': show_id, 'id_in_group': id_in_group}
+    pass
 
 
 class RealEffort(Page):
@@ -22,37 +19,12 @@ class RealEffort(Page):
 
 
 class Tetris(Page):
-    def is_displayed(self):
-        if self.session.config['treatment'] == "Tetris":
-            return True
-        else: 
-            return False
-    
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 120 #60 # we may want to give players more time 
 
     def before_next_page(self):
         # for debugging (delete later)
-        print(self.player.game_score)
-
-
-class Diamonds(Page):
-    def is_displayed(self):
-        if self.session.config['treatment'] == "Diamonds":
-            return True
-        else: 
-            return False
-
-    form_model = 'player'
-    form_fields = ['diamond_guess', 'diamond_actual']
-    timeout_seconds = 60
-
-    def before_next_page(self):
-        self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
-        # for debugging (delete later)
-        print(self.player.diamond_guess)
-        print(self.player.diamond_actual)
         print(self.player.game_score)
 
 
@@ -90,17 +62,37 @@ class PreparingMessage(Page):
 
     def get_form_fields(self):
         message = ['message']
-        choices = self.player.message_receivers_choices()
-        return message+choices
+
+
+        if self.session.config['msg_type'] == 'single':
+            choices = self.player.message_receivers_choices()
+            return message+choices            
+        
+        elif self.session.config['msg_type'] == 'double':
+            numb_of_receivers = len(self.player.message_receivers_choices())
+            
+            # keeping only the first half of receivers for the first message field
+            choices = self.player.message_receivers_choices()[:int(numb_of_receivers/2)]
+
+            # keeping the second half of receivers for the second message field
+            message_d = [message[0] + "_d"]
+            choices_d = self.player.message_receivers_choices()[int(numb_of_receivers/2):]
+            
+            return message+choices+message_d+choices_d  
+
+        else:
+            print(f"Error: invalid value for self.session.config['msg_type'] {self.session.config['msg_type']}")
 
     def vars_for_template(self):
-        return {'tax_system': self.session.config['tax_system']}
+        return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg']}
 
     def before_next_page(self):
         messages_sent = 0
         player = self.player
-        # To count the messages, we won't use elif, because sending a message to someone is not exclusive: you can
-        # send them to multiple people and that's independent from sending to another one before
+        #NOTE: To count the messages, we won't use elif, because sending a message to someone is not exclusive; 
+        # you can send them to multiple people and that's independent from sending to another one before
+
+        # First message
         if player.income_9 is True:
             messages_sent += 1
         if player.income_15_1 is True:
@@ -120,9 +112,35 @@ class PreparingMessage(Page):
         if player.income_125 is True:
             messages_sent += 1
 
+        # Second message
+        if self.settings.config['msg_type'] == "double":
+            if player.income_9_d is True:
+                messages_sent += 1
+            if player.income_15_1_d is True:
+                messages_sent += 1
+            if player.income_15_2_d is True:
+                messages_sent += 1
+            if player.income_15_3_d is True:
+                messages_sent += 1
+            if player.income_25_1_d is True:
+                messages_sent += 1
+            if player.income_25_2_d is True:
+                messages_sent += 1
+            if player.income_40_d is True:
+                messages_sent += 1
+            if player.income_80_d is True:
+                messages_sent += 1
+            if player.income_125_d is True:
+                messages_sent += 1
+
         # Calculating and discounting the total message cost
-        player.total_messaging_costs = messages_sent*Constants.message_cost
+        player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
+
+    def vars_for_template(self):      
+        return {"msg_type": self.session.config['msg_type'], 
+                "tax_system": self.session.config["tax_system"],
+                "message_cost": self.session.config["msg"]}
 
 
 class ProcessingMessage(WaitPage):
@@ -156,31 +174,24 @@ class ProcessingMessage(WaitPage):
                 string_income = str(p.base_earnings)[:1]
             elif p.base_earnings < 100:
                 string_income = str(p.base_earnings)[:2]
+
+                # adding an identifier for same income players
+                if p.base_earnings == 15:
+                    string_income = string_income + " (#" + str(players15.index(p.id_in_group) + 1) + ")"
+                elif p.base_earnings == 25:
+                    string_income = string_income + " (#" + str(players25.index(p.id_in_group) + 1) + ")"
             else:
                 string_income = str(p.base_earnings)[:3]
             
             sender_identifier = ""
-            player_str = None
-            income_str = None
             player_income_str = None
 
             if settings.LANGUAGE_CODE=="en":
-                player_str = "<b>Player "
-                income_str = " (Income "
                 player_income_str = "<b>Player of Income "
             elif settings.LANGUAGE_CODE=="es":
-                player_str = "<b>Participante "
-                income_str = " (Ingreso "
                 player_income_str = "<b>Jugador de Ingreso "
 
-            if self.session.config['show_id'] is True:
-                sender_identifier = sender_identifier + player_str + str(p.id_in_group)
-                if self.session.config['show_income'] is True:
-                    sender_identifier = sender_identifier + income_str + string_income + ")</b>: "
-                else:
-                    sender_identifier = sender_identifier + "</b>: "
-            elif self.session.config['show_income'] is True:
-                sender_identifier = player_income_str + string_income + "</b>: "
+            sender_identifier = player_income_str + string_income + "</b>: "
 
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
@@ -203,6 +214,29 @@ class ProcessingMessage(WaitPage):
                 if p.income_125 is True:
                     messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message + "</li>"
         
+            # required confiditonal for double messaging and  send_id + p.msg_d
+            if self.session.config['msg_type'] == 'double':
+                if p.message_d != "":
+                    # Again, we won't use elif, because sending a message to someone is not exclusive
+                    if p.income_9 is True:
+                        messages_for_9 = messages_for_9 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_15_1 is True:
+                        messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_15_2 is True:
+                        messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_15_3 is True:
+                        messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_25_1 is True:
+                        messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_25_2 is True:
+                        messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_40 is True:
+                        messages_for_40 = messages_for_40 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_80 is True:
+                        messages_for_80 = messages_for_80 + "<li>" + sender_identifier + p.message_d + "</li>"
+                    if p.income_125 is True:
+                        messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message_d + "</li>"
+
         # 3. We'll assign the messages according to the players income
         for p in self.group.get_players():
             # Now we'll use elif because a player can only have a unique income
@@ -268,7 +302,7 @@ class Results(Page):
         tax_system = self.session.config['tax_system']
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'tax_system': tax_system, 'tax_rate': tax_rate}
+            return {'tax_system': tax_system, 'tax_rate': tax_rate*100}
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
             return {'tax_system': tax_system, 'progressivity': progressivity}
@@ -281,7 +315,6 @@ page_sequence = [
     GroupingPage,
     Introduction,
     Tetris,
-    Diamonds,
     EffortResultsWaitPage,
     RealEffortResults,
     PreparingMessage,
