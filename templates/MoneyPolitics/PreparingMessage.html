@@ -16,6 +16,11 @@
 </head>
 <body>
 
+
+
+
+
+
     {% if tax_system == "tax_rate" %}
     <p>
       {% blocktrans trimmed %}
@@ -193,17 +198,199 @@
       <p>
        <div class="container" style="display: flex; height: 500px;">
             <div style="width: 40%; background: grey;">
-               Message #1
-               {% formfield player.message %}
+              Message #1
+              {% formfield player.message %}
+
+              {% if player.id_in_group == income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
+
+              {% elif player.id_in_group == income_15_1 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
+
+              {% elif player.id_in_group == income_15_2 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
+
+              {% elif player.id_in_group == income_15_3 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
+
+              {% elif player.id_in_group == income_25_1 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
+
+              {% elif player.id_in_group == income_25_2 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
               
+              {% elif player.id_in_group == income_40 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_80 %}
+                {% formfield player.income_125 %}
+              
+              {% elif player.id_in_group == income_80 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_125 %}
+              
+              {% elif player.id_in_group == income_125 %}
+                {% formfield player.income_9 %}
+                {% formfield player.income_15_1 %}
+                {% formfield player.income_15_2 %}
+                {% formfield player.income_15_3 %}
+                {% formfield player.income_25_1 %}
+                {% formfield player.income_25_2 %}
+                {% formfield player.income_40 %}
+                {% formfield player.income_80 %}
+
+              {% endif %}
            </div>
            <div style="width: 5%; background: white;">
             
            </div>
            <div style="width: 40%; background: grey;">
-               Message #2
+              Message #2
               {% formfield player.message_d %}
+
+              {% if player.id_in_group == income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
+
+              {% elif player.id_in_group == income_15_1 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
+
+              {% elif player.id_in_group == income_15_2 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
+
+              {% elif player.id_in_group == income_15_3 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
+
+              {% elif player.id_in_group == income_25_1 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
+
+              {% elif player.id_in_group == income_25_2 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
               
+              {% elif player.id_in_group == income_40 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_80_d %}
+                {% formfield player.income_125_d %}
+              
+              {% elif player.id_in_group == income_80 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_125_d %}
+              
+              {% elif player.id_in_group == income_125 %}
+                {% formfield player.income_9_d %}
+                {% formfield player.income_15_1_d %}
+                {% formfield player.income_15_2_d %}
+                {% formfield player.income_15_3_d %}
+                {% formfield player.income_25_1_d %}
+                {% formfield player.income_25_2_d %}
+                {% formfield player.income_40_d %}
+                {% formfield player.income_80_d %}
+
+              {% endif %}
            </div>
        </div>
       </p>
@@ -213,7 +400,98 @@
              <div style="width: 40%; background: grey;">
                 Message #1
                 {% formfield player.message %}
-                {% formfield player.choices %}
+
+                {% if player.id_in_group == income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+
+                {% elif player.id_in_group == income_15_1 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+
+                {% elif player.id_in_group == income_15_2 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+
+                {% elif player.id_in_group == income_15_3 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+
+                {% elif player.id_in_group == income_25_1 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+
+                {% elif player.id_in_group == income_25_2 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+                
+                {% elif player.id_in_group == income_40 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_80 %}
+                  {% formfield player.income_125 %}
+                
+                {% elif player.id_in_group == income_80 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_125 %}
+                
+                {% elif player.id_in_group == income_125 %}
+                  {% formfield player.income_9 %}
+                  {% formfield player.income_15_1 %}
+                  {% formfield player.income_15_2 %}
+                  {% formfield player.income_15_3 %}
+                  {% formfield player.income_25_1 %}
+                  {% formfield player.income_25_2 %}
+                  {% formfield player.income_40 %}
+                  {% formfield player.income_80 %}
+
+                {% endif %}
             </div>
         </div>
        </p>
