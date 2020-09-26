@@ -83,7 +83,27 @@ class PreparingMessage(Page):
             print(f"Error: invalid value for self.session.config['msg_type'] {self.session.config['msg_type']}")
 
     def vars_for_template(self):
-        return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg']}
+        income_id_dict = {} # dict with ids ordered by income (from lower to higher)
+        players = self.group.get_players() # list of players objects in group
+        unique_task_endowments = list(set(Constants.task_endowments)).sort() # ordered from lower to higher
+        
+        income_15_counter = 1 
+        income_25_counter = 1 
+
+        for income in unique_task_endowments: # looping accross incomes to get income ordered list                       
+            for p in players: # looping accross player ids to capture income specific ids 
+                if p.base_earnings == income: # if player has current income, append id to ordered list
+                    if p.base_earnings == 15:
+                        income_id_dict[f"income_{p.base_earnings}_{income_15_counter}"] = p.id_in_group
+                        income_15_counter += 1 # updating each time a player of income 15 is found
+                    elif p.base_earnings == 25:
+                        income_id_dict[f"income_{p.base_earnings}_{income_25_counter}"] = p.id_in_group
+                        income_25_counter += 1 # updating each time a player of income 25 is found
+                    else:
+                        income_id_dict[f"income_{p.base_earnings}"] = p.id_in_group
+
+        return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg'],
+                'player_id': self.player.id_in_group, **income_id_dict}
 
     def before_next_page(self):
         messages_sent = 0
@@ -112,7 +132,7 @@ class PreparingMessage(Page):
             messages_sent += 1
 
         # Second message
-        if self.settings.config['msg_type'] == "double":
+        if self.session.config['msg_type'] == "double":
             if player.income_9_d is True:
                 messages_sent += 1
             if player.income_15_1_d is True:
