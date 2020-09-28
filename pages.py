@@ -83,7 +83,42 @@ class PreparingMessage(Page):
             print(f"Error: invalid value for self.session.config['msg_type'] {self.session.config['msg_type']}")
 
     def vars_for_template(self):
-        return {'tax_system': self.session.config['tax_system'], 'message_cost': self.session.config['msg']}
+        income_id_dict = {} # dict with ids ordered by income (from lower to higher)
+        players = self.group.get_players() # list of players objects in group
+        unique_task_endowments = list(set(Constants.task_endowments)) # ordered from lower to higher
+        unique_task_endowments.sort()
+
+        income_15_counter = 1 
+        income_25_counter = 1 
+
+        for income in unique_task_endowments: # looping accross incomes to get income ordered list                       
+            for p in players: # looping accross player ids to capture income specific ids 
+                if p.base_earnings == income: # if player has current income, append id to ordered list
+                    
+                    # extracting the base earnings without zeros
+                    if p.base_earnings < 10:
+                        string_income = str(p.base_earnings)[:1]
+                    elif p.base_earnings < 100:
+                        string_income = str(p.base_earnings)[:2]
+                    else:
+                        string_income = str(p.base_earnings)[:3]
+
+                    if p.base_earnings == 15:
+                        income_id_dict[f"income_{string_income}_{income_15_counter}"] = p.id_in_group
+                        income_15_counter += 1 # updating each time a player of income 15 is found
+                    elif p.base_earnings == 25:
+                        income_id_dict[f"income_{string_income}_{income_25_counter}"] = p.id_in_group
+                        income_25_counter += 1 # updating each time a player of income 25 is found
+                    else:
+                        income_id_dict[f"income_{string_income}"] = p.id_in_group
+
+        # merging our dictionaries to create our variables
+        output = {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type'], **income_id_dict}
+        
+        print(output)
+        return {**output}
+            
 
     def before_next_page(self):
         messages_sent = 0
@@ -112,7 +147,7 @@ class PreparingMessage(Page):
             messages_sent += 1
 
         # Second message
-        if self.settings.config['msg_type'] == "double":
+        if self.session.config['msg_type'] == "double":
             if player.income_9_d is True:
                 messages_sent += 1
             if player.income_15_1_d is True:
@@ -135,11 +170,6 @@ class PreparingMessage(Page):
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
-
-    def vars_for_template(self):      
-        return {"msg_type": self.session.config['msg_type'], 
-                "tax_system": self.session.config["tax_system"],
-                "message_cost": self.session.config["msg"]}
 
 
 class ProcessingMessage(WaitPage):
