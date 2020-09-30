@@ -216,55 +216,55 @@ class ProcessingMessage(WaitPage):
             player_income_str = None
 
             if settings.LANGUAGE_CODE=="en":
-                player_income_str = "<b>Player of Income "
+                player_income_str = "<b>Message from Player with "
             elif settings.LANGUAGE_CODE=="es":
-                player_income_str = "<b>Jugador de Ingreso "
+                player_income_str = "<b>Mensaje del Jugador con  "
 
-            sender_identifier = player_income_str + string_income + "</b>: "
+            sender_identifier = player_income_str + string_income + " points" + "</b>: "
 
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
                 if p.income_9 is True:
-                    messages_for_9 = messages_for_9 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_9 = messages_for_9 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_15_1 is True:
-                    messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_15_2 is True:
-                    messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_15_3 is True:
-                    messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_25_1 is True:
-                    messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_25_2 is True:
-                    messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_40 is True:
-                    messages_for_40 = messages_for_40 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_40 = messages_for_40 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_80 is True:
-                    messages_for_80 = messages_for_80 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_80 = messages_for_80 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
                 if p.income_125 is True:
-                    messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message + "</li>"
+                    messages_for_125 = messages_for_125 + "<li>" + sender_identifier + "'" + p.message + "'" + "</li>"
         
             # required confiditonal for double messaging and  send_id + p.msg_d
             if self.session.config['msg_type'] == 'double':
                 if p.message_d != "":
                     # Again, we won't use elif, because sending a message to someone is not exclusive
                     if p.income_9 is True:
-                        messages_for_9 = messages_for_9 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_9 = messages_for_9 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_15_1 is True:
-                        messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_15_1 = messages_for_15_1 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_15_2 is True:
-                        messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_15_2 = messages_for_15_2 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_15_3 is True:
-                        messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_15_3 = messages_for_15_3 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_25_1 is True:
-                        messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_25_1 = messages_for_25_1 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_25_2 is True:
-                        messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_25_2 = messages_for_25_2 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_40 is True:
-                        messages_for_40 = messages_for_40 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_40 = messages_for_40 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_80 is True:
-                        messages_for_80 = messages_for_80 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_80 = messages_for_80 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
                     if p.income_125 is True:
-                        messages_for_125 = messages_for_125 + "<li>" + sender_identifier + p.message_d + "</li>"
+                        messages_for_125 = messages_for_125 + "<li>" + sender_identifier + "'" + p.message_d + "'" + "</li>"
 
         # 3. We'll assign the messages according to the players income
         for p in self.group.get_players():
