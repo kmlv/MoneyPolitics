@@ -514,7 +514,22 @@
     {% endif %}
 
     <p>
-    {% next_button %}
+      <br>
+      <h4>{% blocktrans trimmed %}Finalizing your message{% endblocktrans %} </h4>
+    </p>
+
+    <p>
+      <div class="container" style="display: flex; height: 75px;">
+        <div style="width: 40%; background: white;">
+          Note that every message costs {{  message_cost  }} points per recipient. Once you click the next button you will be committing
+          to puchasing a message to every recipient selected.
+        </div>
+        <div style="width: 5%; background: white;">
+        </div>
+        <div style="width: 40%; background: white;">
+          {% next_button %}
+        </div>
+      </div>
     </p>
 
     <p>
