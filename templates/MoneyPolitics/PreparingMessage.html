@@ -177,24 +177,24 @@
         <h4>{% blocktrans trimmed %}Sending your message{% endblocktrans %} </h4>
     </p>
 
-    <p>
-      Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
-    </p>
-      
-      <script>
-        let charcount = document.getElementById('char-count')
-        let messageInput = document.querySelector('[name=message_d]');
-        messageInput.oninput = function() {
-        charcount.innerText = messageInput.value.length;
-        };
-      </script>
-
     {% if msg_type == "double" %} 
+      <p>
+        Write the message you want to send
+      </p>
+
       <p>
        <div class="container" style="display: flex; height: 500px;">
             <div style="width: 40%; background: grey;">
-              Message #1
+              Message #1 (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
               {% formfield player.message %}
+
+              <script>
+                let charcount = document.getElementById('char-count')
+                let messageInput = document.querySelector('[name=message]');
+                messageInput.oninput = function() {
+                charcount.innerText = messageInput.value.length;
+                };
+              </script>
 
               {% if player.id_in_group == income_9 %}
                 {% formfield player.income_15_1 %}
@@ -292,8 +292,16 @@
             
            </div>
            <div style="width: 40%; background: grey;">
-              Message #2
+              Message #2 (<span id="char-count_d">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
               {% formfield player.message_d %}
+
+              <script>
+                let char_count = document.getElementById('char-count_d')
+                let message_Input = document.querySelector('[name=message_d]');
+                message_Input.oninput = function() {
+                char_count.innerText = message_Input.value.length;
+                };
+              </script>
 
               {% if player.id_in_group == income_9 %}
                 {% formfield player.income_15_1_d %}
@@ -390,6 +398,18 @@
        </div>
       </p>
     {% elif msg_type == "single" %}
+      <p>
+        Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
+      </p>
+        
+      <script>
+        let charcount = document.getElementById('char-count')
+        let messageInput = document.querySelector('[name=message]');
+        messageInput.oninput = function() {
+        charcount.innerText = messageInput.value.length;
+        };
+      </script>
+
       <p>
         <div class="container" style="display: flex; height: 500px;">
              <div style="width: 40%; background: grey;">
