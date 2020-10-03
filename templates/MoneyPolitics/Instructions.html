@@ -11,73 +11,178 @@
 
     <p>
         {% blocktrans trimmed %}
-            The following experiment is a public goods game in which you and other members of your group will perform effort tasks
-            and then be assigned an income either in accordance to your performance on the task or by luck. Therefor some people
-            will have lucky income while others have income based on their performance. The players will then have the chance 
-            to send messages to others explaining what tax system should be chosen before players vote on their preference for a 
-            tax system.
+            The following experiment is a public goods game in which you will be assigned to a group of nine
+            participants. Together you will play the public goods game for X rounds - each round will have similar rules.
         {% endblocktrans %}
     </p>
 
-    <p>
-        {% blocktrans trimmed %}
-            After completing the real effort task, mutually selecting a tax rate, and undergoing taxation and redistribution, 
-            a payoff will be calculated. This payoff takes into consideration the direct benefit of public goods funded by the 
-            government, the amount of private money you earned in the task (business income), the amount of tax money you paid, 
-            the amount of redistributed funds you received, and the increase in productivity of your private business (task) 
-            based on the availability of public goods. This payoff is what is reported on your screen here and describes 
-            utility or overall benefit. The payoff captures 
-            more than just the amount of money you have left after redistribution - it also seeks to include the beneficial 
-            interactions of strong public goods like infrastructure and healthcare with your business as well as the direct 
-            benefit of those public goods on your wellbeing. After payoff calculations we will convert your payoff to USD at 
-            a fixed currency conversion rate.
-        {% endblocktrans %}
-    </p>
+    <h5>
+      {% blocktrans trimmed %}
+      Income Generation
+      {% endblocktrans %}
+    </h5>
 
     <p>
-        The following table is the conversion rate of your ranking in the real effort task (Tetris) to the private income
-        score that you will be assigned given that your income is assigned by skill.
+      In every round, every group member will perform an income generating task. Your performance in the task will
+      give you a ranking, and your ranking will determine your private income for the round. This conversion of
+      ranking to income is explained in the table below:
     </p>
 
+
     <p>
-        <style type="text/css">
-            .tg  {border-collapse:collapse;border-spacing:0;}
-            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-              overflow:hidden;padding:20px 20px;word-break:normal;}
-            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-              font-weight:normal;overflow:hidden;padding:20px 20px;word-break:normal;}
-            .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-            .tg .tg-0lax{text-align:left;vertical-align:top}
-            </style>
-            <table class="tg">
-            <thead>
-              <tr>
-                <th class="tg-0pky">Income Assignment by Skill</th>
-                <th class="tg-0pky">125</th>
-                <th class="tg-0lax">80</th>
-                <th class="tg-0lax">40</th>
-                <th class="tg-0lax">25</th>
-                <th class="tg-0lax">25</th>
-                <th class="tg-0lax">15</th>
-                <th class="tg-0lax">15</th>
-                <th class="tg-0lax">15</th>
-                <th class="tg-0lax">9</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="tg-0pky">Ranking in Real Effort Task</td>
-                <td class="tg-0pky">1</td>
-                <td class="tg-0lax">2</td>
-                <td class="tg-0lax">3</td>
-                <td class="tg-0lax">4</td>
-                <td class="tg-0lax">5</td>
-                <td class="tg-0lax">6</td>
-                <td class="tg-0lax">7</td>
-                <td class="tg-0lax">8</td>
-                <td class="tg-0lax">9</td>
-              </tr>
-            </tbody>
-            </table>
+      <style type="text/css">
+          .tg  {border-collapse:collapse;border-spacing:0;}
+          .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            overflow:hidden;padding:20px 20px;word-break:normal;}
+          .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            font-weight:normal;overflow:hidden;padding:20px 20px;word-break:normal;}
+          .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+          .tg .tg-0lax{text-align:left;vertical-align:top}
+          </style>
+          <table class="tg">
+          <thead>
+            <tr>
+              <th class="tg-0pky">Income Assignment by Skill</th>
+              <th class="tg-0pky">125</th>
+              <th class="tg-0lax">80</th>
+              <th class="tg-0lax">40</th>
+              <th class="tg-0lax">25</th>
+              <th class="tg-0lax">25</th>
+              <th class="tg-0lax">15</th>
+              <th class="tg-0lax">15</th>
+              <th class="tg-0lax">15</th>
+              <th class="tg-0lax">9</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tg-0pky">Ranking in Real Effort Task</td>
+              <td class="tg-0pky">1</td>
+              <td class="tg-0lax">2</td>
+              <td class="tg-0lax">3</td>
+              <td class="tg-0lax">4</td>
+              <td class="tg-0lax">5</td>
+              <td class="tg-0lax">6</td>
+              <td class="tg-0lax">7</td>
+              <td class="tg-0lax">8</td>
+              <td class="tg-0lax">9</td>
+            </tr>
+          </tbody>
+          </table>
+  </p>
+
+
+  <p>
+    Notice there are nine members but only six different income levels, therefor some members will have the 
+    same income as other members. Please also note that income WILL NOT be determined solely by task performance,
+    it will have a component of luck. There will be a random selection of two equally likely scenarios. The 
+    first of which is a situation where three player's incomes will be shuffled while six player's incomes will
+    remain based solely on skill. The second situation has six player's incomes shuffled while three player's incomes stay based
+    solely on skill. Simply, your income is generated based on your ranking in the effort task and then may be
+    shuffled randomly with either three or six other members depending on a random selection.
+  </p>
+
+  <h5>
+    {% blocktrans trimmed %}
+    Messaging Before Selecting Group Tax Rate
+    {% endblocktrans %}
+  </h5>
+
+  {% if msg_type == 'single' %}
+    <p>
+      {% blocktrans trimmed %}
+      After assignment of income each player will be given the chance to send a message to any, some, or all 
+      other players. This is a chance to influence other players before you all vote on a tax rate. 
+      The cost of each message will be sent will be {{ message_cost }} points. You will compose messages to
+      other players in a box like the one below, and use the checkboxes in order to select each player that you
+      would like to send that message to.
+      {% endblocktrans %}
     </p>
+    
+    <img src="single_msg.jpeg" alt="msg" width="500" height="333">
+
+    <p>
+      For example, if you write “AAA” in the box, and check income 125, that means that the group 
+      member with an income of 125 points will receive that message “AAA”.
+    </p>
+
+  {% elif msg_type == 'double' %}
+    <p>
+      {% blocktrans trimmed %}
+      After assignment of income each player will be given the chance to send one or two messages to any, some, or all 
+      other players. This is a chance to influence other players before you all vote on a tax rate. 
+      The cost of each message will be sent will be {{ message_cost }} points. You will compose messages to
+      other players in boxes like the ones below, and use the checkboxes in order to select each player that you
+      would like to send the corresponding message to.
+      {% endblocktrans %}
+    </p>
+    
+    <img src="dual_msg.jpeg" alt="msg" width="500" height="333">
+
+    <p>
+      For example, if you write “AAA” in box 1, and check income 125 above, that means that the group 
+      member with an income of 125 points will receive that message “AAA”.
+    </p>
+  {% endif %}
+
+  <p>
+    Every message will be distributed after everyone has finished writing their messages. Messages are
+    unidirectional and there will not be any back and forth communication. Please note that you may not send
+    a message that contains inappropriate language or conveys a threat. 
+  </p>
+
+  <h5>
+    {% blocktrans trimmed %}
+    Selecting Group Tax Rate
+    {% endblocktrans %}
+  </h5>
+
+  <p>
+    The group will then collectively decide the tax level in the group. Each person will vote for a tax rate
+    that they would like to be applied to all members, themselves included. Once the votes are submitted, the
+    median of the votes will be determined and selected as the tax rate applicable to all members of the group.
+  </p>
+
+  <p>
+    {% blocktrans trimmed %}
+      <b>Example of a median:</b> 
+      Suppose you and your friends must all choose an amount to contribute for food at a party. 
+      If you select $5 and the other 8 members of your group have chosen: 
+      $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br><br>
+    {% endblocktrans %}
+      1: $1<br>
+      2: $2<br>
+      3: $4<br>
+      4: $5<br>
+      <b>5: $7 (= {% blocktrans trimmed %}median amount{% endblocktrans %})</b><br>
+      6: $8<br>
+      7: $8<br>
+      8: $9<br>
+      9: $10
+  </p>
+  <p>
+    {% blocktrans trimmed %}
+        The median in the example would be $7. Which is the middle amount in a sorted list. When you and other
+        members of your group select a tax rate, the median amount will be computed in this fashion.
+    {% endblocktrans %}
+  </p>
+
+  <h5>
+    {% blocktrans trimmed %}
+    Payoffs
+    {% endblocktrans %}
+  </h5>
+
+  <p>
+    Each members private income from the income generation task will be taxed at the group median determined
+    tax rate. The total amount of points spent on the messaging (total number of messages times cost per message)
+    will be subtracted from the private income as well. The payoff also takes into consideration the amount of
+    money that has been received by the goverment though tax revenue in the following ways. First there is a direct
+    benefit from public goods that is given to the player (Ex: the benefit of social security, or unemployment insurance).
+    And second there will be a multiplier applied to the private payoffs that encompasses the positive effects of
+    solid public goods on private productivity (Ex: the benefit that companies receive from having roads and private property rights).
+    To better understand how these payoffs work, please see the graphs below that show a player's potential payoff
+    based on their initial income level.
+  </p>
+
 </div>

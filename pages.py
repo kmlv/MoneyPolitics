@@ -11,7 +11,10 @@ class GroupingPage(WaitPage):
 
 
 class Introduction(Page):
-    pass
+    def vars_for_template(self):
+        int_msg_cost = int(self.session.config['msg'])
+        return {'tax_system': self.session.config['tax_system'],
+                  'msg_type': self.session.config['msg_type'], 'message_cost': int_msg_cost}
 
 
 class RealEffort(Page):
@@ -27,6 +30,10 @@ class Tetris(Page):
         # for debugging (delete later)
         print(self.player.game_score)
 
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
+
 
 class EffortResultsWaitPage(WaitPage):
 
@@ -35,6 +42,10 @@ class EffortResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
         self.group.base_income_assignment()
+    
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class RealEffortResults(Page):
@@ -54,7 +65,8 @@ class RealEffortResults(Page):
         income = player.base_earnings
         ranking = player.ranking
 
-        return {'ranking': ranking, 'income': income, 'effort_or_luck': effort_or_luck}
+        return {'ranking': ranking, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class PreparingMessage(Page):
@@ -170,6 +182,7 @@ class PreparingMessage(Page):
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
+    
 
 
 class ProcessingMessage(WaitPage):
@@ -290,9 +303,14 @@ class ProcessingMessage(WaitPage):
             if p.base_earnings == 125:
                 p.messages_received = messages_for_125
 
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 class ReceivingMessage(Page):
-    pass
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class ProgressivityParameter(Page):
@@ -306,6 +324,9 @@ class ProgressivityParameter(Page):
             return True
         else:
             return False
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class TaxRateParameter(Page):
@@ -319,6 +340,9 @@ class TaxRateParameter(Page):
             return True
         else:
             return False
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class ResultsWaitPage(WaitPage):
@@ -331,10 +355,12 @@ class Results(Page):
         tax_system = self.session.config['tax_system']
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'tax_system': tax_system, 'tax_rate': tax_rate*100}
+            return {'tax_system': tax_system, 'tax_rate': tax_rate*100, "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
-            return {'tax_system': tax_system, 'progressivity': progressivity}
+            return {'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
         else:
             print('Tax system undefined')
 
