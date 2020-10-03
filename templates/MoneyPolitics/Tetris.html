@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}
-  {% blocktrans trimmed %}Real Effort Task: Tetris Game{% endblocktrans %}
+  {% blocktrans trimmed %}Income-generating Task{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
@@ -254,7 +254,7 @@ function loop() {
   var inputScore = document.getElementById("game_score");
   inputScore.setAttribute('value', score);
   // pass score to be displayed to the user
-  document.getElementById('user_score').innerHTML = "Your score: " + score;
+  document.getElementById('user_score').innerHTML = "Your score: " + score + " points";
 
   // draw the playfield
   for (let row = 0; row < 20; row++) {
