@@ -19,33 +19,21 @@
     {% if tax_system == "tax_rate" %}
     <p>
       {% blocktrans trimmed %}
-        After this page, you are voting to decide which tax rate should be applied to all the members of your group,
-        including yourself.
+      After this page, you will be voting to decide which tax rate should be applied to all the members 
+      of your group, including yourself (see the instructions for example). Before voting, you can send a 
+      message to the other players by filling one or both boxes below. You can also select which players will 
+      receive your message.      
       {% endblocktrans %}
     </p>
+
     <p>
-      {% blocktrans trimmed %}
-        The median of all the selected taxes is going to be chosen. <b>Example:</b> As an example of a median, 
-        suppose you and your friends must all choose an amount to contribute for food at a party. If you select $5 
-        and the other 8 members of your group have chosen: 
-        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br><br>
-      {% endblocktrans %}
-        1: $1<br>
-        2: $2<br>
-        3: $4<br>
-        4: $5<br>
-        <b>5: $7 (= {% blocktrans trimmed %}median amount{% endblocktrans %})</b><br>
-        6: $8<br>
-        7: $8<br>
-        8: $9<br>
-        9: $10
-    </p>
-    <p>
-      {% blocktrans trimmed %}
-          The median in the example would be $7. Which is the middle amount in a sorted list. When you select a tax rate
-          in this section, along with other members of your group, the actual tax rate applied will be calculated using the median.
+      {% blocktrans with base_earnings=player.base_earnings %}
+      Your current pre-tax income is {{ base_earnings }}. The cost per message sent to another group member is {{ message_cost}} 
+      points. The total cost of sending messages will be deducted from your before-tax income. You may 
+      not send a message that conveys a threat or contains inappropriate language.
       {% endblocktrans %}
     </p>
+    
     {% else %}
     <p>
         {% blocktrans trimmed %}
@@ -154,23 +142,7 @@
 
     </p>
 
-    <p>
-      {% blocktrans trimmed %}
-        Before voting, you can <b>send a message</b> to the other players by filling the box in the bottom of this page.
-        You can select which players will receive your message in this page.
-      {% endblocktrans %}
-    </p>
-    <p>
-      {% blocktrans %}
-        The cost per message sent is {{ message_cost }}
-      {% endblocktrans %}
-      {% blocktrans with base_earnings=player.base_earnings %}
-        and your current endowment is {{ base_earnings }}
-        The amount spend on sending the messages is going to be taken from your income after taxes.
-        Please note that you may not send a message that conveys a threat or has inappropriate language.
-      {% endblocktrans %}
-        
-    </p>
+    
 
     <p>
         <br>

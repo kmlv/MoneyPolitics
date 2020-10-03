@@ -3,18 +3,40 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %}Information about Nature of Income{% endblocktrans %}
+{% blocktrans trimmed %}Income-Generating Task - Results{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 <html>
     <p>
         {% blocktrans trimmed %}
-        Your income is {{ income }} 
-        Income was received by {{ effort_or_luck }}
+        You ranked {{ ranking }} in the income-generating task.
         {% endblocktrans %}
     </p>
 
+    <p>
+        {% blocktrans trimmed %}
+        You ranked {{ ranking }} in the income-generating task.
+        {% endblocktrans %}
+    </p>
+
+    {% if effort_or_luck == 'Luck' %}
+        <p>
+            {% blocktrans trimmed %}
+            The computer has randomly determined your income will not be swapped with anyone else's. That is, your income is determined by
+            performance.
+            {% endblocktrans %}
+        </p>
+    
+    {% elif effort_or_luck == 'Luck' %}
+        <p>
+            {% blocktrans trimmed %}
+            The computer has randomly determined your income will be swapped with someone else’s. 
+            That is, your income is determined by luck. 
+            {% endblocktrans %}
+        </p>
+
+    {% endif %}
     <p>
     {% next_button %}
     </p>
