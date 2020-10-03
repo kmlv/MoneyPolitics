@@ -3,15 +3,15 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %}Receiving Your Messages{% endblocktrans %}
+{% blocktrans trimmed %}Read Your Messages{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 <html xmlns="http://www.w3.org/1999/html">
     <p>
-        {% blocktrans with after_message_earnings=player.after_message_earnings %}
-        After sending the messages, your current game earnings are {{ after_message_earnings }}<br>
-        This are the messages you've received:
+        {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
+        The total cost of the messages you have sent to other players is {{ total_messaging_costs }}<br>
+        These are the messages you've received from other players:
         {% endblocktrans %}
     </p>
         <ul>
