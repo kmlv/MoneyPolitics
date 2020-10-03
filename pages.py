@@ -75,7 +75,8 @@ class RealEffortResults(Page):
         elif ranking > 3:
             ranking_string = str(ranking)+"th"
 
-        return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck}
+        return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class PreparingMessage(Page):
@@ -364,7 +365,8 @@ class Results(Page):
         tax_system = self.session.config['tax_system']
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'tax_system': tax_system, 'tax_rate': tax_rate*100, "message_cost": self.session.config['msg']}
+            return {'tax_system': tax_system, 'tax_rate': tax_rate*100, "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
             return {'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg']}

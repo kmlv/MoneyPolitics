@@ -99,7 +99,7 @@
       {% endblocktrans %}
     </p>
     
-    <img src="single_msg.jpeg" alt="msg" width="500" height="333">
+    <img src="{% static 'Single_msg.PNG' %}"/>
 
     <p>
       For example, if you write “AAA” in the box, and check income 125, that means that the group 
@@ -117,7 +117,7 @@
       {% endblocktrans %}
     </p>
     
-    <img src="dual_msg.jpeg" alt="msg" width="500" height="333">
+    <img src="{% static 'dual_msg.PNG' %}" />
 
     <p>
       For example, if you write “AAA” in box 1, and check income 125 above, that means that the group 
@@ -181,8 +181,103 @@
     benefit from public goods that is given to the player (Ex: the benefit of social security, or unemployment insurance).
     And second there will be a multiplier applied to the private payoffs that encompasses the positive effects of
     solid public goods on private productivity (Ex: the benefit that companies receive from having roads and private property rights).
-    To better understand how these payoffs work, please see the graphs below that show a player's potential payoff
-    based on their initial income level.
+    To better understand how these payoffs work, please see the graphs and table below that show a player's potential payoff
+    based on their initial income level and tax rate.
   </p>
+
+  <p>
+    The values in the middle of the table are the potential payoffs:
+  </p>
+  <style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-pb0m{border-color:inherit;text-align:center;vertical-align:bottom}
+    .tg .tg-hdgj{background-color:#305496;border-color:inherit;color:#FFF;font-weight:bold;text-align:center;vertical-align:bottom}
+    .tg .tg-9wq8{border-color:inherit;text-align:center;vertical-align:middle}
+    .tg .tg-1z65{background-color:#305496;border-color:inherit;color:#FFF;font-weight:bold;text-align:center;vertical-align:middle}
+    </style>
+    <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-1z65" rowspan="2">Income<br>Level</th>
+        <th class="tg-1z65" colspan="6">Tax Rate</th>
+      </tr>
+      <tr>
+        <td class="tg-hdgj">0%</td>
+        <td class="tg-hdgj">20%</td>
+        <td class="tg-hdgj">40%</td>
+        <td class="tg-hdgj">60%</td>
+        <td class="tg-hdgj">80%</td>
+        <td class="tg-hdgj">100%</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-pb0m">9</td>
+        <td class="tg-9wq8">45</td>
+        <td class="tg-9wq8">71.9</td>
+        <td class="tg-9wq8">98.1</td>
+        <td class="tg-9wq8">115.6</td>
+        <td class="tg-9wq8">85.0</td>
+        <td class="tg-9wq8">54.4</td>
+      </tr>
+      <tr>
+        <td class="tg-pb0m">15</td>
+        <td class="tg-9wq8">75</td>
+        <td class="tg-9wq8">116.8</td>
+        <td class="tg-9wq8">147.5</td>
+        <td class="tg-9wq8">156.4</td>
+        <td class="tg-9wq8">105.4</td>
+        <td class="tg-9wq8">54.4</td>
+      </tr>
+      <tr>
+        <td class="tg-pb0m">25</td>
+        <td class="tg-9wq8">125</td>
+        <td class="tg-9wq8">191.7</td>
+        <td class="tg-9wq8">229.8</td>
+        <td class="tg-9wq8">224.4</td>
+        <td class="tg-9wq8">139.4</td>
+        <td class="tg-9wq8">54.4</td>
+      </tr>
+      <tr>
+        <td class="tg-pb0m">40</td>
+        <td class="tg-9wq8">200</td>
+        <td class="tg-9wq8">304.1</td>
+        <td class="tg-9wq8">353.3</td>
+        <td class="tg-9wq8">326.4</td>
+        <td class="tg-9wq8">190.4</td>
+        <td class="tg-9wq8">54.4</td>
+      </tr>
+      <tr>
+        <td class="tg-pb0m">80</td>
+        <td class="tg-9wq8">400</td>
+        <td class="tg-9wq8">603.7</td>
+        <td class="tg-9wq8">682.7</td>
+        <td class="tg-9wq8">598.4</td>
+        <td class="tg-9wq8">326.4</td>
+        <td class="tg-9wq8">54.4</td>
+      </tr>
+      <tr>
+        <td class="tg-pb0m">125</td>
+        <td class="tg-9wq8">625</td>
+        <td class="tg-9wq8">940.7</td>
+        <td class="tg-9wq8">1053.3</td>
+        <td class="tg-9wq8">904.4</td>
+        <td class="tg-9wq8">479.4</td>
+        <td class="tg-9wq8">54.4</td>
+      </tr>
+    </tbody>
+    </table>
+
+    <p>
+      The following graphs show the payoffs for every tax rate rate. Each income has its own graph where
+      you can see the relationship between payoffs and tax rate.
+    </p>
+
+    <img src="{% static 'f_tax.png' %}"/>
+
 
 </div>
