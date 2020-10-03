@@ -11,7 +11,10 @@ class GroupingPage(WaitPage):
 
 
 class Introduction(Page):
-    pass
+    def vars_for_template(self):
+        int_msg_cost = int(self.session.config['msg'])
+        return {'tax_system': self.session.config['tax_system'],
+                  'msg_type': self.session.config['msg_type'], 'message_cost': int_msg_cost}
 
 
 class RealEffort(Page):
@@ -27,6 +30,10 @@ class Tetris(Page):
         # for debugging (delete later)
         print(self.player.game_score)
 
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
+
 
 class EffortResultsWaitPage(WaitPage):
 
@@ -35,6 +42,10 @@ class EffortResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
         self.group.base_income_assignment()
+    
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class RealEffortResults(Page):
@@ -180,6 +191,7 @@ class PreparingMessage(Page):
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
+    
 
 
 class ProcessingMessage(WaitPage):
@@ -300,9 +312,14 @@ class ProcessingMessage(WaitPage):
             if p.base_earnings == 125:
                 p.messages_received = messages_for_125
 
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 class ReceivingMessage(Page):
-    pass
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class ProgressivityParameter(Page):
@@ -316,6 +333,9 @@ class ProgressivityParameter(Page):
             return True
         else:
             return False
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class TaxRateParameter(Page):
@@ -329,6 +349,9 @@ class TaxRateParameter(Page):
             return True
         else:
             return False
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
 
 
 class ResultsWaitPage(WaitPage):
