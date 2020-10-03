@@ -3,16 +3,30 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %}Real Effort Task Results{% endblocktrans %}
+{% blocktrans trimmed %}Income-generating task - Result{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 
     <p>
         {% blocktrans trimmed %}
-        Your ranking in the task was {{ ranking }} </br>
-        The computer has selected you to receive your income according to: {{ effort_or_luck }} </br>
-        Because of that, your pre-tax income is {{ income }}
+            You ranked {{ ranking_string }} in the task </br></br>
+        {% endblocktrans %}
+
+        {% if effort_or_luck == "Effort" %}
+            {% blocktrans trimmed %}
+                The computer has randomly determined your income will not be swapped with 
+                anyone else’s. That is, your income is determined by performance. </br></br>
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans trimmed %}
+                The computer has randomly determined your income will be swapped with 
+                someone else’s. That is, your income is determined by luck. </br></br>
+            {% endblocktrans %}
+        {% endif %}
+
+        {% blocktrans trimmed %}
+            Your pre-tax income is {{ income }}
         {% endblocktrans %}
     </p>
 

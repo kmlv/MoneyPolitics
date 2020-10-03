@@ -8,18 +8,21 @@
 
 {% block content %}
     {% blocktrans with real_effort_earnings=player.real_effort_earnings %}
-    Your real effort income was {{ real_effort_earnings }} </br></br>
+    Your task income was {{ real_effort_earnings }} </br></br>
     {% endblocktrans %}
     {% if player.shuffled %}
         {% blocktrans with base_earnings=player.base_earnings %}
-        <b>Your income was shuffled</b></br>
-        After shuffling, your new income is {{ base_earnings }} </br></br>
+        Your income was randomly swapped with someone.</br></br>
         {% endblocktrans %}
     {% else %}
         {% blocktrans trimmed %}
-        <b>Your income wasn't shuffled</b> </br></br>
+        Your income wasn't swapped with anyone.</br></br>
         {% endblocktrans %}
     {% endif %}
+
+    {% blocktrans with message_cost=message_cost %}
+    The cost per message and per recipients was {{ message_cost }} </br></br>
+    {% endblocktrans %}
 
     {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
     Your messaging costs were {{ total_messaging_costs }} </br></br>
@@ -27,10 +30,10 @@
 
     {% if tax_system == 'tax_rate' %}
         {% blocktrans with player_tax_rate=player.tax_rate %}
-        Your selected tax rate was {{ player_tax_rate }} </br>
+        You selected a tax rate of {{ player_tax_rate }} </br></br>
         {% endblocktrans %}
         {% blocktrans trimmed %}
-        The value of the base tax rate is {{ tax_rate }} </br></br>
+        The median tax rate of your group was {{ tax_rate }} </br></br>
         {% endblocktrans %}
     {% else %}
         {% blocktrans with player_progressivity=player.progressivity %}
@@ -43,10 +46,7 @@
 
     {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
 
-    <b>The public portion of your payoff, which is obtained from the tax redistribution is {{ player_public_income }}</b></br>
-    <b>The private portion of your payoff, obtained in the real effort task or by luck {{ player_private_income }}</b></br>
-    <b>Your total payoff, as described in the instructions, for this round is {{ player_payoff }}</b></br>
-    Your payoff will be converted to USD at a fixed conversion rate for payment
+    Your total payoff, as described in the instructions, for this round is {{ player_payoff }}</br>
 
     {% endblocktrans %}
 
