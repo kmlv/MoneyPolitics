@@ -30,28 +30,6 @@
         {% endblocktrans %}
     </p>
 
-    {% if effort_or_luck == 'Effort' %}
-        <p>
-            {% blocktrans trimmed %}
-            The computer has randomly determined your income will not be swapped with anyone else's. That is, your income is determined by
-            performance.
-            {% endblocktrans %}
-        </p>
-    
-    {% elif effort_or_luck == 'Luck' %}
-        <p>
-            {% blocktrans trimmed %}
-            The computer has randomly determined your income will be swapped with someone else’s. 
-            That is, your income is determined by luck. 
-            {% endblocktrans %}
-        </p>
-
-    {% endif %}
-
-    <p>
-        Your pre-tax income is {{ income }}
-    </p>
-
     <p>
     {% next_button %}
     </p>
