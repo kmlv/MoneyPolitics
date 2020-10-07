@@ -34,7 +34,7 @@
     </h5>
 
     <p>
-      In every round, every group member will perform a task. After the task, the 
+      In every round, every participant will perform a task. After the task, the 
       computer will generate a ranking of performance in the task for all nine 
       participants. Your position in the ranking might or might not determine your 
       initial wealth following a probabilistic rule.
@@ -48,44 +48,43 @@
 
     <p>
       <style type="text/css">
-          .tg  {border-collapse:collapse;border-spacing:0;}
-          .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-            overflow:hidden;padding:20px 20px;word-break:normal;}
-          .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-            font-weight:normal;overflow:hidden;padding:20px 20px;word-break:normal;}
-          .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
-          .tg .tg-0lax{text-align:left;vertical-align:top}
-          </style>
-          <table class="tg">
-          <thead>
-            <tr>
-              <th class="tg-0pky">Income Assignment by Skill</th>
-              <th class="tg-0pky">125</th>
-              <th class="tg-0lax">80</th>
-              <th class="tg-0lax">40</th>
-              <th class="tg-0lax">25</th>
-              <th class="tg-0lax">25</th>
-              <th class="tg-0lax">15</th>
-              <th class="tg-0lax">15</th>
-              <th class="tg-0lax">15</th>
-              <th class="tg-0lax">9</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="tg-0pky">Ranking in Real Effort Task</td>
-              <td class="tg-0pky">1</td>
-              <td class="tg-0lax">2</td>
-              <td class="tg-0lax">3</td>
-              <td class="tg-0lax">4</td>
-              <td class="tg-0lax">5</td>
-              <td class="tg-0lax">6</td>
-              <td class="tg-0lax">7</td>
-              <td class="tg-0lax">8</td>
-              <td class="tg-0lax">9</td>
-            </tr>
-          </tbody>
-          </table>
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:20px 20px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:20px 20px;word-break:normal;}
+        .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+        </style>
+        <table class="tg">
+        <thead>
+          <tr>
+            <th class="tg-0pky">Ranking in task</th>
+            <th class="tg-0pky">1st</th>
+            <th class="tg-0pky">2nd</th>
+            <th class="tg-0pky">3rd</th>
+            <th class="tg-0pky">4th</th>
+            <th class="tg-0pky">5th</th>
+            <th class="tg-0pky">6th</th>
+            <th class="tg-0pky">7th</th>
+            <th class="tg-0pky">8th</th>
+            <th class="tg-0pky">9th</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tg-0pky">Initial Wealth</td>
+            <td class="tg-0pky">125 points</td>
+            <td class="tg-0pky">80 points</td>
+            <td class="tg-0pky">40 points</td>
+            <td class="tg-0pky">25 points</td>
+            <td class="tg-0pky">25 points</td>
+            <td class="tg-0pky">15 points</td>
+            <td class="tg-0pky">15 points</td>
+            <td class="tg-0pky">15 points</td>
+            <td class="tg-0pky">9 points</td>
+          </tr>
+        </tbody>
+        </table>
   </p>
 
 
@@ -107,7 +106,7 @@
     of the nine participants will have their initial wealth be determined by their 
     performance, and with the remaining 50% chance, the majority of participants’ 
     wealth will be determined by luck. Those whose initial wealth is not determined by 
-    their performance are assigned the wealth associated with another member’s 
+    their performance are assigned the wealth associated with another participants' 
     performance, by way of random position shuffling.
   </p>
 
@@ -120,7 +119,7 @@
   <p>
     Participants’ initial wealth levels help to determine their earnings in the 
     experiment by serving as a potential resource that they may invest in an economic 
-    activity. Exactly how much each member earns is also determined by (1) the amounts 
+    activity. Exactly how much each participant earns is also determined by (1) the amounts 
     of public goods (analogous to roads, bridges, public transit, and other government 
     services in the real world) that are funded by taxes paid by the participants, and 
     (2) the amount of tax that each individual pays. In general, you’ll earn more if 
@@ -211,8 +210,8 @@
   {% if msg_type == 'single' %}
     <p>
       {% blocktrans trimmed %}
-      After assignment of income each player will be given the chance to send a 
-      message to any, some, or all other players. You will compose the message to 
+      After assignment of wealth, each participant will be given the chance to send a 
+      message to any, some, or all other participants. You will compose the message to 
       other participants a box like the one below, and use the checkboxes to select 
       the participants to whom you would like to send the message.
       {% endblocktrans %}
@@ -239,8 +238,8 @@
   {% elif msg_type == 'double' %}
     <p>
       {% blocktrans trimmed %}
-      After assignment of income each player will be given the chance to send one or 
-      two messages to any, some, or all other players. You will compose messages to 
+      After assignment of wealth, each participant will be given the chance to send one or 
+      two messages to any, some, or all other participants. You will compose messages to 
       other participants in boxes like the ones below, and use the checkboxes to select 
       the participants to whom you would like to send the corresponding message.
       {% endblocktrans %}
@@ -274,7 +273,7 @@
 
   <p>
     The payoff for the round is calculated as follows. First, the total cost of the 
-    messages you sent is subtracted from initial wealth. Then each member's initial 
+    messages you sent is subtracted from your initial wealth. Then each participant's 
     wealth is taxed at the chosen (median) tax rate. This generates two relevant values: 
     what is left after taxes (a private resource) and the total amount of tax revenue 
     (viewed as resources that fund public goods). 
@@ -291,7 +290,7 @@
 
   <p>
     To better understand how these payoffs work, please see the table 
-    below that shows a player's potential payoff based on their initial wealth level 
+    below that shows a participant's potential payoff based on their initial wealth level 
     and tax rate.
   </p>
 

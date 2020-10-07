@@ -11,8 +11,11 @@
     <p>
         {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
         The total cost of the messages you have sent to other players is {{ total_messaging_costs }}<br>
-        These are the messages you have received from other participants:
         {% endblocktrans %}
+    </p>
+
+    <p>
+        These are the messages you have received from other participants:
     </p>
         <ul>
         {% autoescape off %}
