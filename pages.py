@@ -109,6 +109,7 @@ class PreparingMessage(Page):
         players = self.group.get_players() # list of players objects in group
         unique_task_endowments = list(set(Constants.task_endowments)) # ordered from lower to higher
         unique_task_endowments.sort()
+        msg_cost_int = int(self.session.config['msg'])
 
         income_15_counter = 1 
         income_25_counter = 1 
@@ -135,7 +136,7 @@ class PreparingMessage(Page):
                         income_id_dict[f"income_{string_income}"] = p.id_in_group
 
         # merging our dictionaries to create our variables
-        output = {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+        output = {'msg_cost_int': msg_cost_int, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type'], **income_id_dict}
         
         print(output)
@@ -363,13 +364,14 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     def vars_for_template(self):
         tax_system = self.session.config['tax_system']
+        msg_cost_int = int(self.session.config['msg'])
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'tax_system': tax_system, 'tax_rate': tax_rate*100, "message_cost": self.session.config['msg'],
+            return {'player_tax_rate': str(int(self.player.tax_rate))+"%", 'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'tax_rate': str(int(tax_rate*100))+"%", "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type']}
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
-            return {'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg']}
+            return {'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg'], 'msg_type': self.session.config['msg_type']}
         else:
             print('Tax system undefined')
 

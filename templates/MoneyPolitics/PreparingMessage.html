@@ -19,18 +19,21 @@
     {% if tax_system == "tax_rate" %}
     <p>
       {% blocktrans trimmed %}
-      After this page, you will be voting to decide which tax rate should be applied to all the members 
-      of your group, including yourself (see the instructions for example). Before voting, you can send a 
-      message to the other players by filling one or both boxes below. You can also select which players will 
-      receive your message.      
+      After this page, you will be voting to decide which tax rate should be applied 
+      to all the participants of your group, including yourself (see the instructions 
+      for example). Before voting, you can send a message to the other participants by 
+      typing text into one or both boxes below. You can also select which participants 
+      will receive your messages.     
       {% endblocktrans %}
     </p>
 
     <p>
       {% blocktrans with base_earnings=player.base_earnings %}
-      Your current pre-tax income is {{ base_earnings }}. The cost per message sent to another group member is {{ message_cost}} 
-      points. The total cost of sending messages will be deducted from your before-tax income. You may 
-      not send a message that conveys a threat or contains inappropriate language.
+      Your current pre-tax wealth is {{ base_earnings }}. The cost per message sent 
+      to another participant is {{ msg_cost_int }} points. The total cost of sending 
+      messages will be deducted from your pre-tax wealth. You may not send a message 
+      that conveys a threat, contains inappropriate language, or gives your name or 
+      similar identifying information.
       {% endblocktrans %}
     </p>
     
@@ -151,7 +154,7 @@
 
     {% if msg_type == "double" %} 
       <p>
-        Write the message you want to send
+        Write the message you want to send:
       </p>
 
       <p>
@@ -371,7 +374,7 @@
       </p>
     {% elif msg_type == "single" %}
       <p>
-        Write the message you want to send (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
+        Write the message you want to send: (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
       </p>
         
       <script>
@@ -493,8 +496,8 @@
     <p>
       <div class="container" style="display: flex; height: 75px;">
         <div style="width: 40%; background: white;">
-          Note that every message costs {{  message_cost  }} points per recipient. Once you click the next button you will be committing
-          to puchasing a message to every recipient selected.
+          Note that every message costs {{ msg_cost_int }} points per recipient. 
+          Once you click the "Send" button you will send the selected messages.
         </div>
         <div style="width: 5%; background: white;">
         </div>
