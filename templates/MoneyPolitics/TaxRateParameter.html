@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %}Voting and Selecting the Tax Rate{% endblocktrans %}
+{% blocktrans trimmed %}Voting on the Tax Rate{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
@@ -12,13 +12,13 @@
         {% blocktrans trimmed %}
         Please select your most preferred tax rate. The tax rate that will be applied 
         to your group will be the median rate of all submitted tax rates 
-        (see instructions to see the median is calculated).
+        (see instructions to see how the median is calculated).
         {% endblocktrans %}
     </p>
 
     <p>
         <br>
-        <h4>{% blocktrans trimmed %}Choose your preferred tax rate percentage:{% endblocktrans %}</h4>
+        <h4>{% blocktrans trimmed %}Choose your preferred tax rate (percentage):{% endblocktrans %}</h4>
     </p>
 
     {% formfields %}
