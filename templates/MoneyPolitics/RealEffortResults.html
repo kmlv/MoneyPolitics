@@ -10,9 +10,11 @@
 <html>
     <p>
         {% blocktrans trimmed %}
-            You ranked {{ ranking_string }} in the task </br></br>
+            You ranked {{ ranking_string }} in the task. </br></br>
+            You completed {{ score }} line(s). </br></br>
         {% endblocktrans %}
 
+        <!--
         {% if effort_or_luck == "Effort" %}
             {% blocktrans trimmed %}
                 The computer has randomly determined that your wealth will be established 
@@ -24,10 +26,12 @@
                 luck. That is, your wealth will be swapped with someone else’s. </br></br>
             {% endblocktrans %}
         {% endif %}
+        -->
 
         {% blocktrans trimmed %}
             Your initial wealth is {{ income }}
         {% endblocktrans %}
+        
     </p>
 
     <p>
