@@ -133,67 +133,22 @@ class Group(BaseGroup):
             shuffled_group_ids.append(p.id_in_group)
         random.SystemRandom().shuffle(shuffled_group_ids)
 
-        shuffled_ids_3 = shuffled_group_ids[:3]
-        shuffled_ids_6 = shuffled_group_ids[:6]
+        # Tabulation variables used for indexing earnings into a list: dexrand is the index for the random list
+        dexrand = 0
+        dexskill = 0
 
+        # Assigning income to players based on luck or skill in a 50/50 split
+        for p in self.get_players():
+            to_shuffle_earnings.append(p.real_effort_earnings)
+        random.SystemRandom().shuffle(to_shuffle_earnings)
         for p in self.get_players():
             if luck == 0:
-                if p.id_in_group in shuffled_ids_3:
-                    to_shuffle_earnings.append(p.real_effort_earnings)
-                elif p.id_in_group in shuffled_ids_3:
-                    print("Player "+str(p.id_in_group)+" was not shuffled")
-                else:
-                    print("Error: No 'p.id_in_group' value for comparison")
-                to_shuffle_earnings3 = to_shuffle_earnings[:3]
-                print(to_shuffle_earnings3)
-                random.SystemRandom().shuffle(to_shuffle_earnings3)
-                print(to_shuffle_earnings3)
+                p.base_earnings = to_shuffle_earnings[dexrand]
+                dexrand = dexrand + 1
             elif luck == 1:
-                if p.id_in_group in shuffled_ids_6:
-                    to_shuffle_earnings.append(p.real_effort_earnings)
-                elif p.id_in_group in shuffled_ids_6:
-                    print("Player "+str(p.id_in_group)+" was not shuffled")
-                else:
-                    print("Error: No 'p.id_in_group' value for comparison")
-                to_shuffle_earnings6 = to_shuffle_earnings[:6]
-                print(to_shuffle_earnings6)
-                random.SystemRandom().shuffle(to_shuffle_earnings6)
-                print(to_shuffle_earnings6)
-            else:
-                print("Error: No 'luck' value for assignment to to_shuffle_earning")
-
-        print(shuffled_ids_3)
-        print(shuffled_ids_6)
-
-        # Counters for assignment of shuffled earnings
-        j3 = 0
-        j6 = 0
-
-        # Assignment of shuffled earnings
-        for p in self.get_players():
-            if luck == 0:
-                if p.id_in_group in shuffled_ids_3:
-                    p.base_earnings = to_shuffle_earnings3[j3]
-                    p.shuffled = True
-                    j3 += 1
-                    print("Player "+str(p.id_in_group)+" has now an income of "+str(p.base_earnings))
-                elif p.id_in_group not in shuffled_ids_3:
-                    p.base_earnings = p.real_effort_earnings
-                    p.shuffled = False
-                else:
-                    print("Error: No 'player.id_in_group' value for assignment of shuffled earning")
-            elif luck == 1:
-                if p.id_in_group in shuffled_ids_6:
-                    p.base_earnings = to_shuffle_earnings6[j6]
-                    p.shuffled = True
-                    j6 += 1
-                elif p.id_in_group not in shuffled_ids_6:
-                    p.base_earnings = p.real_effort_earnings
-                    p.shuffled = False
-                else:
-                    print("Error: No 'player.id_in_group' value for assignment of shuffled earning")
-            else:
-                print("Error: No 'luck' value for assignment of shuffled earning")
+                p.base_earnings = Constants.task_endowments[dexskill]
+                dexskill = dexskill + 1
+                
 
     def set_payoffs(self):
         """

@@ -8,29 +8,29 @@
 
 {% block content %}
     {% blocktrans with real_effort_earnings=player.real_effort_earnings %}
-    Your task income was {{ real_effort_earnings }} </br></br>
+    Your initial wealth was {{ real_effort_earnings }} </br></br>
     {% endblocktrans %}
     {% if player.shuffled %}
         {% blocktrans with base_earnings=player.base_earnings %}
-        Your income was randomly swapped with someone.</br></br>
+        Your wealth was randomly swapped with someone.</br></br>
         {% endblocktrans %}
     {% else %}
         {% blocktrans trimmed %}
-        Your income wasn't swapped with anyone.</br></br>
+        Your wealth wasn't swapped with anyone.</br></br>
         {% endblocktrans %}
     {% endif %}
 
     {% blocktrans with message_cost=message_cost %}
-    The cost per message and per recipients was {{ message_cost }} </br></br>
+    The cost per message, per recipients was {{ msg_cost_int }} points </br></br>
     {% endblocktrans %}
 
     {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
-    Your messaging costs were {{ total_messaging_costs }} </br></br>
+    The total cost of the messages you sent was {{ total_messaging_costs }} </br></br>
     {% endblocktrans %}
 
     {% if tax_system == 'tax_rate' %}
-        {% blocktrans with player_tax_rate=player.tax_rate %}
-        You selected a tax rate of {{ player_tax_rate }} </br></br>
+        {% blocktrans trimmed %}
+        The tax rate you chose to submit was {{ player_tax_rate }} </br></br>
         {% endblocktrans %}
         {% blocktrans trimmed %}
         The median tax rate of your group was {{ tax_rate }} </br></br>
@@ -46,7 +46,7 @@
 
     {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
 
-    Your total payoff, as described in the instructions, for this round is {{ player_payoff }}</br>
+    Your total payoff for this round is {{ player_payoff }}</br>
 
     {% endblocktrans %}
 
