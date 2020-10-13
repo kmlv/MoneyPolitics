@@ -32,7 +32,7 @@ class Tetris(Page):
 
     def vars_for_template(self):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type']}
+                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
 
 
 class EffortResultsWaitPage(WaitPage):
@@ -76,7 +76,7 @@ class RealEffortResults(Page):
             ranking_string = str(ranking)+"th"
 
         return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type']}
+                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
 
 
 class PreparingMessage(Page):
