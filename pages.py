@@ -193,7 +193,20 @@ class PreparingMessage(Page):
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
+
+        # Storing the number of messages sent
+        player.num_messages_sent = messages_sent
     
+    def error_message(self, values):
+        player = self.player
+        
+        if player.after_message_earnings < 0: # if player tries to spend more than what he has
+            # telling the player the correct answer
+            if settings.LANGUAGE_CODE=="en":
+                error_msg = f"You tried to send {player.num_messages_sent} message(s), spending {player.total_messaging_costs} points when you only have {player.base_earnings} points. Decrease the number of messages you want to send"
+            elif settings.LANGUAGE_CODE=="es":
+                error_msg = f"Trataste de enviar {player.num_messages_sent} mensaje(s), gastando {player.total_messaging_costs} puntos cuando solo tienes {player.base_earnings} puntos. Disminuye el número de mensajes que quieres enviar"
+            return error_msg
 
 
 class ProcessingMessage(WaitPage):
@@ -371,6 +384,8 @@ class Results(Page):
                   'msg_type': self.session.config['msg_type']}
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
+            if progressivity == 0:
+                progressivity = 1 # changing the progressivity to 1 as a default if everyone times out
             return {'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg'], 'msg_type': self.session.config['msg_type']}
         else:
             print('Tax system undefined')

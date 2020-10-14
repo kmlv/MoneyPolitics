@@ -15,6 +15,7 @@
       {% endblocktrans %}
     </h5>
 
+  {% if tax_system == 'tax_rate' %}
     <p>
         {% blocktrans trimmed %}
         This experiment consists of X rounds of interaction. At the beginning of each 
@@ -26,6 +27,19 @@
         to other participants. We detail the rules below.
         {% endblocktrans %}
     </p>
+  {% elif tax_system == 'progressivity' %}    
+    <p>
+      {% blocktrans trimmed %}
+      This experiment consists of X rounds of interaction. At the beginning of each 
+      round, you will be randomly assigned to a group of nine participants. All rounds 
+      will have a similar structure and rules: You will first perform a task. Your 
+      initial wealth will be determined by your performance in the task or by luck. 
+      Then all the participants will choose a tax system that will apply to the whole 
+      group. Before choosing the tax system, you may receive the chance to send a message 
+      to other participants. We detail the rules below.
+      {% endblocktrans %}
+    </p>
+  {% endif %}
 
     <h5>
       {% blocktrans trimmed %}
@@ -102,6 +116,7 @@
     wealth will be randomly shuffled and income will be based completely on luck.
   </p>
 
+  {% if tax_system == 'tax_rate' %}
   <h5>
     {% blocktrans trimmed %}
     Selecting a Tax Rate for the Group
@@ -109,6 +124,7 @@
   </h5>
 
   <p>
+    {% blocktrans trimmed %}
     Participants’ initial wealth levels help to determine their earnings in the 
     experiment by serving as a potential resource that they may invest in an economic 
     activity. Exactly how much each participant earns is also determined by (1) the amounts 
@@ -118,22 +134,62 @@
     there are more public goods being funded by the tax payments of the group as a whole, 
     and you’ll earn more if the amount of tax that you personally pay is lower, since 
     paying more tax leaves you less to put into your own economic activity. 
+    {% endblocktrans %}
   </p>
 
   <p>
+    {% blocktrans trimmed %}
     Once all participants have been informed of their initial wealth levels, the group 
     will collectively decide the tax level that will be binding for all participants. 
     Each person will vote for a tax rate that they would like to be applied to all 
     participants, themselves included. Once the votes are submitted, the median of all 
     submitted preferred tax rates will be determined and selected as the tax rate 
     applicable to the group. 
+    {% endblocktrans %}
   </p>
 
+  {% elif tax_system == 'progressivity' %}    
+  <h5>
+    {% blocktrans trimmed %}
+    Selecting a Tax System for the Group
+    {% endblocktrans %}
+  </h5>
+
+  <p>
+    {% blocktrans trimmed %}
+    Participants’ initial wealth levels help to determine their earnings in the 
+    experiment by serving as a potential resource that they may invest in an economic 
+    activity. Exactly how much each participant earns is also determined by (1) the amounts 
+    of public goods (analogous to roads, bridges, public transit, and other government 
+    services in the real world) that are funded by taxes paid by the participants, and 
+    (2) the amount of tax that each individual pays. In general, you’ll earn more if 
+    there are more public goods being funded by the tax payments of the group as a whole, 
+    and you’ll earn more if the amount of tax that you personally pay is lower, since 
+    paying more tax leaves you less to put into your own economic activity. 
+    {% endblocktrans %}
+  </p>
+
+  <p>
+    {% blocktrans trimmed %}
+    Once all participants have been informed of their initial wealth levels, the group 
+    will collectively decide the a set of tax rates called "tax system" that will be binding
+    for all participants. Each person will vote for a tax system that they would like to be applied to all 
+    participants, themselves included. Once the votes are submitted, the median of all 
+    submitted preferred tax systems will be determined and selected as the tax rate 
+    applicable to the group. 
+    {% endblocktrans %}
+  </p>
+  {% endif %}  
+
+  
   <h6>
+    {% blocktrans trimmed %}
     How is the median determined?
+    {% endblocktrans %}
   </h6>
 
   <p>
+    {% blocktrans trimmed %}
     In the context of nine values, the median M is defined as the value such that 
     there are five numbers that are smaller than or equal to M; and there are five 
     numbers that are greater than or equal to M. For example, suppose you and your 
@@ -142,6 +198,7 @@
     $4, $8, $9, $10, $7, $8, $2. To find the median number, you can sort from low to 
     high as in the table below, then find the number in the middle position 
     (position 5). That is the median.
+    {% endblocktrans %}
   </p>
 
   <style type="text/css">
@@ -188,16 +245,26 @@
   </p>
 
   <p>
+    {% blocktrans trimmed %}
     The median in the example would be $6, which is the middle amount in a sorted 
     list. When you and other participants select a tax rate, the median amount will 
     be computed in this fashion.
+    {% endblocktrans %}
   </p>
 
+ {% if tax_system == 'tax_rate' %}   
   <h5>
     {% blocktrans trimmed %}
     Messaging Before Selecting Group Tax Rate
     {% endblocktrans %}
   </h5>
+{% elif tax_system == 'progressivity' %} 
+  <h5>
+    {% blocktrans trimmed %}
+    Messaging Before Selecting Group Tax System
+    {% endblocktrans %}
+  </h5>
+{% endif %}
 
   {% if msg_type == 'single' %}
     <p>
@@ -212,6 +279,7 @@
     <img src="{% static 'Single_msg.PNG' %}"/>
 
     <p>
+      {% blocktrans trimmed %}
       For example, if you write “AAA” in the box, and check wealth 125 above, that means 
       that the participant with a wealth of 125 points will receive that message “AAA.”
       All messages are delivered after everyone has finished writing their messages. 
@@ -219,12 +287,15 @@
       and forth communication. Please note that you may not send a message that contains 
       inappropriate language, that conveys a threat, or that tells the others your name 
       or other identifying information, but any other message is fine. 
+      {% endblocktrans %}
     </p>
     <p>
+      {% blocktrans trimmed %}
       You’ll have to spend some of your wealth if you want to send a message. The total 
       amount of points spent on the messaging is equal to the total number of messages 
       you send times the cost per message of {{ message_cost }} points. This total cost 
       will be subtracted from the initial wealth.
+      {% endblocktrans %}
     </p>
 
   {% elif msg_type == 'double' %}
@@ -240,6 +311,7 @@
     <img src="{% static 'dual_msg.PNG' %}" />
 
     <p>
+      {% blocktrans trimmed %}
       For example, if you write “AAA” in box 1, and check wealth 125 above, that means 
       that the participant with a wealth of 125 points will receive that message “AAA.”
       All messages are delivered after everyone has finished writing their messages. 
@@ -247,12 +319,15 @@
       and forth communication. Please note that you may not send a message that contains 
       inappropriate language, that conveys a threat, or that tells the others your name 
       or other identifying information, but any other message is fine. 
+      {% endblocktrans %}
     </p>
     <p>
+      {% blocktrans trimmed %}
       You’ll have to spend some of your wealth if you want to send messages. The total 
       amount of points spent on the messaging is equal to the total number of messages 
       you send times the cost per message of {{ message_cost }} points. This total cost 
       will be subtracted from the initial wealth.
+      {% endblocktrans %}
     </p>
   {% endif %}
 
@@ -263,27 +338,46 @@
     {% endblocktrans %}
   </h5>
 
+{% if msg_type == 'tax_rate' %}  
   <p>
+    {% blocktrans trimmed %}
     The payoff for the round is calculated as follows. First, the total cost of the 
     messages you sent is subtracted from your initial wealth. Then each participant's 
     wealth is taxed at the chosen (median) tax rate. This generates two relevant values: 
     what is left after taxes (a private resource) and the total amount of tax revenue 
     (viewed as resources that fund public goods). 
+    {% endblocktrans %}
   </p>
-
+{% elif msg_type == 'progressivity' %}
   <p>
+    {% blocktrans trimmed %}
+    The payoff for the round is calculated as follows. First, the total cost of the 
+    messages you sent is subtracted from your initial wealth. Then each participant's 
+    wealth is taxed by the respective tax according to the chosen (median) tax system. 
+    This generates two relevant values: 
+    what is left after taxes (a private resource) and the total amount of tax revenue 
+    (viewed as resources that fund public goods). 
+    {% endblocktrans %}
+  </p>
+{% endif %}
+  <p>
+    {% blocktrans trimmed %}
     The payoff takes into consideration the resources that have been paid to the 
     government. In particular, we consider the direct benefit from public goods 
     (ex.: the benefit of social security, or unemployment insurance) and the indirect 
     benefit via positive effects of public goods on our own private productivity 
     (ex.: the benefit that companies receive from having roads and private property 
-    rights). 
+    rights).
+    {% endblocktrans %} 
   </p>
 
+{% if tax_system == 'tax_rate' %}  
   <p>
+    {% blocktrans trimmed %}
     To better understand how these payoffs work, please see the table 
     below that shows a participant's potential payoff based on their initial wealth level 
     and tax rate.
+    {% endblocktrans %} 
   </p>
 
   <style type="text/css">
@@ -374,12 +468,509 @@
     </p>
 
     <p>
+      {% blocktrans trimmed %}
       Similarly, the following graphs show the payoffs for every tax rate. Each wealth 
       level has its own graph where you can see the relationship between the round 
       payoff and the group-chosen tax rate.
+      {% endblocktrans %} 
     </p>
 
     <img src="{% static 'f_tax.png' %}"/>
+
+{% elif tax_system == 'progressivity' %}    
+
+<p>
+  {% blocktrans trimmed %}
+  To better understand how these payoffs work, please see the table 
+  below that shows a participant's potential payoff based on their initial wealth level 
+  and tax system.
+  {% endblocktrans %} 
+</p>
+      
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-18eh{border-color:#000000;font-weight:bold;text-align:center;vertical-align:middle}
+  .tg .tg-7fxq{background-color:#0f3f70;border-color:#000000;color:#ffffff;font-weight:bold;text-align:center;vertical-align:middle}
+  .tg .tg-f18s{background-color:#0f3f70;border-color:#000000;color:#ffffff;text-align:center;vertical-align:middle}
+  .tg .tg-xwyw{border-color:#000000;text-align:center;vertical-align:middle}
+  .tg .tg-c5m2{border-color:#000000;font-weight:bold;text-align:center;vertical-align:middle}
+  .tg .tg-53it{border-color:#000000;text-align:center;vertical-align:middle}
+
+  </style>
+  <table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-7fxq" rowspan="2">Income (points)</th>
+      <th class="tg-7fxq" colspan="5">Tax Systems</th>
+    </tr>
+    <tr>
+      <td class="tg-f18s">System 1</td>
+      <td class="tg-f18s">System 2</td>
+      <td class="tg-f18s">System 3</td>
+      <td class="tg-f18s">System 4</td>
+      <td class="tg-f18s">System 5</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tg-18eh">9</td>
+      <td class="tg-xwyw">98.053</td>
+      <td class="tg-xwyw">109.519</td>
+      <td class="tg-xwyw">122.588</td>
+      <td class="tg-xwyw">134.298</td>
+      <td class="tg-xwyw">146.845</td>
+    </tr>
+    <tr>
+      <td class="tg-c5m2">15</td>
+      <td class="tg-53it">147.463</td>
+      <td class="tg-53it">162.795</td>
+      <td class="tg-53it">180.184</td>
+      <td class="tg-53it">199.927</td>
+      <td class="tg-53it">228.969</td>
+    </tr>
+    <tr>
+      <td class="tg-18eh">25</td>
+      <td class="tg-xwyw">229.813</td>
+      <td class="tg-xwyw">248.174</td>
+      <td class="tg-xwyw">269.322</td>
+      <td class="tg-xwyw">295.637</td>
+      <td class="tg-xwyw">345.313</td>
+    </tr>
+    <tr>
+      <td class="tg-c5m2">40</td>
+      <td class="tg-53it">353.338</td>
+      <td class="tg-53it">370.983</td>
+      <td class="tg-53it">392.468</td>
+      <td class="tg-53it">418.419</td>
+      <td class="tg-53it">427.164</td>
+    </tr>
+    <tr>
+      <td class="tg-18eh">80</td>
+      <td class="tg-xwyw">682.738</td>
+      <td class="tg-xwyw">671.517</td>
+      <td class="tg-xwyw">639.31</td>
+      <td class="tg-xwyw">609.838</td>
+      <td class="tg-xwyw">537.212</td>
+    </tr>
+    <tr>
+      <td class="tg-c5m2">125</td>
+      <td class="tg-53it">1053.313</td>
+      <td class="tg-53it">948.964</td>
+      <td class="tg-53it">855.228</td>
+      <td class="tg-53it">732.825</td>
+      <td class="tg-53it">598.532</td>
+    </tr>
+  </tbody>
+  </table>
+
+    <p>
+      <!-- Spacer -->
+    </p>
+
+    <p>
+      {% blocktrans trimmed %}
+      Similarly, the following graphs show the payoffs for every tax system. Each wealth 
+      level has its own graph where you can see the relationship between the round 
+      payoff and the group-chosen tax system.
+      {% endblocktrans %} 
+    </p>
+
+    <style type="text/css">
+      .tg  {border-collapse:collapse;border-spacing:0;}
+      .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        overflow:hidden;padding:10px 5px;word-break:normal;}
+      .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+      .tg .tg-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
+      </style>
+      <table class="tg">
+      <thead>
+        <tr>
+          <th class="tg-zv4m">
+              <div id="highcharts-1" style="min-width: 400px; height: 400px; margin: 0 auto"></div><script>
+                  (function(){var yAxisLabels = [0,10,20,30,40,50,60,70,80,90,100];
+                  /*
+                  System 1
+                  */
+                  var files = ["https://code.highcharts.com/stock/highstock.js","https://code.highcharts.com/highcharts-more.js","https://code.highcharts.com/highcharts-3d.js","https://code.highcharts.com/modules/data.js","https://code.highcharts.com/modules/exporting.js","https://code.highcharts.com/modules/funnel.js","https://code.highcharts.com/modules/annotations.js","https://code.highcharts.com/modules/accessibility.js","https://code.highcharts.com/modules/solid-gauge.js"],
+                  loaded = 0; 
+                  if (typeof window["HighchartsEditor"] === "undefined") {
+                      window.HighchartsEditor = {ondone: [cl],hasWrapped: false,hasLoaded: false};include(files[0]);
+                      }
+                  
+                  else {
+                      if (window.HighchartsEditor.hasLoaded) {cl();} 
+                      else {window.HighchartsEditor.ondone.push(cl);}
+                      }
+                  
+                  function isScriptAlreadyIncluded(src){
+                      var scripts = document.getElementsByTagName("script");
+                      for (var i = 0; i < scripts.length; i++) {
+                          if (scripts[i].hasAttribute("src")){
+                              if ((scripts[i].getAttribute("src") || "").indexOf(src) >= 0 || (scripts[i].getAttribute("src") === "http://code.highcharts.com/highcharts.js" && src === "https://code.highcharts.com/stock/highstock.js")) 
+                                  {return true;}
+                                  }
+                              }
+                              return false;}
+                  
+                  function check() {
+                      if (loaded === files.length) {for (var i = 0; i < window.HighchartsEditor.ondone.length; i++) 
+                          {try {window.HighchartsEditor.ondone[i]();} 
+                          catch(e) {console.error(e);}}window.HighchartsEditor.hasLoaded = true;}
+                          }
+                  
+                  function include(script) {
+                      function next() {++loaded;if (loaded < files.length) {include(files[loaded]);}check();}
+                      if (isScriptAlreadyIncluded(script)) {return next();}
+                          var sc=document.createElement("script");sc.src = script;sc.type="text/javascript";sc.onload=function() { next(); };
+                          document.head.appendChild(sc);}function each(a, fn)
+                              {if (typeof a.forEach !== "undefined"){a.forEach(fn);}
+                              else{for (var i = 0; i < a.length; i++){if (fn) {fn(a[i]);}}}}
+                              var inc = {},incl=[]; each(document.querySelectorAll("script"), function(t) 
+                              {inc[t.src.substr(0, t.src.indexOf("?"))] = 1; }); 
+                              function cl() {if(typeof window["Highcharts"] !== "undefined"){
+                                  Highcharts.setOptions({lang:{}});
+                                  var options={"title":{"text":"System 1"}, 
+                                               "subtitle":{"text":""},
+                                               "exporting":{"scale":1},
+                                               "chart":{"type":"column",
+                                                        "polar":false},
+                                               "plotOptions":{"series":{"pointPadding":0.2,
+                                                                        "groupPadding":0,
+                                                                        "borderWidth":0,
+                                                                        "shadow":false,
+                                                                        "dataLabels":{"enabled":false},"animation":false}},
+                                                                        "series":[{"name":"Column 2","turboThreshold":0,"marker":{}}],
+                                                                        "data":{"csv":"\"Column 1\";\"Column 2\"\n1;40\n2;40\n3;40\n4;40\n5;40\n6;40",
+                                                                                "googleSpreadsheetKey":false,
+                                                                                "googleSpreadsheetWorksheet":false},
+                                                                        "pane":{"background":[]},
+                                                                        "responsive":{"rules":[]},
+                                                                        "legend":{"enabled":false},
+                                                                        "tooltip":{},
+                                                                        "lang":{},
+                                                                        "credits":{"enabled": false},
+                                                                        "xAxis":[{"categories": ["", "9", "15", "25", "40", "80", "125"], 
+                                                                                  "title":{"text":"Incomes (in points)"},
+                                                                                  "labels":{}}],
+                                                                        "yAxis":[{"title":{"text":"Tax rates (%)"},
+                                                                                  "tickPositioner": function() {return yAxisLabels;},
+                                                                                  "labels":{}}]};
+                  new Highcharts.Chart("highcharts-1", options);}}})();
+              </script>            
+          </th>
+          <th class="tg-zv4m">
+              <div id="highcharts-2" style="min-width: 400px; height: 400px; margin: 0 auto"></div><script>
+                  (
+                  function(){var yAxisLabels = [0,10,20,30,40,50,60,70,80,90,100];
+                  /*
+                  System 2
+                  */
+                  var files = ["https://code.highcharts.com/stock/highstock.js","https://code.highcharts.com/highcharts-more.js","https://code.highcharts.com/highcharts-3d.js","https://code.highcharts.com/modules/data.js","https://code.highcharts.com/modules/exporting.js","https://code.highcharts.com/modules/funnel.js","https://code.highcharts.com/modules/annotations.js","https://code.highcharts.com/modules/accessibility.js","https://code.highcharts.com/modules/solid-gauge.js"],
+                  loaded = 0; 
+                  if (typeof window["HighchartsEditor"] === "undefined") {
+                      window.HighchartsEditor = {ondone: [cl],hasWrapped: false,hasLoaded: false};include(files[0]);
+                      }
+                          
+                  else {
+                      if (window.HighchartsEditor.hasLoaded) {cl();} 
+                      else {window.HighchartsEditor.ondone.push(cl);}
+                      }
+                  
+                  function isScriptAlreadyIncluded(src){
+                      var scripts = document.getElementsByTagName("script");
+                      for (var i = 0; i < scripts.length; i++) {
+                          if (scripts[i].hasAttribute("src")){
+                              if ((scripts[i].getAttribute("src") || "").indexOf(src) >= 0 || (scripts[i].getAttribute("src") === "http://code.highcharts.com/highcharts.js" && src === "https://code.highcharts.com/stock/highstock.js")) 
+                                  {return true;}
+                                  }
+                              }
+                              return false;}
+                  
+                  function check() {
+                      if (loaded === files.length) {for (var i = 0; i < window.HighchartsEditor.ondone.length; i++) 
+                          {try {window.HighchartsEditor.ondone[i]();} 
+                          catch(e) {console.error(e);}}window.HighchartsEditor.hasLoaded = true;}
+                          }
+                  
+                  function include(script) {
+                      function next() {++loaded;if (loaded < files.length) {include(files[loaded]);}check();}
+                      if (isScriptAlreadyIncluded(script)) {return next();}
+                          var sc=document.createElement("script");sc.src = script;sc.type="text/javascript";sc.onload=function() { next(); };
+                          document.head.appendChild(sc);}function each(a, fn)
+                              {if (typeof a.forEach !== "undefined"){a.forEach(fn);}
+                              else{for (var i = 0; i < a.length; i++){if (fn) {fn(a[i]);}}}}
+                              var inc = {},incl=[]; each(document.querySelectorAll("script"), function(t) 
+                              {inc[t.src.substr(0, t.src.indexOf("?"))] = 1; }); 
+                              function cl() {if(typeof window["Highcharts"] !== "undefined"){
+                                  Highcharts.setOptions({lang:{}});
+                                  var options={"title":{"text":"System 2"}, 
+                                                  "subtitle":{"text":""},
+                                                  "exporting":{"scale":1},
+                                                  "chart":{"type":"column",
+                                                          "polar":false},
+                                                  "plotOptions":{"series":{"pointPadding":0.2,
+                                                                          "groupPadding":0,
+                                                                          "borderWidth":0,
+                                                                          "shadow":false,
+                                                                          "dataLabels":{"enabled":false},"animation":false}},
+                                                                          "series":[{"name":"Column 2","turboThreshold":0,"marker":{}}],
+                                                                          "data":{"csv":"\"Column 1\";\"Column 2\"\n1;30\n2;32\n3;34.2\n4;36.4\n5;40.7\n6;45.8",
+                                                                                  "googleSpreadsheetKey":false,
+                                                                                  "googleSpreadsheetWorksheet":false},
+                                                                          "pane":{"background":[]},
+                                                                          "responsive":{"rules":[]},
+                                                                          "legend":{"enabled":false},
+                                                                          "tooltip":{},
+                                                                          "lang":{},
+                                                                          "credits":{"enabled": false},
+                                                                          "xAxis":[{"categories": ["", "9", "15", "25", "40", "80", "125"], 
+                                                                                  "title":{"text":"Incomes (in points)"},
+                                                                                  "labels":{}}],
+                                                                          "yAxis":[{"title":{"text":"Tax rates (%)"},
+                                                                                  "tickPositioner": function() {return yAxisLabels;},
+                                                                                  "labels":{}}]};
+                  new Highcharts.Chart("highcharts-2", options);}}})();
+              </script>
+          </th>
+          <th class="tg-zv4m">
+              <div id="highcharts-3" style="min-width: 400px; height: 400px; margin: 0 auto"></div><script>
+                  (
+                  function(){var yAxisLabels = [0,10,20,30,40,50,60,70,80,90,100];
+                  /*
+                  System 3
+                  */
+                  var files = ["https://code.highcharts.com/stock/highstock.js","https://code.highcharts.com/highcharts-more.js","https://code.highcharts.com/highcharts-3d.js","https://code.highcharts.com/modules/data.js","https://code.highcharts.com/modules/exporting.js","https://code.highcharts.com/modules/funnel.js","https://code.highcharts.com/modules/annotations.js","https://code.highcharts.com/modules/accessibility.js","https://code.highcharts.com/modules/solid-gauge.js"],
+                  loaded = 0; 
+                  if (typeof window["HighchartsEditor"] === "undefined") {
+                      window.HighchartsEditor = {ondone: [cl],hasWrapped: false,hasLoaded: false};include(files[0]);
+                      }
+                          
+                  else {
+                      if (window.HighchartsEditor.hasLoaded) {cl();} 
+                      else {window.HighchartsEditor.ondone.push(cl);}
+                      }
+                  
+                  function isScriptAlreadyIncluded(src){
+                      var scripts = document.getElementsByTagName("script");
+                      for (var i = 0; i < scripts.length; i++) {
+                          if (scripts[i].hasAttribute("src")){
+                              if ((scripts[i].getAttribute("src") || "").indexOf(src) >= 0 || (scripts[i].getAttribute("src") === "http://code.highcharts.com/highcharts.js" && src === "https://code.highcharts.com/stock/highstock.js")) 
+                                  {return true;}
+                                  }
+                              }
+                              return false;}
+                  
+                  function check() {
+                      if (loaded === files.length) {for (var i = 0; i < window.HighchartsEditor.ondone.length; i++) 
+                          {try {window.HighchartsEditor.ondone[i]();} 
+                          catch(e) {console.error(e);}}window.HighchartsEditor.hasLoaded = true;}
+                          }
+                  
+                  function include(script) {
+                      function next() {++loaded;if (loaded < files.length) {include(files[loaded]);}check();}
+                      if (isScriptAlreadyIncluded(script)) {return next();}
+                          var sc=document.createElement("script");sc.src = script;sc.type="text/javascript";sc.onload=function() { next(); };
+                          document.head.appendChild(sc);}function each(a, fn)
+                              {if (typeof a.forEach !== "undefined"){a.forEach(fn);}
+                              else{for (var i = 0; i < a.length; i++){if (fn) {fn(a[i]);}}}}
+                              var inc = {},incl=[]; each(document.querySelectorAll("script"), function(t) 
+                              {inc[t.src.substr(0, t.src.indexOf("?"))] = 1; }); 
+                              function cl() {if(typeof window["Highcharts"] !== "undefined"){
+                                  Highcharts.setOptions({lang:{}});
+                                  var options={"title":{"text":"System 3"}, 
+                                                  "subtitle":{"text":""},
+                                                  "exporting":{"scale":1},
+                                                  "chart":{"type":"column",
+                                                          "polar":false},
+                                                  "plotOptions":{"series":{"pointPadding":0.2,
+                                                                          "groupPadding":0,
+                                                                          "borderWidth":0,
+                                                                          "shadow":false,
+                                                                          "dataLabels":{"enabled":false},"animation":false}},
+                                                                          "series":[{"name":"Column 2","turboThreshold":0,"marker":{}}],
+                                                                          "data":{"csv":"\"Column 1\";\"Column 2\"\n1;20\n2;24\n3;28.4\n4;32.8\n5;43.9\n6;51.5",
+                                                                                  "googleSpreadsheetKey":false,
+                                                                                  "googleSpreadsheetWorksheet":false},
+                                                                          "pane":{"background":[]},
+                                                                          "responsive":{"rules":[]},
+                                                                          "legend":{"enabled":false},
+                                                                          "tooltip":{},
+                                                                          "lang":{},
+                                                                          "credits":{"enabled": false},
+                                                                          "xAxis":[{"categories": ["", "9", "15", "25", "40", "80", "125"], 
+                                                                                  "title":{"text":"Incomes (in points)"},
+                                                                                  "labels":{}}],
+                                                                          "yAxis":[{"title":{"text":"Tax rates (%)"},
+                                                                                  "tickPositioner": function() {return yAxisLabels;},
+                                                                                  "labels":{}}]};
+                  new Highcharts.Chart("highcharts-3", options);}}})();
+              </script>            
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tg-zv4m">
+              <div id="highcharts-4" style="min-width: 400px; height: 400px; margin: 0 auto"></div><script>
+                  (
+                  function(){var yAxisLabels = [0,10,20,30,40,50,60,70,80,90,100];
+                  /*
+                  System 4
+                  */
+                  var files = ["https://code.highcharts.com/stock/highstock.js","https://code.highcharts.com/highcharts-more.js","https://code.highcharts.com/highcharts-3d.js","https://code.highcharts.com/modules/data.js","https://code.highcharts.com/modules/exporting.js","https://code.highcharts.com/modules/funnel.js","https://code.highcharts.com/modules/annotations.js","https://code.highcharts.com/modules/accessibility.js","https://code.highcharts.com/modules/solid-gauge.js"],
+                  loaded = 0; 
+                  if (typeof window["HighchartsEditor"] === "undefined") {
+                      window.HighchartsEditor = {ondone: [cl],hasWrapped: false,hasLoaded: false};include(files[0]);
+                      }
+                          
+                  else {
+                      if (window.HighchartsEditor.hasLoaded) {cl();} 
+                      else {window.HighchartsEditor.ondone.push(cl);}
+                      }
+                  
+                  function isScriptAlreadyIncluded(src){
+                      var scripts = document.getElementsByTagName("script");
+                      for (var i = 0; i < scripts.length; i++) {
+                          if (scripts[i].hasAttribute("src")){
+                              if ((scripts[i].getAttribute("src") || "").indexOf(src) >= 0 || (scripts[i].getAttribute("src") === "http://code.highcharts.com/highcharts.js" && src === "https://code.highcharts.com/stock/highstock.js")) 
+                                  {return true;}
+                                  }
+                              }
+                              return false;}
+                  
+                  function check() {
+                      if (loaded === files.length) {for (var i = 0; i < window.HighchartsEditor.ondone.length; i++) 
+                          {try {window.HighchartsEditor.ondone[i]();} 
+                          catch(e) {console.error(e);}}window.HighchartsEditor.hasLoaded = true;}
+                          }
+                  
+                  function include(script) {
+                      function next() {++loaded;if (loaded < files.length) {include(files[loaded]);}check();}
+                      if (isScriptAlreadyIncluded(script)) {return next();}
+                          var sc=document.createElement("script");sc.src = script;sc.type="text/javascript";sc.onload=function() { next(); };
+                          document.head.appendChild(sc);}function each(a, fn)
+                              {if (typeof a.forEach !== "undefined"){a.forEach(fn);}
+                              else{for (var i = 0; i < a.length; i++){if (fn) {fn(a[i]);}}}}
+                              var inc = {},incl=[]; each(document.querySelectorAll("script"), function(t) 
+                              {inc[t.src.substr(0, t.src.indexOf("?"))] = 1; }); 
+                              function cl() {if(typeof window["Highcharts"] !== "undefined"){
+                                  Highcharts.setOptions({lang:{}});
+                                  var options={"title":{"text":"System 4"}, 
+                                                  "subtitle":{"text":""},
+                                                  "exporting":{"scale":1},
+                                                  "chart":{"type":"column",
+                                                          "polar":false},
+                                                  "plotOptions":{"series":{"pointPadding":0.2,
+                                                                          "groupPadding":0,
+                                                                          "borderWidth":0,
+                                                                          "shadow":false,
+                                                                          "dataLabels":{"enabled":false},"animation":false}},
+                                                                          "series":[{"name":"Column 2","turboThreshold":0,"marker":{}}],
+                                                                          "data":{"csv":"\"Column 1\";\"Column 2\"\n1;10\n2;14\n3;20.4\n4;27.8\n5;46.4\n6;58.5",
+                                                                                  "googleSpreadsheetKey":false,
+                                                                                  "googleSpreadsheetWorksheet":false},
+                                                                          "pane":{"background":[]},
+                                                                          "responsive":{"rules":[]},
+                                                                          "legend":{"enabled":false},
+                                                                          "tooltip":{},
+                                                                          "lang":{},
+                                                                          "credits":{"enabled": false},
+                                                                          "xAxis":[{"categories": ["", "9", "15", "25", "40", "80", "125"], 
+                                                                                  "title":{"text":"Incomes (in points)"},
+                                                                                  "labels":{}}],
+                                                                          "yAxis":[{"title":{"text":"Tax rates (%)"},
+                                                                                  "tickPositioner": function() {return yAxisLabels;},
+                                                                                  "labels":{}}]};
+                  new Highcharts.Chart("highcharts-4", options);}}})();
+              </script>
+          </td>
+          <td class="tg-zv4m">
+              <div id="highcharts-5" style="min-width: 400px; height: 400px; margin: 0 auto"></div><script>
+                  (
+                  function(){var yAxisLabels = [0,10,20,30,40,50,60,70,80,90,100];
+                  /*
+                  System 4
+                  */
+                  var files = ["https://code.highcharts.com/stock/highstock.js","https://code.highcharts.com/highcharts-more.js","https://code.highcharts.com/highcharts-3d.js","https://code.highcharts.com/modules/data.js","https://code.highcharts.com/modules/exporting.js","https://code.highcharts.com/modules/funnel.js","https://code.highcharts.com/modules/annotations.js","https://code.highcharts.com/modules/accessibility.js","https://code.highcharts.com/modules/solid-gauge.js"],
+                  loaded = 0; 
+                  if (typeof window["HighchartsEditor"] === "undefined") {
+                      window.HighchartsEditor = {ondone: [cl],hasWrapped: false,hasLoaded: false};include(files[0]);
+                      }
+                          
+                  else {
+                      if (window.HighchartsEditor.hasLoaded) {cl();} 
+                      else {window.HighchartsEditor.ondone.push(cl);}
+                      }
+                  
+                  function isScriptAlreadyIncluded(src){
+                      var scripts = document.getElementsByTagName("script");
+                      for (var i = 0; i < scripts.length; i++) {
+                          if (scripts[i].hasAttribute("src")){
+                              if ((scripts[i].getAttribute("src") || "").indexOf(src) >= 0 || (scripts[i].getAttribute("src") === "http://code.highcharts.com/highcharts.js" && src === "https://code.highcharts.com/stock/highstock.js")) 
+                                  {return true;}
+                                  }
+                              }
+                              return false;}
+                  
+                  function check() {
+                      if (loaded === files.length) {for (var i = 0; i < window.HighchartsEditor.ondone.length; i++) 
+                          {try {window.HighchartsEditor.ondone[i]();} 
+                          catch(e) {console.error(e);}}window.HighchartsEditor.hasLoaded = true;}
+                          }
+                  
+                  function include(script) {
+                      function next() {++loaded;if (loaded < files.length) {include(files[loaded]);}check();}
+                      if (isScriptAlreadyIncluded(script)) {return next();}
+                          var sc=document.createElement("script");sc.src = script;sc.type="text/javascript";sc.onload=function() { next(); };
+                          document.head.appendChild(sc);}function each(a, fn)
+                              {if (typeof a.forEach !== "undefined"){a.forEach(fn);}
+                              else{for (var i = 0; i < a.length; i++){if (fn) {fn(a[i]);}}}}
+                              var inc = {},incl=[]; each(document.querySelectorAll("script"), function(t) 
+                              {inc[t.src.substr(0, t.src.indexOf("?"))] = 1; }); 
+                              function cl() {if(typeof window["Highcharts"] !== "undefined"){
+                                  Highcharts.setOptions({lang:{}});
+                                  var options={"title":{"text":"System 5"}, 
+                                                  "subtitle":{"text":""},
+                                                  "exporting":{"scale":1},
+                                                  "chart":{"type":"column",
+                                                          "polar":false},
+                                                  "plotOptions":{"series":{"pointPadding":0.2,
+                                                                          "groupPadding":0,
+                                                                          "borderWidth":0,
+                                                                          "shadow":false,
+                                                                          "dataLabels":{"enabled":false},"animation":false}},
+                                                                          "series":[{"name":"Column 2","turboThreshold":0,"marker":{}}],
+                                                                          "data":{"csv":"\"Column 1\";\"Column 2\"\n1;0\n2;0\n3;6\n4;26.3\n5;53.1\n6;66.4",
+                                                                                  "googleSpreadsheetKey":false,
+                                                                                  "googleSpreadsheetWorksheet":false},
+                                                                          "pane":{"background":[]},
+                                                                          "responsive":{"rules":[]},
+                                                                          "legend":{"enabled":false},
+                                                                          "tooltip":{},
+                                                                          "lang":{},
+                                                                          "credits":{"enabled": false},
+                                                                          "xAxis":[{"categories": ["", "9", "15", "25", "40", "80", "125"], 
+                                                                                  "title":{"text":"Incomes (in points)"},
+                                                                                  "labels":{}}],
+                                                                          "yAxis":[{"title":{"text":"Tax rates (%)"},
+                                                                                  "tickPositioner": function() {return yAxisLabels;},
+                                                                                  "labels":{}}]};
+                  new Highcharts.Chart("highcharts-5", options);}}})();
+              </script>
+          </td>
+          <td class="tg-zv4m"></td>
+        </tr>
+      </tbody>
+      </table>
+
+{% endif %}
+
+
 
 
 </div>

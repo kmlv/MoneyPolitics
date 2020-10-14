@@ -179,7 +179,12 @@ class Group(BaseGroup):
 
             # Sorting the values so we can take the median progressivity
             chosen_prog_level.sort()
-            self.chosen_progressivity = chosen_prog_level[4]
+            
+            # assigning system 1 as default if all players timeout
+            if chosen_prog_level[4] == float(0):
+                self.chosen_progressivity = 1 
+            else:   
+                self.chosen_progressivity = chosen_prog_level[4]
 
             # To access to the tax rates of an specific progressivity level, turn chosen_progressivity into a string
             # so you can access the dictionary entry with the respective tax rates
@@ -219,6 +224,7 @@ class Group(BaseGroup):
                 private_productivity = Constants.alpha + Constants.beta * 192
 
             p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
+            # basline utility
             p.payoff = p.private_income + p.public_income - p.total_messaging_costs
 
 
@@ -254,7 +260,8 @@ class Player(BasePlayer):
     #if session.conf['msg_type'] == 'double': # Message when double msging is activated
     message_d = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
 
-
+    # Number of Messages Sent
+    num_messages_sent = models.IntegerField(min=0)
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
     # Number of messages received
@@ -263,11 +270,11 @@ class Player(BasePlayer):
     total_messaging_costs = models.CurrencyField(initial=0)
 
     # Preferred Tax Policy Parameters
-    progressivity = models.IntegerField(choices=Constants.progressivity_levels)
+    progressivity = models.IntegerField(min=1, max=5, choices=Constants.progressivity_levels, label="", widget=widgets.RadioSelect)
     if settings.LANGUAGE_CODE=="en": # label in english
-        tax_rate = models.FloatField(min=0, max=100, label="Choose your preferred tax rate percentage", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
+        tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
-        tax_rate = models.FloatField(min=0, max=100, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
+        tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
 

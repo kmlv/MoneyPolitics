@@ -38,114 +38,31 @@
     </p>
     
     {% else %}
+
     <p>
-        {% blocktrans trimmed %}
-        After this page, you are vote to decide which tax rates should be applied to all the members of your group,
-        including yourself. They are divided by tax systems, which you can check here:
-        {% endblocktrans %}
-    </p>
-    
-    <p>
-    <style type="text/css">
-    .tg  {border-collapse:collapse;border-spacing:0;}
-    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
-    .tg .tg-x028{font-weight:bold;background-color:#000000;color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
-    .tg .tg-9wq8{border-color:inherit;text-align:center;vertical-align:middle}
-    .tg .tg-3kls{font-weight:bold;background-color:#000000;color:#ffffff;border-color:#000000;text-align:center;vertical-align:middle}
-    .tg .tg-u3q6{font-weight:bold;background-color:#000000;color:#ffffff;border-color:#000000;text-align:left;vertical-align:top}
-    .tg .tg-uzvj{font-weight:bold;border-color:inherit;text-align:center;vertical-align:middle}
-    .tg .tg-amwm{font-weight:bold;text-align:center;vertical-align:top}
-    .tg .tg-nrix{text-align:center;vertical-align:middle}
-    </style>
-    <table class="tg">
-      <tr>
-        <th class="tg-3kls" rowspan="2">{% blocktrans trimmed %}Base Income{% endblocktrans %}</th>
-        <th class="tg-x028" colspan="5">{% blocktrans trimmed %}Average Tax Rates by Tax System{% endblocktrans %}</th>
-      </tr>
-      <tr>
-        <td class="tg-u3q6">{% blocktrans trimmed %}System 1{% endblocktrans %}</td>
-        <td class="tg-u3q6">{% blocktrans trimmed %}System 2{% endblocktrans %}</td>
-        <td class="tg-u3q6">{% blocktrans trimmed %}System 3{% endblocktrans %}</td>
-        <td class="tg-u3q6">{% blocktrans trimmed %}System 4{% endblocktrans %}</td>
-        <td class="tg-u3q6">{% blocktrans trimmed %}System 5{% endblocktrans %}</td>
-      </tr>
-      <tr>
-        <td class="tg-uzvj">9</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8"> 0.3</td>
-        <td class="tg-9wq8"> 0.2</td>
-        <td class="tg-9wq8">0.1</td>
-        <td class="tg-9wq8">0</td>
-      </tr>
-      <tr>
-        <td class="tg-uzvj">15</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.35</td>
-        <td class="tg-9wq8">0.3</td>
-        <td class="tg-9wq8">0.2</td>
-        <td class="tg-9wq8">0</td>
-      </tr>
-      <tr>
-        <td class="tg-uzvj">25</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.375</td>
-        <td class="tg-9wq8">0.35</td>
-        <td class="tg-9wq8">0.3</td>
-        <td class="tg-9wq8">0.15</td>
-      </tr>
-      <tr>
-        <td class="tg-uzvj">40</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.6</td>
-      </tr>
-      <tr>
-        <td class="tg-uzvj">80</td>
-        <td class="tg-9wq8">0.4</td>
-        <td class="tg-9wq8">0.45</td>
-        <td class="tg-9wq8">0.55</td>
-        <td class="tg-9wq8">0.65</td>
-        <td class="tg-9wq8">0.8</td>
-      </tr>
-      <tr>
-        <td class="tg-amwm">125</td>
-        <td class="tg-nrix">0.4</td>
-        <td class="tg-nrix">0.55</td>
-        <td class="tg-nrix">0.65</td>
-        <td class="tg-nrix">0.8</td>
-        <td class="tg-nrix">0.9</td>
-      </tr>
-    </table>    
+      {% blocktrans trimmed %}
+      After this page, you will be voting to decide which tax system should be applied 
+      to all the participants of your group, including yourself (see the instructions 
+      for example). Before voting, you can send a message to the other participants by 
+      typing text into one or both boxes below. You can also select which participants 
+      will receive your messages.     
+      {% endblocktrans %}
     </p>
 
     <p>
-        <br>
-        The <b>median</b> of all the selected systems is going to be chosen. <b>Example:</b> Suppose you have chosen System 15.
-        The other 8 members of your group have chosen systems: 15, 45, 55, 25, 55, 45, 55, 25. Sorted from low
-        to high we have <br><br>
-        1: 15<br>
-        2: 15<br>
-        3: 25<br>
-        4: 25<br>
-        <b>5: 45 (= median tax)</b><br>
-        6: 45<br>
-        7: 55<br>
-        8: 55<br>
-        9: 55
-    </p>
-    <p>
-        The <b>median</b> in the example would be 45. Therefore, this is the tax system that is going to be 
-        applied to the income of the whole group.
+      {% blocktrans with base_earnings=player.base_earnings %}
+      Your current pre-tax wealth is {{ base_earnings }}. The cost per message sent 
+      to another participant is {{ msg_cost_int }} points. The total cost of sending 
+      messages will be deducted from your pre-tax wealth. You may not send a message 
+      that conveys a threat, contains inappropriate language, or gives your name or 
+      similar identifying information.
+      {% endblocktrans %}
     </p>
     {% endif %}
     <p>
 
     </p>
 
-    
 
 
     {% if msg_type == "double" %} 
@@ -158,7 +75,7 @@
             <div style="width: 40%; background: white;">
               Message #1 (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
               {% formfield player.message %}
-
+              
               <script>
                 let charcount = document.getElementById('char-count')
                 let messageInput = document.querySelector('[name=message]');
@@ -370,16 +287,9 @@
       </p>
     {% elif msg_type == "single" %}
       <p>
-        Write the message you want to send: (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
+        Write the message you want to send: (<span id="char-count-single">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
       </p>
         
-      <script>
-        let charcount = document.getElementById('char-count')
-        let messageInput = document.querySelector('[name=message]');
-        messageInput.oninput = function() {
-        charcount.innerText = messageInput.value.length;
-        };
-      </script>
 
       <p>
         <div class="container" style="display: flex; height: 500px;">

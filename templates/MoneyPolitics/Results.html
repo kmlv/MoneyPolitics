@@ -37,10 +37,10 @@
         {% endblocktrans %}
     {% else %}
         {% blocktrans with player_progressivity=player.progressivity %}
-        Your selected progressivity level was {{ player_progressivity }} </br>
+        Your selected tax system was {{ player_progressivity }} </br>
         {% endblocktrans %}
         {% blocktrans trimmed %}
-        The value of the base progressivity level is {{ progressivity }} </br></br>
+        The value of the base tax system is {{ progressivity }} </br></br>
         {% endblocktrans %}
     {% endif %}
 
