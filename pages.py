@@ -144,51 +144,12 @@ class PreparingMessage(Page):
             
 
     def before_next_page(self):
-        messages_sent = 0
+        
         player = self.player
         #NOTE: To count the messages, we won't use elif, because sending a message to someone is not exclusive; 
         # you can send them to multiple people and that's independent from sending to another one before
 
-        # First message
-        if player.income_9 is True:
-            messages_sent += 1
-        if player.income_15_1 is True:
-            messages_sent += 1
-        if player.income_15_2 is True:
-            messages_sent += 1
-        if player.income_15_3 is True:
-            messages_sent += 1
-        if player.income_25_1 is True:
-            messages_sent += 1
-        if player.income_25_2 is True:
-            messages_sent += 1
-        if player.income_40 is True:
-            messages_sent += 1
-        if player.income_80 is True:
-            messages_sent += 1
-        if player.income_125 is True:
-            messages_sent += 1
-
-        # Second message
-        if self.session.config['msg_type'] == "double":
-            if player.income_9_d is True:
-                messages_sent += 1
-            if player.income_15_1_d is True:
-                messages_sent += 1
-            if player.income_15_2_d is True:
-                messages_sent += 1
-            if player.income_15_3_d is True:
-                messages_sent += 1
-            if player.income_25_1_d is True:
-                messages_sent += 1
-            if player.income_25_2_d is True:
-                messages_sent += 1
-            if player.income_40_d is True:
-                messages_sent += 1
-            if player.income_80_d is True:
-                messages_sent += 1
-            if player.income_125_d is True:
-                messages_sent += 1
+        messages_sent = self.player.calculate_messages_sent()
 
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
@@ -199,13 +160,28 @@ class PreparingMessage(Page):
     
     def error_message(self, values):
         player = self.player
-        
-        if player.after_message_earnings < 0: # if player tries to spend more than what he has
+
+        choices = self.player.message_receivers_choices() # getting the receivers items 
+
+        current_message_count = 0
+
+        # Calculating the number of msgs to be sent (not sent yet)
+        for choice in choices:
+            if values[choice] is True:
+                current_message_count += 1
+        print("msgs", current_message_count)
+
+        total_messaging_costs = current_message_count*self.session.config['msg'] 
+        print("total_messaging_costs",total_messaging_costs)
+        current_earnings = player.base_earnings - total_messaging_costs
+        print("current_earnings",current_earnings)
+
+        if current_earnings < 0: # if player tries to spend more than what he has
             # telling the player the correct answer
             if settings.LANGUAGE_CODE=="en":
-                error_msg = f"You tried to send {player.num_messages_sent} message(s), spending {player.total_messaging_costs} points when you only have {player.base_earnings} points. Decrease the number of messages you want to send"
+                error_msg = f"You tried to send {current_message_count} message(s), spending {total_messaging_costs} points when you only have {player.base_earnings} points. Decrease the number of messages you want to send"
             elif settings.LANGUAGE_CODE=="es":
-                error_msg = f"Trataste de enviar {player.num_messages_sent} mensaje(s), gastando {player.total_messaging_costs} puntos cuando solo tienes {player.base_earnings} puntos. Disminuye el número de mensajes que quieres enviar"
+                error_msg = f"Trataste de enviar {current_message_count} mensaje(s), gastando {total_messaging_costs} puntos cuando solo tienes {player.base_earnings} puntos. Disminuye el número de mensajes que quieres enviar"
             return error_msg
 
 
@@ -390,6 +366,19 @@ class Results(Page):
         else:
             print('Tax system undefined')
 
+
+class GuessYourRanking(Page):
+    """
+    Page for guessing your current ranking
+    """
+    pass
+
+
+class GuessRandomSystem(Page):
+    """
+    Page for guessing the system that defined your current base income
+    """
+    pass
 
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [

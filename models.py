@@ -450,6 +450,59 @@ class Player(BasePlayer):
 
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
+
+
+    def calculate_messages_sent(self):
+        """
+        Calculates the number of messages sent
+
+        Input: None
+        Output: number of messages sent (int)
+        """
+
+        messages_sent = 0 # messages sent counter
+
+        # First message
+        if self.income_9 is True:
+            messages_sent += 1
+        if self.income_15_1 is True:
+            messages_sent += 1
+        if self.income_15_2 is True:
+            messages_sent += 1
+        if self.income_15_3 is True:
+            messages_sent += 1
+        if self.income_25_1 is True:
+            messages_sent += 1
+        if self.income_25_2 is True:
+            messages_sent += 1
+        if self.income_40 is True:
+            messages_sent += 1
+        if self.income_80 is True:
+            messages_sent += 1
+        if self.income_125 is True:
+            messages_sent += 1
+
+        # Second message
+        if self.session.config['msg_type'] == "double":
+            if self.income_9_d is True:
+                messages_sent += 1
+            if self.income_15_1_d is True:
+                messages_sent += 1
+            if self.income_15_2_d is True:
+                messages_sent += 1
+            if self.income_15_3_d is True:
+                messages_sent += 1
+            if self.income_25_1_d is True:
+                messages_sent += 1
+            if self.income_25_2_d is True:
+                messages_sent += 1
+            if self.income_40_d is True:
+                messages_sent += 1
+            if self.income_80_d is True:
+                messages_sent += 1
+            if self.income_125_d is True:
+                messages_sent += 1
+
+        return messages_sent
+
     
-    # Message page counter
-    # message_page_counter = models.IntegerField(initial=0)
