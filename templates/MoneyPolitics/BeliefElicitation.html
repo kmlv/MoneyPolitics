@@ -1,0 +1,43 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+{% autoescape off %}
+      {% blocktrans trimmed %}
+        Thoughts on Performance:
+      {% endblocktrans %}
+    {% endautoescape %}
+{% endblock %}
+
+{% block content %}
+<html>
+    <p>
+        During the experiment you were assigned a wealth either by luck or based on your ranking in the skill task.
+    </p>
+
+    <p>
+        At this point we would like you to give your best assessment of which system (luck or performance) the computer randomly
+        chose as well as your best assessment of what your ranking in the effort task was (regardless of wealth assignment). You will be
+        given extra incentives for a correct answer on either question, and for the ranking you will be given a small incentive for 
+        getting an answer that is accurate within two places.
+    </p>
+
+    <p>
+        Please select what ranking you achieved during the effort task (1 = best, 9 = worst) and 
+        whether you believe the computer determined your income based on luck or performance:
+        {% formfields %}
+    </p>
+
+    <p>
+        {% next_button %}
+    </p>
+
+    <p>
+        {% include Constants.instructions_button %}
+    </p>
+
+
+
+</html>
+{% endblock %}

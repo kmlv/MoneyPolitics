@@ -373,14 +373,20 @@ class BeliefElicitation(Page):
 
         if luck == 0:
             selected_system == "luck"
+            print(selected_system)
         elif luck == 1:
             selected_system == "performance"
+            print(selected_system)
 
         # assigning payoff
         if player.guessed_system == selected_system:
             player.guessed_system_payoff = 500
         else:
             player.guessed_system_payoff = 0
+    
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
             
 
 class ResultsWaitPage(WaitPage):
@@ -392,15 +398,44 @@ class Results(Page):
     def vars_for_template(self):
         tax_system = self.session.config['tax_system']
         msg_cost_int = int(self.session.config['msg'])
+        luck = self.group.luck
+        selected_systems = "" # string that will tell the current system used for income assignment
+        if luck == 0:
+            selected_systems = "luck"
+        elif luck == 1:
+            selected_systems = "performance"
+        
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'player_tax_rate': str(int(self.player.tax_rate))+"%", 'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'tax_rate': str(int(tax_rate*100))+"%", "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type']}
+            return {
+                    'player_tax_rate': str(int(self.player.tax_rate))+"%", 
+                    'msg_cost_int': msg_cost_int, 
+                    'tax_system': tax_system, 
+                    'tax_rate': str(int(tax_rate*100))+"%", 
+                    "message_cost": self.session.config['msg'],
+                    'msg_type': self.session.config['msg_type'],
+                    'system_guess': self.player.guessed_system,
+                    'system_actual': selected_systems,
+                    'ranking_guess': self.player.guessed_ranking,
+                    'ranking_actual': self.player.ranking,
+                    'system_guess_payoff': self.player.guessed_system_payoff,
+                    'ranking_guess_payoff': self.player.guessed_ranking_payoff
+                    }
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
             if progressivity == 0:
                 progressivity = 1 # changing the progressivity to 1 as a default if everyone times out
-            return {'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg'], 'msg_type': self.session.config['msg_type']}
+            return {
+                    'msg_cost_int': msg_cost_int, 
+                    'tax_system': tax_system, 
+                    'progressivity': progressivity, 
+                    "message_cost": self.session.config['msg'], 
+                    'msg_type': self.session.config['msg_type'],
+                    'system_guess': self.player.guessed_system,
+                    'ranking_guess': self.player.guessed_ranking,
+                    'system_guess_payoff': self.player.guessed_system_payoff,
+                    'ranking_guess_payoff': self.player.guessed_ranking_payoff
+                    }
         else:
             print('Tax system undefined')
 
@@ -418,7 +453,7 @@ page_sequence = [
     ReceivingMessage,
     ProgressivityParameter,
     TaxRateParameter,
-    GuessYourRankingAndSystem,
+    BeliefElicitation,
     ResultsWaitPage,
     Results
 ]

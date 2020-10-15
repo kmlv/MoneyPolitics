@@ -520,7 +520,7 @@ class Player(BasePlayer):
     guessed_ranking = models.IntegerField(choices=[rank for rank in range(1,10)], widget=widgets.RadioSelect)
     guessed_ranking_payoff = models.CurrencyField(min=0)
 
-    guessed_system = models.IntegerField(choices=["performance", "luck"])], widget=widgets.RadioSelect)
+    guessed_system = models.StringField(choices=["performance", "luck"], widget=widgets.RadioSelect)
     guessed_system_payoff = models.CurrencyField(min=0)
 
     belief_elicitation_payoff = models.CurrencyField(min=0)
