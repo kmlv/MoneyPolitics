@@ -345,6 +345,44 @@ class TaxRateParameter(Page):
                   'msg_type': self.session.config['msg_type']}
 
 
+class BeliefElicitation(Page):
+    """
+    Page for guessing your current ranking
+    and  the system that defined your current 
+    base income
+    """
+    form_model = 'player'
+    form_fields = ['guessed_ranking', 'guessed_system']
+
+    def before_next_page(self):
+        player = self.player
+
+        # quadratic payoffs for guessed_ranking_payoff
+        if player.guessed_ranking == player.ranking:
+            player.guessed_ranking_payoff = 900
+        elif player.guessed_ranking == player.ranking + 1 or player.guessed_ranking == player.ranking - 1:
+            player.guessed_ranking_payoff = 400
+        elif player.guessed_ranking == player.ranking + 2 or player.guessed_ranking == player.ranking - 2:
+            player.guessed_ranking_payoff = 100
+        else:
+            player.guessed_ranking_payoff = 0
+
+        # payoff for guessed_system_payoff
+        luck = self.group.luck
+        selected_system = "" # string that will tell the current system used for income assignment
+
+        if luck == 0:
+            selected_system == "luck"
+        elif luck == 1:
+            selected_system == "performance"
+
+        # assigning payoff
+        if player.guessed_system == selected_system:
+            player.guessed_system_payoff = 500
+        else:
+            player.guessed_system_payoff = 0
+            
+
 class ResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.set_payoffs()
@@ -367,18 +405,6 @@ class Results(Page):
             print('Tax system undefined')
 
 
-class GuessYourRanking(Page):
-    """
-    Page for guessing your current ranking
-    """
-    pass
-
-
-class GuessRandomSystem(Page):
-    """
-    Page for guessing the system that defined your current base income
-    """
-    pass
 
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
@@ -392,6 +418,7 @@ page_sequence = [
     ReceivingMessage,
     ProgressivityParameter,
     TaxRateParameter,
+    GuessYourRankingAndSystem,
     ResultsWaitPage,
     Results
 ]

@@ -67,6 +67,9 @@ class Group(BaseGroup):
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
+    # Luck (0 if luck is the system or 1 if performance)
+    luck = models.IntegerField(min=0, max=1)
+
     #Treatment for the group
 
     def ranking_income_assignment(self):
@@ -123,6 +126,7 @@ class Group(BaseGroup):
         Output: None
         """
         luck = random.SystemRandom().randint(0, 1)
+        self.luck = luck # storing the luck value
 
         to_shuffle_earnings = []
 
@@ -225,7 +229,11 @@ class Group(BaseGroup):
 
             p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
             # basline utility
-            p.payoff = p.private_income + p.public_income - p.total_messaging_costs
+            p.game_payoff = p.private_income + p.public_income - p.total_messaging_costs
+
+            # setting final payoffs
+            p.belief_elicitation_payoff = p.guessed_ranking_payoff + p.guessed_system_payoff
+            p.payoff = p.game_payoff + p.belief_elicitation_payoff
 
 
 # Function that creates a field to send messages according to the income of other player
@@ -505,4 +513,14 @@ class Player(BasePlayer):
 
         return messages_sent
 
-    
+    # Game payoff (without belief elicitation payoff)
+    game_payoff = models.CurrencyField(min=0)
+
+    # Belief elicitation fields
+    guessed_ranking = models.IntegerField(choices=[rank for rank in range(1,10)], widget=widgets.RadioSelect)
+    guessed_ranking_payoff = models.CurrencyField(min=0)
+
+    guessed_system = models.IntegerField(choices=["performance", "luck"])], widget=widgets.RadioSelect)
+    guessed_system_payoff = models.CurrencyField(min=0)
+
+    belief_elicitation_payoff = models.CurrencyField(min=0)
