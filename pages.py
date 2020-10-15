@@ -372,10 +372,10 @@ class BeliefElicitation(Page):
         selected_system = "" # string that will tell the current system used for income assignment
 
         if luck == 0:
-            selected_system == "luck"
+            selected_system = "luck"
             print(selected_system)
         elif luck == 1:
-            selected_system == "performance"
+            selected_system = "performance"
             print(selected_system)
 
         # assigning payoff
@@ -432,7 +432,9 @@ class Results(Page):
                     "message_cost": self.session.config['msg'], 
                     'msg_type': self.session.config['msg_type'],
                     'system_guess': self.player.guessed_system,
+                    'system_actual': selected_systems,
                     'ranking_guess': self.player.guessed_ranking,
+                    'ranking_actual': self.player.ranking,
                     'system_guess_payoff': self.player.guessed_system_payoff,
                     'ranking_guess_payoff': self.player.guessed_ranking_payoff
                     }
