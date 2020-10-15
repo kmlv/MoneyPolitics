@@ -37,16 +37,28 @@
         {% endblocktrans %}
     {% else %}
         {% blocktrans with player_progressivity=player.progressivity %}
-        Your selected progressivity level was {{ player_progressivity }} </br>
+        Your selected tax system was {{ player_progressivity }} </br>
         {% endblocktrans %}
         {% blocktrans trimmed %}
-        The value of the base progressivity level is {{ progressivity }} </br></br>
+        The value of the base tax system is {{ progressivity }} </br></br>
         {% endblocktrans %}
     {% endif %}
 
+
+
+    <p>
+        <!-- TODO: add section for Belief Elicitation Payments -->
+        Your wealth was determined by {{ system_actual }} and you guessed that your wealth was determined 
+        by {{ system_guess }}</br></br>
+
+        Your ranking was {{ ranking_actual }} and you guessed that your ranking was {{ ranking_guess }}</br></br>
+
+        Your guess on the performance or luck system yielded you {{ system_guess_payoff }}, and your guess on ranking yielded you {{ ranking_guess_payoff }}
+    </p>
+
     {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
 
-    Your total payoff for this round is {{ player_payoff }}</br>
+    Your total payoff for this round is {{ player_payoff }}</br></br>
 
     {% endblocktrans %}
 

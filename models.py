@@ -67,6 +67,9 @@ class Group(BaseGroup):
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
+    # Luck (0 if luck is the system or 1 if performance)
+    luck = models.IntegerField(min=0, max=1)
+
     #Treatment for the group
 
     def ranking_income_assignment(self):
@@ -123,6 +126,7 @@ class Group(BaseGroup):
         Output: None
         """
         luck = random.SystemRandom().randint(0, 1)
+        self.luck = luck # storing the luck value
 
         to_shuffle_earnings = []
 
@@ -179,7 +183,12 @@ class Group(BaseGroup):
 
             # Sorting the values so we can take the median progressivity
             chosen_prog_level.sort()
-            self.chosen_progressivity = chosen_prog_level[4]
+            
+            # assigning system 1 as default if all players timeout
+            if chosen_prog_level[4] == float(0):
+                self.chosen_progressivity = 1 
+            else:   
+                self.chosen_progressivity = chosen_prog_level[4]
 
             # To access to the tax rates of an specific progressivity level, turn chosen_progressivity into a string
             # so you can access the dictionary entry with the respective tax rates
@@ -219,7 +228,12 @@ class Group(BaseGroup):
                 private_productivity = Constants.alpha + Constants.beta * 192
 
             p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
-            p.payoff = p.private_income + p.public_income - p.total_messaging_costs
+            # basline utility
+            p.game_payoff = p.private_income + p.public_income - p.total_messaging_costs
+
+            # setting final payoffs
+            p.belief_elicitation_payoff = p.guessed_ranking_payoff + p.guessed_system_payoff
+            p.payoff = p.game_payoff + p.belief_elicitation_payoff
 
 
 # Function that creates a field to send messages according to the income of other player
@@ -254,7 +268,8 @@ class Player(BasePlayer):
     #if session.conf['msg_type'] == 'double': # Message when double msging is activated
     message_d = models.LongStringField(max_length=Constants.max_chars, blank=True, label="")
 
-
+    # Number of Messages Sent
+    num_messages_sent = models.IntegerField(min=0)
     # Messages Received in String Format
     messages_received = models.StringField(initial="")
     # Number of messages received
@@ -263,11 +278,11 @@ class Player(BasePlayer):
     total_messaging_costs = models.CurrencyField(initial=0)
 
     # Preferred Tax Policy Parameters
-    progressivity = models.IntegerField(choices=Constants.progressivity_levels)
+    progressivity = models.IntegerField(min=1, max=5, choices=Constants.progressivity_levels, label="", widget=widgets.RadioSelect)
     if settings.LANGUAGE_CODE=="en": # label in english
-        tax_rate = models.FloatField(min=0, max=100, label="Choose your preferred tax rate percentage", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
+        tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
-        tax_rate = models.FloatField(min=0, max=100, label="Escoja la tasa impositiva de su preferencia", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
+        tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[str(int(round(item*100,0)))+"%" for item in list(numpy.arange(0, 1.05, .05))])
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
 
@@ -443,6 +458,69 @@ class Player(BasePlayer):
 
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
-    
-    # Message page counter
-    # message_page_counter = models.IntegerField(initial=0)
+
+
+    def calculate_messages_sent(self):
+        """
+        Calculates the number of messages sent
+
+        Input: None
+        Output: number of messages sent (int)
+        """
+
+        messages_sent = 0 # messages sent counter
+
+        # First message
+        if self.income_9 is True:
+            messages_sent += 1
+        if self.income_15_1 is True:
+            messages_sent += 1
+        if self.income_15_2 is True:
+            messages_sent += 1
+        if self.income_15_3 is True:
+            messages_sent += 1
+        if self.income_25_1 is True:
+            messages_sent += 1
+        if self.income_25_2 is True:
+            messages_sent += 1
+        if self.income_40 is True:
+            messages_sent += 1
+        if self.income_80 is True:
+            messages_sent += 1
+        if self.income_125 is True:
+            messages_sent += 1
+
+        # Second message
+        if self.session.config['msg_type'] == "double":
+            if self.income_9_d is True:
+                messages_sent += 1
+            if self.income_15_1_d is True:
+                messages_sent += 1
+            if self.income_15_2_d is True:
+                messages_sent += 1
+            if self.income_15_3_d is True:
+                messages_sent += 1
+            if self.income_25_1_d is True:
+                messages_sent += 1
+            if self.income_25_2_d is True:
+                messages_sent += 1
+            if self.income_40_d is True:
+                messages_sent += 1
+            if self.income_80_d is True:
+                messages_sent += 1
+            if self.income_125_d is True:
+                messages_sent += 1
+
+        return messages_sent
+
+    # Game payoff (without belief elicitation payoff)
+    game_payoff = models.CurrencyField(min=0)
+
+    # Belief elicitation fields
+    guessed_ranking = models.IntegerField(choices=[rank for rank in range(1,10)], widget=widgets.RadioSelect)
+    guessed_ranking_payoff = models.CurrencyField(min=0)
+
+    guessed_system = models.StringField(choices=["performance", "luck"], widget=widgets.RadioSelect)
+    guessed_system_payoff = models.CurrencyField(min=0)
+
+    belief_elicitation_payoff = models.CurrencyField(min=0)

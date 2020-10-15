@@ -144,56 +144,45 @@ class PreparingMessage(Page):
             
 
     def before_next_page(self):
-        messages_sent = 0
+        
         player = self.player
         #NOTE: To count the messages, we won't use elif, because sending a message to someone is not exclusive; 
         # you can send them to multiple people and that's independent from sending to another one before
 
-        # First message
-        if player.income_9 is True:
-            messages_sent += 1
-        if player.income_15_1 is True:
-            messages_sent += 1
-        if player.income_15_2 is True:
-            messages_sent += 1
-        if player.income_15_3 is True:
-            messages_sent += 1
-        if player.income_25_1 is True:
-            messages_sent += 1
-        if player.income_25_2 is True:
-            messages_sent += 1
-        if player.income_40 is True:
-            messages_sent += 1
-        if player.income_80 is True:
-            messages_sent += 1
-        if player.income_125 is True:
-            messages_sent += 1
-
-        # Second message
-        if self.session.config['msg_type'] == "double":
-            if player.income_9_d is True:
-                messages_sent += 1
-            if player.income_15_1_d is True:
-                messages_sent += 1
-            if player.income_15_2_d is True:
-                messages_sent += 1
-            if player.income_15_3_d is True:
-                messages_sent += 1
-            if player.income_25_1_d is True:
-                messages_sent += 1
-            if player.income_25_2_d is True:
-                messages_sent += 1
-            if player.income_40_d is True:
-                messages_sent += 1
-            if player.income_80_d is True:
-                messages_sent += 1
-            if player.income_125_d is True:
-                messages_sent += 1
+        messages_sent = self.player.calculate_messages_sent()
 
         # Calculating and discounting the total message cost
         player.total_messaging_costs += messages_sent*self.session.config['msg']
         player.after_message_earnings = player.base_earnings - player.total_messaging_costs
+
+        # Storing the number of messages sent
+        player.num_messages_sent = messages_sent
     
+    def error_message(self, values):
+        player = self.player
+
+        choices = self.player.message_receivers_choices() # getting the receivers items 
+
+        current_message_count = 0
+
+        # Calculating the number of msgs to be sent (not sent yet)
+        for choice in choices:
+            if values[choice] is True:
+                current_message_count += 1
+        print("msgs", current_message_count)
+
+        total_messaging_costs = current_message_count*self.session.config['msg'] 
+        print("total_messaging_costs",total_messaging_costs)
+        current_earnings = player.base_earnings - total_messaging_costs
+        print("current_earnings",current_earnings)
+
+        if current_earnings < 0: # if player tries to spend more than what he has
+            # telling the player the correct answer
+            if settings.LANGUAGE_CODE=="en":
+                error_msg = f"You tried to send {current_message_count} message(s), spending {total_messaging_costs} points when you only have {player.base_earnings} points. Decrease the number of messages you want to send"
+            elif settings.LANGUAGE_CODE=="es":
+                error_msg = f"Trataste de enviar {current_message_count} mensaje(s), gastando {total_messaging_costs} puntos cuando solo tienes {player.base_earnings} puntos. Disminuye el número de mensajes que quieres enviar"
+            return error_msg
 
 
 class ProcessingMessage(WaitPage):
@@ -356,6 +345,50 @@ class TaxRateParameter(Page):
                   'msg_type': self.session.config['msg_type']}
 
 
+class BeliefElicitation(Page):
+    """
+    Page for guessing your current ranking
+    and  the system that defined your current 
+    base income
+    """
+    form_model = 'player'
+    form_fields = ['guessed_ranking', 'guessed_system']
+
+    def before_next_page(self):
+        player = self.player
+
+        # quadratic payoffs for guessed_ranking_payoff
+        if player.guessed_ranking == player.ranking:
+            player.guessed_ranking_payoff = 900
+        elif player.guessed_ranking == player.ranking + 1 or player.guessed_ranking == player.ranking - 1:
+            player.guessed_ranking_payoff = 400
+        elif player.guessed_ranking == player.ranking + 2 or player.guessed_ranking == player.ranking - 2:
+            player.guessed_ranking_payoff = 100
+        else:
+            player.guessed_ranking_payoff = 0
+
+        # payoff for guessed_system_payoff
+        luck = self.group.luck
+        selected_system = "" # string that will tell the current system used for income assignment
+
+        if luck == 0:
+            selected_system == "luck"
+            print(selected_system)
+        elif luck == 1:
+            selected_system == "performance"
+            print(selected_system)
+
+        # assigning payoff
+        if player.guessed_system == selected_system:
+            player.guessed_system_payoff = 500
+        else:
+            player.guessed_system_payoff = 0
+    
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
+            
+
 class ResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.set_payoffs()
@@ -365,15 +398,47 @@ class Results(Page):
     def vars_for_template(self):
         tax_system = self.session.config['tax_system']
         msg_cost_int = int(self.session.config['msg'])
+        luck = self.group.luck
+        selected_systems = "" # string that will tell the current system used for income assignment
+        if luck == 0:
+            selected_systems = "luck"
+        elif luck == 1:
+            selected_systems = "performance"
+        
         if self.session.config['tax_system'] == "tax_rate":
             tax_rate = round(self.group.chosen_tax_rate, 2)
-            return {'player_tax_rate': str(int(self.player.tax_rate))+"%", 'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'tax_rate': str(int(tax_rate*100))+"%", "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type']}
+            return {
+                    'player_tax_rate': str(int(self.player.tax_rate))+"%", 
+                    'msg_cost_int': msg_cost_int, 
+                    'tax_system': tax_system, 
+                    'tax_rate': str(int(tax_rate*100))+"%", 
+                    "message_cost": self.session.config['msg'],
+                    'msg_type': self.session.config['msg_type'],
+                    'system_guess': self.player.guessed_system,
+                    'system_actual': selected_systems,
+                    'ranking_guess': self.player.guessed_ranking,
+                    'ranking_actual': self.player.ranking,
+                    'system_guess_payoff': self.player.guessed_system_payoff,
+                    'ranking_guess_payoff': self.player.guessed_ranking_payoff
+                    }
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
-            return {'msg_cost_int': msg_cost_int, 'tax_system': tax_system, 'progressivity': progressivity, "message_cost": self.session.config['msg'], 'msg_type': self.session.config['msg_type']}
+            if progressivity == 0:
+                progressivity = 1 # changing the progressivity to 1 as a default if everyone times out
+            return {
+                    'msg_cost_int': msg_cost_int, 
+                    'tax_system': tax_system, 
+                    'progressivity': progressivity, 
+                    "message_cost": self.session.config['msg'], 
+                    'msg_type': self.session.config['msg_type'],
+                    'system_guess': self.player.guessed_system,
+                    'ranking_guess': self.player.guessed_ranking,
+                    'system_guess_payoff': self.player.guessed_system_payoff,
+                    'ranking_guess_payoff': self.player.guessed_ranking_payoff
+                    }
         else:
             print('Tax system undefined')
+
 
 
 # There should be a waiting page after preparing the message and before receiving one
@@ -388,6 +453,7 @@ page_sequence = [
     ReceivingMessage,
     ProgressivityParameter,
     TaxRateParameter,
+    BeliefElicitation,
     ResultsWaitPage,
     Results
 ]
