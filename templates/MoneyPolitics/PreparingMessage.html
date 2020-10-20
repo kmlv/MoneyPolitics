@@ -67,7 +67,9 @@
 
     {% if msg_type == "double" %} 
       <p>
+        {% blocktrans trimmed %}
         Write the message you want to send:
+        {% endblocktrans %}
       </p>
 
       <p>
@@ -287,7 +289,9 @@
       </p>
     {% elif msg_type == "single" %}
       <p>
+        {% blocktrans trimmed %}
         Write the message you want to send: (<span id="char-count-single">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
+        {% endblocktrans %}
       </p>
         
 
