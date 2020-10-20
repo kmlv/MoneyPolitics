@@ -58,8 +58,7 @@
 
     {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
 
-    The portion of your payoff based on public income was {{ player_public_income }}</br></br>
-    The portion of your payoff based on private income was {{ player_private_income }} </br></br>
+    The portion of your payoff based on your public and private income was {{ game_payoff }}</br></br>
     The portion of your payoff based on your responses to questions on your performance was {{ total_guess_payoff }}</br></br>
     Your total payoff for this round is {{ player_payoff }}</br></br>
 
