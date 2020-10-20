@@ -156,7 +156,7 @@ class Group(BaseGroup):
 
     def set_payoffs(self):
         """
-        Method to set round final payoffs
+        Method to set round final payoffs (only from the interaction)
 
         Input: None
         Output: None
@@ -230,10 +230,6 @@ class Group(BaseGroup):
             p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
             # basline utility
             p.game_payoff = p.private_income + p.public_income - p.total_messaging_costs
-
-            # setting final payoffs
-            p.belief_elicitation_payoff = p.guessed_ranking_payoff + p.guessed_system_payoff
-            p.payoff = p.game_payoff + p.belief_elicitation_payoff
 
 
 # Function that creates a field to send messages according to the income of other player
