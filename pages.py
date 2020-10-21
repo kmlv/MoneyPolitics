@@ -186,9 +186,9 @@ class PreparingMessage(Page):
         if current_earnings < 0: # if player tries to spend more than what he has
             # telling the player the correct answer
             if settings.LANGUAGE_CODE=="en":
-                error_msg = f"You tried to send {current_message_count} message(s), spending {total_messaging_costs} points when you only have {player.base_earnings} points. Decrease the number of messages you want to send"
+                error_msg = f"You tried to send {current_message_count} message(s), spending {total_messaging_costs} points when you only have {player.base_earnings}. Decrease the number of messages you want to send"
             elif settings.LANGUAGE_CODE=="es":
-                error_msg = f"Trataste de enviar {current_message_count} mensaje(s), gastando {total_messaging_costs} puntos cuando solo tienes {player.base_earnings} puntos. Disminuye el número de mensajes que quieres enviar"
+                error_msg = f"Trataste de enviar {current_message_count} mensaje(s), gastando {total_messaging_costs} puntos cuando solo tienes {player.base_earnings}. Disminuye el número de mensajes que quieres enviar"
             return error_msg
 
 
@@ -381,8 +381,10 @@ class Results(Page):
                     'system_actual': selected_systems,
                     'ranking_guess': self.player.guessed_ranking,
                     'ranking_actual': self.player.ranking,
+                    'game_payoff': self.player.game_payoff,
                     'system_guess_payoff': self.player.guessed_system_payoff,
-                    'ranking_guess_payoff': self.player.guessed_ranking_payoff
+                    'ranking_guess_payoff': self.player.guessed_ranking_payoff,
+                    'total_guess_payoff': self.player.guessed_ranking_payoff + self.player.guessed_system_payoff
                     }
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
@@ -398,8 +400,10 @@ class Results(Page):
                     'system_actual': selected_systems,
                     'ranking_guess': self.player.guessed_ranking,
                     'ranking_actual': self.player.ranking,
+                    'game_payoff': self.player.game_payoff,
                     'system_guess_payoff': self.player.guessed_system_payoff,
-                    'ranking_guess_payoff': self.player.guessed_ranking_payoff
+                    'ranking_guess_payoff': self.player.guessed_ranking_payoff,
+                    'total_guess_payoff': self.player.guessed_ranking_payoff + self.player.guessed_system_payoff
                     }
         else:
             print('Tax system undefined')

@@ -37,15 +37,17 @@
         {% endblocktrans %}
     {% else %}
         {% blocktrans with player_progressivity=player.progressivity %}
-        Your selected tax system was {{ player_progressivity }} </br>
+        Your selected tax system was system {{ player_progressivity }} </br></br>
         {% endblocktrans %}
         {% blocktrans trimmed %}
-        The value of the base tax system is {{ progressivity }} </br></br>
+        The median tax system selected by the group was {{ progressivity }} </br></br>
         {% endblocktrans %}
     {% endif %}
 
     {% blocktrans with player_payoff=player.game_payoff %}
 
+    The portion of your payoff based on your public and private income was {{ game_payoff }}</br></br>
+    The portion of your payoff based on your responses to questions on your performance was {{ total_guess_payoff }}</br></br>
     Your total payoff for this round is {{ player_payoff }}</br></br>
 
     {% endblocktrans %}
