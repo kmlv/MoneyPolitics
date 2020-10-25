@@ -21,6 +21,12 @@
 	{
     	border: 1px solid black;
     }
+  
+  .container-fluid {float:left}
+
+  .row {text-align:justify; width:auto; height:auto}
+
+  .row:nth-child(2) div {display:inline-block; line-height:250px; vertical-align:middle; margin:.25em; padding:0; height:auto; width:auto}
   </style>
 </head>
 <body>
@@ -32,11 +38,28 @@
 {{ form.game_score.errors }} 
 
 <!-- Tetris Game Box -->
-<canvas width="320" height="640" id="game"></canvas> 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-4"><canvas width="320" height="640" id="game"></canvas></div>
+    <div class="col-xs-4" style="padding:0 15px 0 60px;">
+      <p>
+        The <b>Goal</b> of this task is to <b>complete</b> as much<br>
+        <b>lines</b> as possible during the available time.
+      </p>
+      <p>
+      The <b>keys</b> you have to use are the <b>directional arrows</b>:<br>
+      Up, Down, Left, Right (You can't use "WASD")<br><br>
+        <b>-Left</b> and <b>Right</b> will move the fallen item to <br>
+        &nbsp;the respective directions<br>
+        <b>-Up</b> will rotate 90 degrees to the right<br>
+        <b>-Down</b> will accelerate the fall
+      </p>
+    </div>
+  </div>
+</div>
 
 <!-- Displays the user's current score -->
 <div id="user_score"></div> 
-	
 	
 <script>
 // https://tetris.fandom.com/wiki/Tetris_Guideline
@@ -351,6 +374,7 @@ console.log(score);
 
 </script>	
 <p><br></p>
+
 </body>
 </html>
 {% next_button %}
