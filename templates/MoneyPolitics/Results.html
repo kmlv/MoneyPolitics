@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block content %}
-    {% blocktrans with real_effort_earnings=player.real_effort_earnings %}
-    Your initial wealth was {{ real_effort_earnings }} </br></br>
+    {% blocktrans with base_earnings=player.base_earnings %}
+    Your initial wealth was {{ base_earnings }} </br></br>
     {% endblocktrans %}
     {% if player.shuffled %}
         {% blocktrans with base_earnings=player.base_earnings %}
@@ -44,19 +44,7 @@
         {% endblocktrans %}
     {% endif %}
 
-
-
-    <p>
-        <!-- TODO: add section for Belief Elicitation Payments -->
-        Your wealth was determined by {{ system_actual }} and you guessed that your wealth was determined 
-        by {{ system_guess }}</br></br>
-
-        Your ranking was {{ ranking_actual }} and you guessed that your ranking was {{ ranking_guess }}</br></br>
-
-        Your guess on the performance or luck system yielded you {{ system_guess_payoff }}, and your guess on ranking yielded you {{ ranking_guess_payoff }}
-    </p>
-
-    {% blocktrans with player_public_income=player.public_income player_private_income=player.private_income player_payoff=player.payoff %}
+    {% blocktrans with player_payoff=player.game_payoff %}
 
     The portion of your payoff based on your public and private income was {{ game_payoff }}</br></br>
     The portion of your payoff based on your responses to questions on your performance was {{ total_guess_payoff }}</br></br>
