@@ -384,7 +384,7 @@ class Results(Page):
                     'game_payoff': self.player.game_payoff,
                     'system_guess_payoff': self.player.guessed_system_payoff,
                     'ranking_guess_payoff': self.player.guessed_ranking_payoff,
-                    'total_guess_payoff': self.player.guessed_ranking_payoff + self.player.guessed_system_payoff
+                    'total_guess_payoff': int(self.player.guessed_ranking_payoff) + int(self.player.guessed_system_payoff)
                     }
         elif self.session.config['tax_system'] == "progressivity":
             progressivity = round(self.group.chosen_progressivity)
@@ -403,7 +403,7 @@ class Results(Page):
                     'game_payoff': self.player.game_payoff,
                     'system_guess_payoff': self.player.guessed_system_payoff,
                     'ranking_guess_payoff': self.player.guessed_ranking_payoff,
-                    'total_guess_payoff': self.player.guessed_ranking_payoff + self.player.guessed_system_payoff
+                    'total_guess_payoff': int(0 if self.player.guessed_ranking_payoff is None else self.player.guessed_ranking_payoff) + int(0 if self.player.guessed_system_payoff is None else self.player.guessed_system_payoff)
                     }
         else:
             print('Tax system undefined')

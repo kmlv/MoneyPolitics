@@ -13,19 +13,25 @@
 {% block content %}
 <html>
     <p>
+        {% blocktrans trimmed %}
         During the experiment you were assigned a wealth either by luck or based on your ranking in the skill task.
+        {% endblocktrans %}
     </p>
 
     <p>
+        {% blocktrans trimmed %}
         At this point we would like you to give your best assessment of which system (luck or performance) the computer randomly
         chose as well as your best assessment of what your ranking in the effort task was (regardless of wealth assignment). You will be
         given extra incentives for a correct answer on either question, and for the ranking you will be given a small incentive for 
         getting an answer that is accurate within two places.
+        {% endblocktrans %}
     </p>
 
     <p>
+        {% blocktrans trimmed %}
         Please select what ranking you achieved during the effort task (1 = best, 9 = worst) and 
         whether you believe the computer determined your income based on luck or performance:
+        {% endblocktrans %}
         {% formfields %}
     </p>
 
