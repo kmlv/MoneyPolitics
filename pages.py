@@ -444,7 +444,7 @@ class BeliefElicitation(Page):
 
         # assigning payoff
         if player.guessed_system == selected_system:
-            player.guessed_system_payoff = 500
+            player.guessed_system_payoff = 900
         else:
             player.guessed_system_payoff = 0
 
