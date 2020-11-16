@@ -44,7 +44,7 @@ progressivity_levels_tax_rates = {'1': [0.4, 0.4, 0.4, 0.4, 0.4, 0.4],
 
 # Private Sector Parameters
 alpha = 5
-beta = 1/16
+beta = 2.9
 
 # Steps for tax rate
 tax_step = '0.05'
