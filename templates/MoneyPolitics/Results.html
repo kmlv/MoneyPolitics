@@ -10,18 +10,13 @@
     {% blocktrans with base_earnings=player.base_earnings %}
     Your initial wealth was {{ base_earnings }} </br></br>
     {% endblocktrans %}
-    {% if player.shuffled %}
-        {% blocktrans with base_earnings=player.base_earnings %}
-        Your wealth was randomly swapped with someone.</br></br>
-        {% endblocktrans %}
-    {% else %}
-        {% blocktrans trimmed %}
-        Your wealth wasn't swapped with anyone.</br></br>
-        {% endblocktrans %}
-    {% endif %}
 
     {% blocktrans with message_cost=message_cost %}
     The cost per message, per recipients was {{ msg_cost_int }} points </br></br>
+    {% endblocktrans %}
+
+    {% blocktrans with num_messages=player.num_messages_sent %}
+    The number of messages you sent was {{ num_messages }} messages </br></br>
     {% endblocktrans %}
 
     {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
