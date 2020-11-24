@@ -276,9 +276,11 @@ class Player(BasePlayer):
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(min=1, max=5, choices=Constants.progressivity_levels, label="", widget=widgets.RadioSelect)
     if settings.LANGUAGE_CODE=="en": # label in english
-        tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[[round(item*100,0), str(int(round(item*100,0)))+"%"] for item in list(numpy.arange(0, 1.05, .05))])
+        #tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[[round(item*100,0), str(int(round(item*100,0)))+"%"] for item in list(numpy.arange(0, 1.05, .05))])
+        tax_rate = models.FloatField(min=0, max=100, label="")
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
-        tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[[round(item*100,0), str(int(round(item*100,0)))+"%"] for item in list(numpy.arange(0, 1.05, .05))])
+        # tax_rate = models.FloatField(min=0, max=100, label="", widget=widgets.RadioSelect, choices=[[round(item*100,0), str(int(round(item*100,0)))+"%"] for item in list(numpy.arange(0, 1.05, .05))])
+        tax_rate = models.FloatField(min=0, max=100, label="")
     else:
         print("ERROR: Undefined LANGUAGE_CODE used")
 
