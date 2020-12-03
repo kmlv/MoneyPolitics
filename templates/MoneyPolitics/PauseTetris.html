@@ -8,3 +8,22 @@ Wait for the Task to Start
 {% endblocktrans %}
 {% endblock %}
 
+{% block content %}
+        <p>
+        {% blocktrans trimmed %}
+          The <b>Goal</b> of this task is to <b>complete</b> as much<br>
+          <b>lines</b> as possible during the available time.
+        {% endblocktrans %}
+        </p>
+        <p>
+        {% blocktrans trimmed %}
+        The <b>keys</b> you have to use are the <b>directional arrows</b>:<br>
+        Up, Down, Left, Right (You can't use "WASD")<br><br>
+          <b>-Left</b> and <b>Right</b> will move the fallen item to <br>
+          &nbsp;the respective directions<br>
+          <b>-Up</b> will rotate 90 degrees to the right<br>
+          <b>-Down</b> will accelerate the fall
+        {% endblocktrans %}
+        </p>
+{% endblock %}
+

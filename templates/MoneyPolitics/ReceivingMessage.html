@@ -18,10 +18,16 @@
         These are the messages you have received from other participants:
     </p>
         <ul>
-        {% autoescape off %}
-            {{ player.messages_received }}
-        {% endautoescape %}
+        {% if player.messages_received != "" %}
+            {% autoescape off %}
+                {{ player.messages_received }}
+            {% endautoescape %}
+        {% else %}
+            <li><i>You have not received any messages.</i></li>
+        {% endif %}
         </ul>
+
+        
 
 
     <p>
