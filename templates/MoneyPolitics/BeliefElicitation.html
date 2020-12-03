@@ -23,20 +23,60 @@
         At this point we would like you to give your best assessment of which system (luck or performance) the computer randomly
         chose as well as your best assessment of what your ranking in the effort task was (regardless of wealth assignment). You will be
         given extra incentives for a correct answer on either question, and for the ranking you will be given a small incentive for 
-        getting an answer that is accurate within two places.
+        getting an answer that is accurate within two places.<br></br>
+        For the ranking question below <b>Error = | Guessed Ranking - Actual Ranking |</b>, please see table below. <br></br>
         {% endblocktrans %}
     </p>
 
     <p>
+        <style type="text/css">
+            .tg  {border-collapse:collapse;border-spacing:0;}
+            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              overflow:hidden;padding:20px 20px;word-break:normal;}
+            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              font-weight:normal;overflow:hidden;padding:20px 20px;word-break:normal;}
+            .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+            </style>
+            <table class="tg">
+            <thead>
+              <tr>
+                <th class="tg-0pky">Error</th>
+                <th class="tg-0pky">0 (exact guess)</th>
+                <th class="tg-0pky">1</th>
+                <th class="tg-0pky">2</th>
+                <th class="tg-0pky">3 (or more)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg-0pky">Payoff for Guess</td>
+                <td class="tg-0pky">900 points</td>
+                <td class="tg-0pky">400 points</td>
+                <td class="tg-0pky">100 points</td>
+                <td class="tg-0pky">0 points</td>
+              </tr>
+            </tbody>
+            </table>
+    </p>
+
+
+
+    <p>
         {% blocktrans trimmed %}
-        Question 1: Please select what ranking you think you achieved during the effort task (1 = best, 9 = worst)?
+        <b>Question 1:</b> Please select what ranking you think you achieved during the effort task (1 = best, 9 = worst)?
         {% endblocktrans %}
         {% formfield player.guessed_ranking %}
     </p>
 
     <p>
         {% blocktrans trimmed %}
-        Question 2: Which system do you believe the computer chose to determine your wealth?
+        For the system question below you will recieve an incentive for the correct answer, and nothing for an incorrect answer.
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        {% blocktrans trimmed %}
+        <b>Question 2:</b> Which system do you believe the computer chose to determine your wealth?
         {% endblocktrans %}
         {% formfield player.guessed_system %}
     </p>
