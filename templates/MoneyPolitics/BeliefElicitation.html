@@ -5,7 +5,7 @@
 {% block title %}
 {% autoescape off %}
       {% blocktrans trimmed %}
-        Thoughts on Performance:
+        Round Questionnaire:
       {% endblocktrans %}
     {% endautoescape %}
 {% endblock %}
@@ -14,7 +14,7 @@
 <html>
     <p>
         {% blocktrans trimmed %}
-        During the experiment you were assigned a wealth either by luck or based on your ranking in the skill task.
+        During the experiment you were assigned an initial wealth either by luck or based on your ranking in the skill task.
         {% endblocktrans %}
     </p>
 
@@ -29,10 +29,16 @@
 
     <p>
         {% blocktrans trimmed %}
-        Please select what ranking you achieved during the effort task (1 = best, 9 = worst) and 
-        whether you believe the computer determined your income based on luck or performance:
+        Question 1: Please select what ranking you think you achieved during the effort task (1 = best, 9 = worst)?
         {% endblocktrans %}
-        {% formfields %}
+        {% formfield player.guessed_ranking %}
+    </p>
+
+    <p>
+        {% blocktrans trimmed %}
+        Question 2: Which system do you believe the computer chose to determine your wealth?
+        {% endblocktrans %}
+        {% formfield player.guessed_system %}
     </p>
 
     <p>
