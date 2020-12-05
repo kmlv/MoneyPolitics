@@ -39,13 +39,6 @@
         {% endblocktrans %}
     {% endif %}
 
-    {% blocktrans with player_payoff=player.game_payoff %}
-
-    The portion of your payoff based on your public and private income was {{ game_payoff }}</br></br>
-    The portion of your payoff based on your responses to questions on your performance was {{ total_guess_payoff }}</br></br>
-    Your total payoff for this round is {{ player_payoff }}</br></br>
-
-    {% endblocktrans %}
 
     <p>
     {% next_button %}
