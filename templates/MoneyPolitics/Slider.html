@@ -1,0 +1,140 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Slider
+{% endblock %}
+
+{% block scripts %}
+    <!--<script src="{% static 'MoneyPolitics/highcharts.js' %}"></script>-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script>
+        var dataOne = [[0, 5], [2, 17], [4, 12], [8,2]];
+        var dataTwo = [[0,1],[3, 9], [5, 14], [7, 12], [8,9]];
+        var dataThree = [[0,17],[1, 3], [6, 13], [8, 13]];
+
+        var allXValues = [];
+        console.log(dataOne);
+        for(let i = 0; i < dataOne.length; i++){
+            console.log(dataOne[i]);
+            allXValues.push(dataOne[i][0]);
+        }
+        for(let i = 0; i < dataTwo.length; i++){
+            console.log(dataTwo[i]);
+            allXValues.push(dataTwo[i][0]);
+        }
+        for(let i = 0; i < dataThree.length; i++){
+            console.log(dataThree[i]);
+            allXValues.push(dataThree[i][0]);
+        }
+        let xValues = [...new Set(allXValues)];
+
+        var chart = Highcharts.chart('container', {
+            chart: {
+                animation: false,
+                renderTo: this.$.chart,
+                enabled: false,
+                width: this.offsetWidth,
+                height: this.offsetHeight,
+
+            },
+            title: { text: 'Payoff' },
+            exporting: { enabled: false },
+            tooltip: { enabled: false },
+            legend: { enabled: false },
+            credits: { enabled: false },
+            xAxis: {
+                min: 0,
+                max: 8,
+                labels: { enabled: true },
+            },
+            yAxis: {
+                title: { text: 'Value' },
+                //min: 0,
+                //max: 1,
+            },
+            plotOptions: {
+                line: {marker: {enabled: false}},
+                series: {
+                    states: {
+                        hover: {
+                            enabled: false,
+                        }
+                    }
+               }
+            },
+            line: {
+                marker: {
+                    enabled: false,
+                    states: {
+                        hover: { enabled: false },
+                        select: { enabled: false }
+                    }
+                }
+            },
+            series:
+              [
+                {
+                    name: 'First Line',
+                    type: "spline",
+                    data: dataOne,
+                },
+                {
+                    name: "Second Line",
+                    type: "spline",
+                    data: dataTwo,
+                },
+                {
+                    name: "Third Line",
+                    color: '#ff0900',
+                    type: "spline",
+                    data: dataThree,
+                } 
+            ],
+            legend: {
+                align: 'right',
+                verticalAlign: 'top',
+                floating: true,
+                y: 15,
+            },
+        });
+
+        function updateLine(){
+            var value = parseFloat(document.getElementById('slider').value);
+
+            var closest = xValues.reduce(function(prev, curr) {
+                return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
+            });
+
+            chart.xAxis[0].removePlotLine('first');
+            chart.xAxis[0].addPlotLine({
+                value: closest,
+                color: 'red',
+                width: 1,
+                id: 'first'
+            });
+
+        };
+
+        $("#slider").on("input change", function() { updateLine(); });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div style="height: 100%;width: 100%; display: flex;">
+        <div id="container" ></div>
+        
+    </div>
+    <input
+        id="slider"
+        type="range"
+        min='0'
+        max='8'
+        step=".01"
+        style="width: 65%"
+    >
+
+    {% next_button %}
+
+{% endblock %}

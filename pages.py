@@ -19,6 +19,9 @@ class Introduction(Page):
 class RealEffort(Page):
     pass
 
+class Slider(Page):
+    pass
+
 
 class Tetris(Page):
     def is_displayed(self):
@@ -266,6 +269,7 @@ class Results(Page):
 page_sequence = [
     GroupingPage,
     Introduction,
+    Slider,
     Tetris,
     Diamonds,
     EffortResultsWaitPage,
