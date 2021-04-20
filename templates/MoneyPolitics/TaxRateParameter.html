@@ -1,41 +1,251 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Tax Rate System
+{% blocktrans trimmed %}Voting on the Tax Rate{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 
     <p>
-        The median of all the selected taxes is going to be chosen. <b>Example:</b> As an example of a median, 
-        suppose you and your friends must all choose an amount to contribute for food at a party. If you select $5 
-        and the other 8 members of your group have chosen: 
-        $1, $4, $8, $9, $10, $7, $8, $2. Sorted from low to high we have: <br>
-        1: $1<br>
-        2: $2<br>
-        3: $4<br>
-        4: $5<br>
-        <b>5: $7 (= median amount)</b><br>
-        6: $8<br>
-        7: $8<br>
-        8: $9<br>
-        9: $10
-    </p>
-    <p>
-        The median in the example would be $7. Which is the middle amount in a sorted list. When you select a tax rate
-        in this section, along with other members of your group, the actual tax rate applied will be calculated using the median.
-    </p>
-    <p>
-        Remember that the amount spend on sending the messages is going to be taken from your income after taxes.
+        {% blocktrans trimmed %}
+        Please select your most preferred tax rate from 0-100%. The tax rate that will be applied 
+        to your group will be the median rate of all submitted tax rates 
+        (see instructions to see how the median is calculated).
+        {% endblocktrans %}
     </p>
 
     <p>
         <br>
-        <h4>Selecting the tax rate</h4>
+        <h4>{% blocktrans trimmed %}Choose your preferred tax rate (percentage):{% endblocktrans %}</h4>
     </p>
 
-    {% formfields %}
+    <p>
+      {% blocktrans trimmed %}
+      Click a cell in the column farthest to the left in order to select a tax rate<br></br>
+      {% endblocktrans %}
+    </p>
+
+    {{ form.tax_rate.errors }}
+    <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+          font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+        .tg .tg-wa1i{background-color:grey;border-color:inherit;font-weight:bold;text-align:center;vertical-align:middle}
+        .tg .tg-86qe{background-color:#305496;color:#FFF;font-weight:bold;text-align:center;vertical-align:middle}
+        .tg .tg-7zrl{text-align:left;vertical-align:bottom}
+        .tg tr:hover {background-color: #ffff99;}
+        </style>
+        <table class="tg">
+        <thead>
+          <tr>
+            <th class="tg-86qe" rowspan="2">&nbsp;&nbsp;&nbsp;<br>Tax Rates<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(%)&nbsp;&nbsp;&nbsp;</th>
+            <th class="tg-86qe" colspan="6">Payoffs</th>
+          </tr>
+          <tr>
+            <td class="tg-86qe">Initial Wealth 9</td>
+            <td class="tg-86qe">Initial Wealth 15</td>
+            <td class="tg-86qe">Initial Wealth 25</td>
+            <td class="tg-86qe">Initial Wealth 40</td>
+            <td class="tg-86qe">Initial Wealth 80</td>
+            <td class="tg-86qe">Initial Wealth 125</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=0 class="btn btn-primary btn-block">0</button></td>
+            <td class="tg-7zrl">25</td>
+            <td class="tg-7zrl">39</td>
+            <td class="tg-7zrl">61</td>
+            <td class="tg-7zrl">90</td>
+            <td class="tg-7zrl">163</td>
+            <td class="tg-7zrl">238</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=5 class="btn btn-primary btn-block">5</button></td>
+            <td class="tg-7zrl">189</td>
+            <td class="tg-7zrl">292</td>
+            <td class="tg-7zrl">450</td>
+            <td class="tg-7zrl">671</td>
+            <td class="tg-7zrl">1208</td>
+            <td class="tg-7zrl">1766</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=10 class="btn btn-primary btn-block">10</button></td>
+            <td class="tg-7zrl">314</td>
+            <td class="tg-7zrl">483</td>
+            <td class="tg-7zrl">745</td>
+            <td class="tg-7zrl">1111</td>
+            <td class="tg-7zrl">2001</td>
+            <td class="tg-7zrl">2924</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=15 class="btn btn-primary btn-block">15</button></td>
+            <td class="tg-7zrl">417</td>
+            <td class="tg-7zrl">642</td>
+            <td class="tg-7zrl">990</td>
+            <td class="tg-7zrl">1474</td>
+            <td class="tg-7zrl">2655</td>
+            <td class="tg-7zrl">3879</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=20 class="btn btn-primary btn-block">20</button></td>
+            <td class="tg-7zrl">503</td>
+            <td class="tg-7zrl">775</td>
+            <td class="tg-7zrl">1194</td>
+            <td class="tg-7zrl">1777</td>
+            <td class="tg-7zrl">3200</td>
+            <td class="tg-7zrl">4675</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=25 class="btn btn-primary btn-block">25</button></td>
+            <td class="tg-7zrl">576</td>
+            <td class="tg-7zrl">885</td>
+            <td class="tg-7zrl">1362</td>
+            <td class="tg-7zrl">2028</td>
+            <td class="tg-7zrl">3649</td>
+            <td class="tg-7zrl">5329</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=30 class="btn btn-primary btn-block">30</button></td>
+            <td class="tg-7zrl">636</td>
+            <td class="tg-7zrl">975</td>
+            <td class="tg-7zrl">1499</td>
+            <td class="tg-7zrl">2230</td>
+            <td class="tg-7zrl">4010</td>
+            <td class="tg-7zrl">5855</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=35 class="btn btn-primary btn-block">35</button></td>
+            <td class="tg-7zrl">684</td>
+            <td class="tg-7zrl">1046</td>
+            <td class="tg-7zrl">1606</td>
+            <td class="tg-7zrl">2387</td>
+            <td class="tg-7zrl">4289</td>
+            <td class="tg-7zrl">6260</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=40 class="btn btn-primary btn-block">40</button></td>
+            <td class="tg-7zrl">721</td>
+            <td class="tg-7zrl">1100</td>
+            <td class="tg-7zrl">1685</td>
+            <td class="tg-7zrl">2501</td>
+            <td class="tg-7zrl">4488</td>
+            <td class="tg-7zrl">6548</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=45 class="btn btn-primary btn-block">45</button></td>
+            <td class="tg-7zrl">748</td>
+            <td class="tg-7zrl">1136</td>
+            <td class="tg-7zrl">1736</td>
+            <td class="tg-7zrl">2573</td>
+            <td class="tg-7zrl">4611</td>
+            <td class="tg-7zrl">6722</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=50 class="btn btn-primary btn-block">50</button></td>
+            <td class="tg-7zrl">764</td>
+            <td class="tg-7zrl">1155</td>
+            <td class="tg-7zrl">1760</td>
+            <td class="tg-7zrl">2602</td>
+            <td class="tg-7zrl">4656</td>
+            <td class="tg-7zrl">6784</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=55 class="btn btn-primary btn-block">55</button></td>
+            <td class="tg-7zrl">768</td>
+            <td class="tg-7zrl">1156</td>
+            <td class="tg-7zrl">1755</td>
+            <td class="tg-7zrl">2590</td>
+            <td class="tg-7zrl">4624</td>
+            <td class="tg-7zrl">6732</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=60 class="btn btn-primary btn-block">60</button></td>
+            <td class="tg-7zrl">700</td>
+            <td class="tg-7zrl">1051</td>
+            <td class="tg-7zrl">1593</td>
+            <td class="tg-7zrl">2349</td>
+            <td class="tg-7zrl">4190</td>
+            <td class="tg-7zrl">6098</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=65 class="btn btn-primary btn-block">65</button></td>
+            <td class="tg-7zrl">631</td>
+            <td class="tg-7zrl">944</td>
+            <td class="tg-7zrl">1428</td>
+            <td class="tg-7zrl">2103</td>
+            <td class="tg-7zrl">3746</td>
+            <td class="tg-7zrl">5449</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=70 class="btn btn-primary btn-block">70</button></td>
+            <td class="tg-7zrl">560</td>
+            <td class="tg-7zrl">835</td>
+            <td class="tg-7zrl">1259</td>
+            <td class="tg-7zrl">1851</td>
+            <td class="tg-7zrl">3293</td>
+            <td class="tg-7zrl">4787</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=75 class="btn btn-primary btn-block">75</button></td>
+            <td class="tg-7zrl">487</td>
+            <td class="tg-7zrl">723</td>
+            <td class="tg-7zrl">1086</td>
+            <td class="tg-7zrl">1593</td>
+            <td class="tg-7zrl">2828</td>
+            <td class="tg-7zrl">4107</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=80 class="btn btn-primary btn-block">80</button></td>
+            <td class="tg-7zrl">413</td>
+            <td class="tg-7zrl">607</td>
+            <td class="tg-7zrl">908</td>
+            <td class="tg-7zrl">1327</td>
+            <td class="tg-7zrl">2349</td>
+            <td class="tg-7zrl">3407</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=85 class="btn btn-primary btn-block">85</button></td>
+            <td class="tg-7zrl">335</td>
+            <td class="tg-7zrl">487</td>
+            <td class="tg-7zrl">723</td>
+            <td class="tg-7zrl">1051</td>
+            <td class="tg-7zrl">1851</td>
+            <td class="tg-7zrl">2680</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=90 class="btn btn-primary btn-block">90</button></td>
+            <td class="tg-7zrl">253</td>
+            <td class="tg-7zrl">361</td>
+            <td class="tg-7zrl">528</td>
+            <td class="tg-7zrl">761</td>
+            <td class="tg-7zrl">1327</td>
+            <td class="tg-7zrl">1914</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=95 class="btn btn-primary btn-block">95</button></td>
+            <td class="tg-7zrl">165</td>
+            <td class="tg-7zrl">225</td>
+            <td class="tg-7zrl">317</td>
+            <td class="tg-7zrl">446</td>
+            <td class="tg-7zrl">761</td>
+            <td class="tg-7zrl">1086</td>
+          </tr>
+          <tr>
+            <td class="tg-wa1i"><button name="tax_rate" style="background-color:grey;border-color:black" value=100 class="btn btn-primary btn-block">100</button></td>
+            <td class="tg-7zrl">54</td>
+            <td class="tg-7zrl">54</td>
+            <td class="tg-7zrl">54</td>
+            <td class="tg-7zrl">54</td>
+            <td class="tg-7zrl">54</td>
+            <td class="tg-7zrl">54</td>
+          </tr>
+        </tbody>
+        </table>
 
     <p>
     {% next_button %}

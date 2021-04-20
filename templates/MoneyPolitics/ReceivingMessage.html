@@ -1,21 +1,33 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
- Receiving Your Messages
+{% blocktrans trimmed %}Read Your Messages{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 <html xmlns="http://www.w3.org/1999/html">
     <p>
-        After sending the messages. your current game earnings are {{ player.after_message_earnings }}<br>
-        This are the messages you've received:
+        {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
+        The total cost of the messages you have sent to other players is {{ total_messaging_costs }}<br>
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        These are the messages you have received from other participants:
     </p>
         <ul>
-        {% autoescape off %}
-            {{ player.messages_received }}
-        {% endautoescape %}
+        {% if player.messages_received != "" %}
+            {% autoescape off %}
+                {{ player.messages_received }}
+            {% endautoescape %}
+        {% else %}
+            <li><i>You have not received any messages.</i></li>
+        {% endif %}
         </ul>
+
+        
 
 
     <p>

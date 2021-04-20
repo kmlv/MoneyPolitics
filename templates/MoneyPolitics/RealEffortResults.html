@@ -1,16 +1,23 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Real Effort Task Results
+{% blocktrans trimmed %} Initial Wealth Generating Task: Results{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
-
+<html>
     <p>
-        Your ranking in the task was {{ ranking }} </br>
-        The computer has selected you to receive your income according to: {{ effort_or_luck }} </br>
-        Because of that, your pre-tax income is {{ income }}
+        {% blocktrans trimmed %}
+            <!--You ranked {{ ranking_string }} in the task. </br></br>-->
+            You completed {{ score }} line(s). </br></br>
+        {% endblocktrans %}
+
+        {% blocktrans trimmed %}
+            Your initial wealth is {{ income }}
+        {% endblocktrans %}
+        
     </p>
 
     <p>
@@ -20,5 +27,5 @@ Real Effort Task Results
     <p>
     {% include Constants.instructions_button %}
     </p>
-
+</html>
 {% endblock %}

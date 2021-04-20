@@ -6,42 +6,181 @@
 1. Install otree: `pip3 install -U otree`
 1. Create a project: `otree startproject klo_lp_apps`. The name doesn't
 really matter.
-1. In settings.py, edit SESSION CONFIGS to look like this: 
+1. In settings.py, add this at the beggining
+
+```python
+from os.path import dirname, abspath
+import gettext as _
+
+DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+SITE_ROOT = dirname(DJANGO_ROOT)
+USE_I18N = True
 ```
+
+This should be at the end:
+```
+LOCALE_PATHS = (
+    SITE_ROOT + '/locale',
+)
+```
+
+Also, edit SESSION CONFIGS to look like this: 
+
+```python
 SESSION_CONFIGS = [
     {
         'name': 'MoneyPolitics',
-        'display_name': "Money Politics (Production)",
-        'num_demo_participants': 9,
+        'display_name': 'Base Code MoneyPolitics',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
     },
     {
         'name': 'MoneyPoliticsTest',
-        'display_name': "Money Politics (Test)",
-        'num_demo_participants': 2,
+        'display_name': 'MoneyPolitics (Test with 2 players)',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 2, #Constants.players_per_group must also be changed in models.py
         'app_sequence': ['MoneyPolitics'],
-        # Display player ID
-        'show_id': True,
-        # Display player income
-        'show_income': True,
-        # Which game will be played (Tetris or Diamonds)
-        'treatment': "Tetris",
         # Which tax system is going to be used (tax_rate or progressivity)
         'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_Prog_Free_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics-Progressivity with Free Single Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "progressivity",
+        # Cost per message
+        'msg': float(0),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },    {
+        'name': 'MP_Prog_Free_Cost_x_Dual_MSG',
+        'display_name': 'MoneyPolitics-Progressivity with Free Dual Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "progressivity",
+        # Cost per message
+        'msg': float(0),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'double',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },    {
+        'name': 'MP_Prog_2point_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics-Progressivity with 2 Point Cost Single Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "progressivity",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },    {
+        'name': 'MP_Prog_2point_Cost_x_Dual_MSG',
+        'display_name': 'MoneyPolitics-Progressivity with 2 Point Cost Dual Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "progressivity",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'double',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_Free_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics with Free Single Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(0),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_Free_Cost_x_Double_MSG',
+        'display_name': 'MoneyPolitics with Free Dual Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(0),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'double',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_2Point_Cost_x_Single_MSG',
+        'display_name': 'MoneyPolitics with 2 Point Cost Single Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'single',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
+    },
+    {
+        'name': 'MP_2Point_x_Double_MSG',
+        'display_name': 'MoneyPolitics with 2 Point Cost Dual Messaging',
+        #Set to 2 for demo but will be 9 for actual testing
+        'num_demo_participants': 9, #Constants.players_per_group must also be changed in models.py
+        'app_sequence': ['MoneyPolitics'],
+        # Which tax system is going to be used (tax_rate or progressivity)
+        'tax_system': "tax_rate",
+        # Cost per message
+        'msg': float(2),
+        # The number of messages, 'single' or 'double'
+        'msg_type': 'double',
+        # The randomness system used. 'system1' TBD
+        'randomness': 'system1'
     },
 ]
 ```
+
 1. Add a file on the project folder called controls.py. Inside, it should look like this
 
-```
+```python
 doc = """
 Control parameters for MoneyPolitics
 """
@@ -75,7 +214,7 @@ possible_message_receivers_152.remove(possible_message_receivers[6])
 possible_message_receivers_151.remove(possible_message_receivers[7])
 possible_message_receivers_9.remove(possible_message_receivers[8])
 
-message_cost = 1
+message_cost = 2 or 0
 number_of_messages = 1
 progressivity_levels = [[1, 'Level 1'], [2, 'Level 2'], [3, 'Level 3'],
                         [4, 'Level 4'], [5, 'Level 5']]
@@ -92,8 +231,109 @@ beta = 1/16
 
 # Steps for tax rate
 tax_step = '0.05'
+
 ```
- 
+# Gitignore Code:
+
+```
+__pycache__/
+*.py[cod]
+
+_builtin/
+
+### Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+### C extensions
+*.so
+
+### Distribution / packaging
+.Python
+
+env/
+
+build/
+
+develop-eggs/
+
+dist/
+
+downloads/
+
+eggs/
+
+.eggs/
+
+lib/
+
+lib64/
+
+parts/
+
+sdist/
+
+var/
+
+*.egg-info/
+
+.installed.cfg
+
+*.egg
+
+
+### PyInstaller
+### Usually these files are written by a python script from a template
+### before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+
+*.spec
+
+### Installer logs
+pip-log.txt
+
+pip-delete-this-directory.txt
+
+
+### Unit test / coverage reports
+htmlcov/
+
+.tox/
+
+.coverage
+
+.coverage.*
+
+.cache
+
+nosetests.xml
+
+coverage.xml
+
+*,cover
+
+
+### Translations
+*.mo
+
+*.pot
+
+
+### Django stuff:
+*.log
+
+
+
+### Sphinx documentation
+docs/_build/
+
+
+### PyBuilder
+target/
+
+
+```
+
 ## Basic Outiline
 
 Every change should be first implemented here:
@@ -137,6 +377,8 @@ The main tasks are to program an app following this provisional structure:
     
     The median of the preferred parameters is going to be the one applied to everyone.
 
+1. Payoffs: Still need to be defined
+
 ### About Diamond Game
 
 A version of the diamond game has been coded, but requires debugging (it only supports a square board for now). The size of the board is currently set to 15x15. 
@@ -151,9 +393,6 @@ A task in which the player counts the number of small diamonds in rectangular sc
 mainly with small circles
 ```
 
-If you want to test something that may cause some troubles, it should be done here:
-### Testing space: branch `testing`
-
 After testing, bring your changes to the main branch
 ### Main space: branch `master`
 
@@ -166,3 +405,5 @@ so try to program it as dynamically as possible, avoiding hard coding and docume
 Also, try to define what was done in every commit pushed to the remote repo 
 
 Might be difficult to set up the real effort tasks as includable templates (the game is just on a separate page for now). Most browsers don't allow local files (like a tetris game) to be embedded inside of another page for security reasons. This would also make it difficult to pick which game to play (currently, you only have to change SESSION_CONFIGS in settings.py). May also cause problems when passing values from the game back to otree pages/models. 
+
+

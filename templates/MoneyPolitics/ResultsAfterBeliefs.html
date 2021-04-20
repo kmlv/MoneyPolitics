@@ -1,0 +1,37 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+    {% blocktrans trimmed %}Results{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+
+<p>
+    {% blocktrans with ranking_actual=ranking_actual ranking_guess=ranking_guess system_actual=system_actual system_guess=system_guess ranking_guess_payoff=ranking_guess_payoff system_guess_payoff=system_guess_payoff %}
+
+        Your ranking was {{ ranking_actual }} and you guessed that your ranking was {{ ranking_guess }}</br></br>
+
+        Your wealth was determined by {{ system_actual }} and you guessed that your wealth was determined 
+        by {{ system_guess }}</br></br>
+
+        Your guess on the performance or luck system yielded you {{ system_guess_payoff }}, and your guess on ranking yielded you {{ ranking_guess_payoff }}
+
+    {% endblocktrans %}
+</p>    
+
+    {% blocktrans with player_payoff=player.game_payoff %}
+
+        Adding them to your previous section earnings, your total payoff for this round is {{ player_payoff }}</br></br>
+
+    {% endblocktrans %}
+
+    <p>
+    {% next_button %}
+    </p>
+
+
+{% endblock %}
+
+

@@ -1,8 +1,9 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Real Effort Task
+{% blocktrans trimmed %}Real Effort Task{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
@@ -10,7 +11,7 @@ Real Effort Task
 <html>
 	<head></head>
 	<body>
-		<p>Click the next button to play the game.</p>
+		<p>{% blocktrans trimmed %}Click the next button to play the game.{% endblocktrans %}</p>
 	</body>
 </html>
     {% next_button %}

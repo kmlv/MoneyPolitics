@@ -1,31 +1,44 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
+{% load i18n %}
 
 {% block title %}
-    Results
+    {% blocktrans trimmed %}Results{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
-    Your real effort income was {{ player.real_effort_earnings }} </br></br>
-    {% if player.shuffled %}
-    <b>Your income was shuffled</b></br>
-    After shuffling, your new income is {{ player.base_earnings }} </br></br>
-    {% else %}
-    <b>Your income wasn't shuffled</b> </br></br>
-    {% endif %}
-    Your messaging costs were {{ player.total_messaging_costs }} </br></br>
+    {% blocktrans with base_earnings=player.base_earnings %}
+    Your initial wealth was {{ base_earnings }} </br></br>
+    {% endblocktrans %}
+
+    {% blocktrans with message_cost=message_cost %}
+    The cost per message, per recipients was {{ msg_cost_int }} points </br></br>
+    {% endblocktrans %}
+
+    {% blocktrans with num_messages=player.num_messages_sent %}
+    The number of messages you sent was {{ num_messages }} messages </br></br>
+    {% endblocktrans %}
+
+    {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
+    The total cost of the messages you sent was {{ total_messaging_costs }} </br></br>
+    {% endblocktrans %}
 
     {% if tax_system == 'tax_rate' %}
-        Your selected tax rate was {{ player.tax_rate }} </br>
-        The value of the base tax rate is {{ tax_rate }} </br></br>
+        {% blocktrans trimmed %}
+        The tax rate you chose to submit was {{ player_tax_rate }} </br></br>
+        {% endblocktrans %}
+        {% blocktrans trimmed %}
+        The median tax rate of your group was {{ tax_rate }} </br></br>
+        {% endblocktrans %}
     {% else %}
-        Your selected progressivity level was {{ player.progressivity }} </br>
-        The value of the base progressivity level is {{ progressivity }} </br></br>
+        {% blocktrans with player_progressivity=player.progressivity %}
+        Your selected tax system was system {{ player_progressivity }} </br></br>
+        {% endblocktrans %}
+        {% blocktrans trimmed %}
+        The median tax system selected by the group was {{ progressivity }} </br></br>
+        {% endblocktrans %}
     {% endif %}
 
-    <b>The public income obtained from the taxes is {{ player.public_income }}</b></br>
-    <b>The private income is {{ player.private_income }}</b></br>
-    <b>Your payoff for this round is {{ player.payoff }}</b></br>
 
     <p>
     {% next_button %}

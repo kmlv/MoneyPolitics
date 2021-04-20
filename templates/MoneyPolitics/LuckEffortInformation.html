@@ -1,17 +1,42 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load i18n %}
 
 {% block title %}
-Information about Nature of Income
+{% blocktrans trimmed %}Initial Wealth Generating Task: Results{% endblocktrans %}
 {% endblock %}
 
 {% block content %}
 <html>
     <p>
-        Your income is {{ income }} 
-        Income was received by {{ effort_or_luck }}
+        {% blocktrans trimmed %}
+        You ranked {{ ranking }} in the initial wealth generating task.
+        {% endblocktrans %}
     </p>
 
+    <p>
+        {% blocktrans trimmed %}
+        You ranked {{ ranking }} in the initial wealth generating task.
+        {% endblocktrans %}
+    </p>
+
+    {% if effort_or_luck == 'Luck' %}
+        <p>
+            {% blocktrans trimmed %}
+            The computer has randomly determined your initial wealth will not be swapped with anyone else's. That is, your initial wealth is determined by
+            performance.
+            {% endblocktrans %}
+        </p>
+    
+    {% elif effort_or_luck == 'Luck' %}
+        <p>
+            {% blocktrans trimmed %}
+            The computer has randomly determined your initial wealth will be swapped with someone else’s. 
+            That is, your initial wealth is determined by luck. 
+            {% endblocktrans %}
+        </p>
+
+    {% endif %}
     <p>
     {% next_button %}
     </p>
