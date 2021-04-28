@@ -1,10 +1,18 @@
 from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants
-
+from .progressivity_pres import controls as ctrl
 import re
 
 from django.conf import settings
+
+def linear_payoff(endowment, slope, tax):
+    """Linear payoff function for Money Politics
+
+    y=income+slope*t
+    """
+
+    return endowment+slope*tax
 
 class GroupingPage(WaitPage):
     group_by_arrival_time = True
@@ -28,7 +36,62 @@ class RealEffort(Page):
     pass
 
 class Slider(Page):
-    pass
+    def vars_for_template(self):
+        #Define COnstants
+        original_task_endowments = ctrl.task_endowments
+        total_endowment = sum(original_task_endowments)
+        unique_task_endowments = list(set(ctrl.task_endowments))
+        unique_task_endowments.sort()
+
+        # defining tax rates
+        tax_rates = []
+        for i in range(0,11, 1):
+            tax_rates.append(i/10)
+
+            
+        # defining alternative tax rates 
+        alt_tax_rates = []
+        for i in range(0,105, 5):
+            alt_tax_rates.append(i/100)
+
+
+        # new parameters
+        optimal_taxes = [1, 0.85, 0.7, 0.55, 0.4, 0]
+        income_max_tax = 40
+
+        # obtaining its intercept
+        b_highest = (max(unique_task_endowments)-income_max_tax)/(min(optimal_taxes)-max(optimal_taxes))
+
+        intersections_high_function = {} # payoffs when tax rate is the optimal in the highest payoff function
+
+        # evaluating payoffs for all the endowments but the max
+
+        index = 0 # index for accessing the optimal tax rates
+        for endowment in unique_task_endowments:
+            if endowment != max(unique_task_endowments):
+                intersections_high_function[f"endowment_{endowment}"] = linear_payoff(max(unique_task_endowments), b_highest, 
+                                                                                    optimal_taxes[index])
+            else:
+                intersections_high_function[f"endowment_{endowment}"] = max(unique_task_endowments)
+            index += 1
+        
+        list_of_slopes = {}
+        # evaluating payoffs for all the endowments but the max
+
+        index = 0 # index for accessing the optimal tax rates
+        for endowment in unique_task_endowments:
+            
+            if endowment != max(unique_task_endowments):
+                current_intersection = intersections_high_function[f"endowment_{endowment}"]
+                optimal_tax = optimal_taxes[index]
+                list_of_slopes[f"endowment_{endowment}"] = (endowment - current_intersection)/(0 - optimal_tax)
+            
+            else:
+                list_of_slopes[f"endowment_{endowment}"] = b_highest
+                
+            index += 1
+        return {'slopes': list_of_slopes,
+                  'endowments': unique_task_endowments}
 
 
 class Tetris(Page):
