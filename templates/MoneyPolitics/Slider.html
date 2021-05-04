@@ -13,6 +13,7 @@
     <script>
         var pointsX = Array.from(Array(101).keys());
         var the_series = [];
+        console.log({{slopes}});
         var slopes = {{slopes}};
         var endowments = {{endowments}};
         var endowment, endowment_string, slope, line_color;
@@ -20,7 +21,7 @@
             endowment = endowments[i];
             console.log(endowment);
             endowment_string = 'endowment_' + endowment.toString();
-            slope = slopes[endowment_string];
+            slope = slopes[endowment];
             console.log(slope);
             line_color = ((endowment == 9) ? '#0000FF' : '#d3d3d3'); 
             the_series.push({

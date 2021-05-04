@@ -84,12 +84,13 @@ class Slider(Page):
             if endowment != max(unique_task_endowments):
                 current_intersection = intersections_high_function[f"endowment_{endowment}"]
                 optimal_tax = optimal_taxes[index]
-                list_of_slopes[f"endowment_{endowment}"] = (endowment - current_intersection)/(0 - optimal_tax)
+                list_of_slopes[endowment] = (endowment - current_intersection)/(0 - optimal_tax)
             
             else:
-                list_of_slopes[f"endowment_{endowment}"] = b_highest
+                list_of_slopes[endowment] = b_highest
                 
             index += 1
+        print(list_of_slopes)
         return {'slopes': list_of_slopes,
                   'endowments': unique_task_endowments}
 
