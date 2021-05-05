@@ -91,8 +91,47 @@ class Slider(Page):
                 
             index += 1
         print(list_of_slopes)
+
+        final_payoffs = {}
+
+        endowment_index = 0
+        for endowment in unique_task_endowments:
+            index = 0 # index for calling the private income/public contrib that corresponds to an specific tax rate
+            
+            endowment_string = f"endowment_{endowment}"
+            current_slope = list_of_slopes[endowment]
+            current_intersection = intersections_high_function[endowment_string]
+            final_payoffs[endowment] = [] # list with all the final_payoffs for a player
+            
+            print("endowment = ", endowment)
+            for tax_rate in tax_rates: # calculating all the final payoffs for an specific player
+                print("tax rate = ", tax_rate)
+                current_final_payoff = linear_payoff(endowment, slope=current_slope, tax=tax_rate)
+                print("current_final_payoff = ", current_final_payoff)
+                final_payoffs[endowment].append(round(current_final_payoff, 3))
+                index += 1
+                print("---")
+                
+            endowment_index += 1
+            print("---------------------")
+        #final_payoffs
+        xvals = [tax_rate*100 for tax_rate in alt_tax_rates]
+
+        xvals_dict = {}
+        plots_dict = {}
+
+        index = 0 # index for calling the optimal tax rate
+        for endowment in unique_task_endowments:
+            if endowment != max(unique_task_endowments):
+                xvals_dict[endowment] = [(x/100) for x in xvals if x <= optimal_taxes[index]*100]
+            else:
+                xvals_dict[endowment] = xvals
+            index += 1
+
         return {'slopes': list_of_slopes,
-                  'endowments': unique_task_endowments}
+                'endowments': unique_task_endowments,
+                'final_payoffs':final_payoffs,
+                'xvals_dict': xvals_dict}
 
 
 class Tetris(Page):

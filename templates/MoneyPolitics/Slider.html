@@ -13,17 +13,21 @@
     <script>
         var pointsX = Array.from(Array(101).keys());
         var the_series = [];
-        console.log({{slopes}});
+        console.log({{final_payoffs}});
+        console.log({{xvals_dict}});
+        var xvals_dict = {{xvals_dict}};
+        var payoffs = {{final_payoffs}};
         var slopes = {{slopes}};
         var endowments = {{endowments}};
         var endowment, endowment_string, slope, line_color;
         for(var i = 0; i < endowments.length; i++){
             endowment = endowments[i];
-            console.log(endowment);
             endowment_string = 'endowment_' + endowment.toString();
             slope = slopes[endowment];
-            console.log(slope);
+            console.log(endowment_string);
             line_color = ((endowment == 9) ? '#0000FF' : '#d3d3d3'); 
+            pointsX = xvals_dict[endowment];
+            console.log(pointsX);
             the_series.push({
                     name: endowment_string,
                     type: "line",
@@ -34,24 +38,18 @@
         }
         
 
-        function plottingPoints(xValues, m, b, c) {
+        function plottingPoints(xValues, m, b) {
             var linearFun = 3,
-            quadraticFun = 4,
+            value = 0;
             dataLin = [],
             xValues = xValues,
             m = m,
             b = b;
-
-            if (arguments.length === linearFun) {
             xValues.forEach(function(x) {
-                dataLin.push(m * x + b);
+                value = m * x + b;
+                dataLin.push([x, value]);
             });
-            } else if (arguments.length === quadraticFun) {
-            var c = c;
-            xValues.forEach(function(x) {
-                dataLin.push((m * x * x) + (b * x) + c);
-            });
-            }
+            console.log(dataLin);
             
             return dataLin;
         };
@@ -74,12 +72,12 @@
             credits: { enabled: false },
             xAxis: {
                 min: 0,
-                max: 100,
+                max: 1,
                 labels: { enabled: true },
                 title: { text: 'Tax' },
             },
             yAxis: {
-                //min: 0,
+                min: 0,
                 //max: 150,
                 title: { text: 'Payoff' },
                 labels: { enabled: true },
@@ -163,8 +161,8 @@
         id="slider"
         type="range"
         min='0'
-        max='100'
-        step="10"
+        max='1'
+        step=".01"
         style="width: 65%"
     >
     <p>Tax: <span id="val"></span></p>
