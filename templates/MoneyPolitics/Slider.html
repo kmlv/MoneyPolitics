@@ -20,6 +20,7 @@
         var slopes = {{slopes}};
         var endowments = {{endowments}};
         var endowment, endowment_string, slope, line_color;
+        var allpointsX = [];
         for(var i = 0; i < endowments.length; i++){
             endowment = endowments[i];
             endowment_string = 'endowment_' + endowment.toString();
@@ -27,6 +28,9 @@
             console.log(endowment_string);
             line_color = ((endowment == 9) ? '#0000FF' : '#d3d3d3'); 
             pointsX = xvals_dict[endowment];
+            for(var j = 0; j < pointsX.length; j++){
+                allpointsX.push(pointsX[j]);
+            }
             console.log(pointsX);
             the_series.push({
                     name: endowment_string,
@@ -36,6 +40,7 @@
             });
 
         }
+        allpointsX = [...new Set(allpointsX)].sort() 
         
 
         function plottingPoints(xValues, m, b) {
@@ -46,7 +51,7 @@
             m = m,
             b = b;
             xValues.forEach(function(x) {
-                value = m * x + b;
+                value = m * (x/100) + b;
                 dataLin.push([x, value]);
             });
             console.log(dataLin);
@@ -72,9 +77,9 @@
             credits: { enabled: false },
             xAxis: {
                 min: 0,
-                max: 1,
+                max: 100,
                 labels: { enabled: true },
-                title: { text: 'Tax' },
+                title: { text: 'Tax (%)' },
             },
             yAxis: {
                 min: 0,
@@ -117,7 +122,7 @@
                 return ['<b>' + this.x.valueOf() + '</b>'].concat(
                     this.points.map(function(point) {
 
-                    return point.series.name + ': ' + point.y;
+                    return point.series.name + ': ' + point.y.toFixed(1);
                     })
                 );
 
@@ -130,19 +135,20 @@
         function updateLine(){
             var the_value = parseFloat(document.getElementById('slider').value);
 
-            /*var closest = xValues.reduce(function(prev, curr) {
-                return (Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev);
-            });*/
+            var closest = allpointsX.reduce(function(prev, curr) {
+                return (Math.abs(curr - the_value) < Math.abs(prev - the_value) ? curr : prev);
+            });
 
             chart.xAxis[0].removePlotLine('first');
             chart.xAxis[0].addPlotLine({
-                value: the_value,
+                value: closest,
                 color: 'red',
                 width: 1,
                 id: 'first'
             });
             var span = document.getElementById("val");
-            span.textContent = the_value.toString();
+            document.getElementById('slider').value = closest;
+            span.textContent = closest.toString();
 
         };
 
@@ -161,8 +167,8 @@
         id="slider"
         type="range"
         min='0'
-        max='1'
-        step=".01"
+        max='100'
+        step="1"
         style="width: 65%"
     >
     <p>Tax: <span id="val"></span></p>
