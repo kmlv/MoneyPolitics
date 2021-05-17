@@ -35,6 +35,64 @@ class PauseTetris(Page):
 class RealEffort(Page):
     pass
 
+
+class EffortResultsWaitPage(WaitPage):
+
+    # Provisional assignment of scores (This has to be changed to a func that uses the ranking obtained in the real
+    # effort game)
+    def after_all_players_arrive(self):
+        self.group.ranking_income_assignment()
+        self.group.base_income_assignment()
+    
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type']}
+
+
+class RealEffortResults(Page):
+
+    def vars_for_template(self):
+        player = self.player
+
+        effort_or_luck = ""
+
+        if player.shuffled is True:
+            effort_or_luck = "Luck"
+        elif player.shuffled is False:
+            effort_or_luck = "Effort"
+        else:
+            print("Error: 'player.shuffled' has no value")
+
+        income = player.base_earnings
+        ranking = player.ranking
+        ranking_string = None # str, will store the ranking as a string (i.e. "1st")
+
+        if ranking == 1:
+            ranking_string = str(ranking)+"st"
+        elif ranking == 2:
+            ranking_string = str(ranking)+"nd"
+        elif ranking == 3:
+            ranking_string = str(ranking)+"rd"
+        elif ranking > 3:
+            ranking_string = str(ranking)+"th"
+
+        return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
+
+class Tetris(Page):
+    form_model = 'player'
+    form_fields = ['game_score'] # score currently determined by how many rows are eliminated
+    timeout_seconds = 120 #60 # we may want to give players more time 
+
+    def before_next_page(self):
+        # for debugging (delete later)
+        print(self.player.game_score)
+
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
+                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
+
+
 class Slider(Page):
     def vars_for_template(self):
         #Define COnstants
@@ -131,66 +189,9 @@ class Slider(Page):
         return {'slopes': list_of_slopes,
                 'endowments': unique_task_endowments,
                 'final_payoffs':final_payoffs,
-                'xvals_dict': xvals_dict}
-
-
-class Tetris(Page):
-    form_model = 'player'
-    form_fields = ['game_score'] # score currently determined by how many rows are eliminated
-    timeout_seconds = 120 #60 # we may want to give players more time 
-
-    def before_next_page(self):
-        # for debugging (delete later)
-        print(self.player.game_score)
-
-    def vars_for_template(self):
-        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
-
-
-class EffortResultsWaitPage(WaitPage):
-
-    # Provisional assignment of scores (This has to be changed to a func that uses the ranking obtained in the real
-    # effort game)
-    def after_all_players_arrive(self):
-        self.group.ranking_income_assignment()
-        self.group.base_income_assignment()
-    
-    def vars_for_template(self):
-        return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type']}
-
-
-class RealEffortResults(Page):
-
-    def vars_for_template(self):
-        player = self.player
-
-        effort_or_luck = ""
-
-        if player.shuffled is True:
-            effort_or_luck = "Luck"
-        elif player.shuffled is False:
-            effort_or_luck = "Effort"
-        else:
-            print("Error: 'player.shuffled' has no value")
-
-        income = player.base_earnings
-        ranking = player.ranking
-        ranking_string = None # str, will store the ranking as a string (i.e. "1st")
-
-        if ranking == 1:
-            ranking_string = str(ranking)+"st"
-        elif ranking == 2:
-            ranking_string = str(ranking)+"nd"
-        elif ranking == 3:
-            ranking_string = str(ranking)+"rd"
-        elif ranking > 3:
-            ranking_string = str(ranking)+"th"
-
-        return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
-
+                'xvals_dict': xvals_dict,
+                'base_earnings': float(self.player.base_earnings)
+                }
 
 class PreparingMessage(Page):
     form_model = 'player'
@@ -586,11 +587,12 @@ class ResultsAfterBeliefs(Page):
 page_sequence = [
     GroupingPage,
     Introduction,
-    Slider,
+    
     PauseTetris,
     Tetris,
     EffortResultsWaitPage,
     RealEffortResults,
+    Slider,
     PreparingMessage,
     ProcessingMessage,
     ReceivingMessage,

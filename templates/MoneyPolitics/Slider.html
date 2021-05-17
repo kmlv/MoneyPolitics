@@ -17,6 +17,7 @@
         console.log({{xvals_dict}});
         var xvals_dict = {{xvals_dict}};
         var payoffs = {{final_payoffs}};
+        var base_earnings = {{base_earnings}};
         var slopes = {{slopes}};
         var endowments = {{endowments}};
         var endowment, endowment_string, slope, line_color;
@@ -26,7 +27,7 @@
             endowment_string = 'endowment_' + endowment.toString();
             slope = slopes[endowment];
             console.log(endowment_string);
-            line_color = ((endowment == 9) ? '#0000FF' : '#d3d3d3'); 
+            line_color = ((endowment == base_earnings) ? '#0000FF' : '#d3d3d3'); 
             pointsX = xvals_dict[endowment];
             for(var j = 0; j < pointsX.length; j++){
                 allpointsX.push(pointsX[j]);
