@@ -164,14 +164,18 @@
         <div id="container" ></div>
         
     </div>
-    <input
-        id="slider"
-        type="range"
-        min='0'
-        max='100'
-        step="1"
-        style="width: 65%"
-    >
+    <div class="input-group">
+        <input
+            id="slider"
+            type="range"
+            name="tax_rate"
+            min='0'
+            max='100'
+            step="1"
+            style="width: 65%"
+            class="form-range"
+        >
+    </div>
     <p>Tax: <span id="val"></span></p>
 
     {% next_button %}
