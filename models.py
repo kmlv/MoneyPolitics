@@ -243,7 +243,6 @@ def send_message_field(label):
 
 
 class Player(BasePlayer):
-
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)
 
