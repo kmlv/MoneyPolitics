@@ -125,7 +125,13 @@ class Group(BaseGroup):
         Input: None
         Output: None
         """
-        luck = random.SystemRandom().randint(0, 1)
+        # assigning endowment to players in group by luck or effort
+        raffler = random.SystemRandom().randrange(1, 101) # randrange doesn't include endpoint
+        luck = raffler <= self.session.config["prob_of_luck"]
+        print(f"raffler = {raffler}")
+        print(f"prob_of_luck = {self.session.config['prob_of_luck']}")
+        print(f"luck for current group = {luck}")
+
         self.luck = luck # storing the luck value
 
         to_shuffle_earnings = []

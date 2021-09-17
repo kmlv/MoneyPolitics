@@ -356,6 +356,40 @@ class ResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.set_payoffs()
 
+    def before_next_page(self):
+        player = self.player
+
+        # quadratic payoffs for guessed_ranking_payoff
+        if player.guessed_ranking == player.ranking:
+            player.guessed_ranking_payoff = 900
+        elif player.guessed_ranking == player.ranking + 1 or player.guessed_ranking == player.ranking - 1:
+            player.guessed_ranking_payoff = 400
+        elif player.guessed_ranking == player.ranking + 2 or player.guessed_ranking == player.ranking - 2:
+            player.guessed_ranking_payoff = 100
+        else:
+            player.guessed_ranking_payoff = 0
+
+        # # payoff for guessed_system_payoff
+        # luck = self.group.luck
+        # selected_system = "" # string that will tell the current system used for income assignment
+
+        # if luck == 0:
+        #     selected_system = "luck"
+        #     print(selected_system)
+        # elif luck == 1:
+        #     selected_system = "performance"
+        #     print(selected_system)
+
+        # # assigning payoff
+        # if player.guessed_system == selected_system:
+        #     player.guessed_system_payoff = 900
+        # else:
+        #     player.guessed_system_payoff = 0
+
+        # player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
+        player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
+        player.payoff = player.game_payoff + player.belief_elicitation_payoff
+
 
 class Results(Page):
     def vars_for_template(self):
@@ -416,40 +450,7 @@ class BeliefElicitation(Page):
     base income
     """
     form_model = 'player'
-    form_fields = ['guessed_ranking', 'guessed_system']
-
-    def before_next_page(self):
-        player = self.player
-
-        # quadratic payoffs for guessed_ranking_payoff
-        if player.guessed_ranking == player.ranking:
-            player.guessed_ranking_payoff = 900
-        elif player.guessed_ranking == player.ranking + 1 or player.guessed_ranking == player.ranking - 1:
-            player.guessed_ranking_payoff = 400
-        elif player.guessed_ranking == player.ranking + 2 or player.guessed_ranking == player.ranking - 2:
-            player.guessed_ranking_payoff = 100
-        else:
-            player.guessed_ranking_payoff = 0
-
-        # payoff for guessed_system_payoff
-        luck = self.group.luck
-        selected_system = "" # string that will tell the current system used for income assignment
-
-        if luck == 0:
-            selected_system = "luck"
-            print(selected_system)
-        elif luck == 1:
-            selected_system = "performance"
-            print(selected_system)
-
-        # assigning payoff
-        if player.guessed_system == selected_system:
-            player.guessed_system_payoff = 900
-        else:
-            player.guessed_system_payoff = 0
-
-        player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
-        player.payoff = player.game_payoff + player.belief_elicitation_payoff
+    form_fields = ['guessed_ranking']
 
     def vars_for_template(self):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
@@ -482,6 +483,7 @@ page_sequence = [
     Introduction,
     PauseTetris,
     Tetris,
+    BeliefElicitation,
     EffortResultsWaitPage,
     RealEffortResults,
     PreparingMessage,
@@ -491,6 +493,5 @@ page_sequence = [
     TaxRateParameter,
     ResultsWaitPage,
     Results,
-    BeliefElicitation,
     ResultsAfterBeliefs
 ]
