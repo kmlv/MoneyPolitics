@@ -297,6 +297,14 @@ class PreparingMessage(Page):
             elif settings.LANGUAGE_CODE=="es":
                 error_msg = f"Trataste de enviar {current_message_count} mensaje(s), gastando {total_messaging_costs} puntos cuando solo tienes {player.base_earnings}. Disminuye el número de mensajes que quieres enviar"
             return error_msg
+        
+        # Checking if "tax" or "because" in msg
+        print("player_message: ", values["message"])
+        print("message_count: ", current_message_count)
+        print("tax and because not in message", "tax" not in values["message"] and "because" not in values["message"])
+        if ("tax" not in values["message"] and "because" not in values["message"]) and current_message_count>0:
+            error_msg = "The words 'tax' and 'because' were not in the message. You have to include at least one of them to send it."
+            return error_msg
 
 
 class ProcessingMessage(WaitPage):
@@ -561,39 +569,37 @@ class ResultsWaitPage(WaitPage):
     def after_all_players_arrive(self):
         self.group.set_payoffs()
 
-    def before_next_page(self):
-        player = self.player
+        for player in self.group.get_players():
+            # quadratic payoffs for guessed_ranking_payoff
+            if player.guessed_ranking == player.ranking:
+                player.guessed_ranking_payoff = 900
+            elif player.guessed_ranking == player.ranking + 1 or player.guessed_ranking == player.ranking - 1:
+                player.guessed_ranking_payoff = 400
+            elif player.guessed_ranking == player.ranking + 2 or player.guessed_ranking == player.ranking - 2:
+                player.guessed_ranking_payoff = 100
+            else:
+                player.guessed_ranking_payoff = 0
 
-        # quadratic payoffs for guessed_ranking_payoff
-        if player.guessed_ranking == player.ranking:
-            player.guessed_ranking_payoff = 900
-        elif player.guessed_ranking == player.ranking + 1 or player.guessed_ranking == player.ranking - 1:
-            player.guessed_ranking_payoff = 400
-        elif player.guessed_ranking == player.ranking + 2 or player.guessed_ranking == player.ranking - 2:
-            player.guessed_ranking_payoff = 100
-        else:
-            player.guessed_ranking_payoff = 0
+            # # payoff for guessed_system_payoff
+            # luck = self.group.luck
+            # selected_system = "" # string that will tell the current system used for income assignment
 
-        # # payoff for guessed_system_payoff
-        # luck = self.group.luck
-        # selected_system = "" # string that will tell the current system used for income assignment
+            # if luck == 0:
+            #     selected_system = "luck"
+            #     print(selected_system)
+            # elif luck == 1:
+            #     selected_system = "performance"
+            #     print(selected_system)
 
-        # if luck == 0:
-        #     selected_system = "luck"
-        #     print(selected_system)
-        # elif luck == 1:
-        #     selected_system = "performance"
-        #     print(selected_system)
+            # # assigning payoff
+            # if player.guessed_system == selected_system:
+            #     player.guessed_system_payoff = 900
+            # else:
+            #     player.guessed_system_payoff = 0
 
-        # # assigning payoff
-        # if player.guessed_system == selected_system:
-        #     player.guessed_system_payoff = 900
-        # else:
-        #     player.guessed_system_payoff = 0
-
-        # player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
-        player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
-        player.payoff = player.game_payoff + player.belief_elicitation_payoff
+            # player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
+            player.belief_elicitation_payoff = player.guessed_ranking_payoff 
+            player.payoff = player.game_payoff + player.belief_elicitation_payoff
 
 
 class Results(Page):
@@ -674,11 +680,9 @@ class ResultsAfterBeliefs(Page):
             selected_systems = "performance"
         
         return {
-                'system_guess': self.player.guessed_system,
                 'system_actual': selected_systems,
                 'ranking_guess': self.player.guessed_ranking,
                 'ranking_actual': self.player.ranking,
-                'system_guess_payoff': self.player.guessed_system_payoff,
                 'ranking_guess_payoff': self.player.guessed_ranking_payoff
                 }
 

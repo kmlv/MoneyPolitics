@@ -39,6 +39,9 @@
         {% endblocktrans %}
     {% endif %}
 
+    {% blocktrans with payoff=player.game_payoff %}
+    Your payoff for the task was {{ payoff }} </br></br>
+    {% endblocktrans %}
 
     <p>
     {% next_button %}

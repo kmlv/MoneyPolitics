@@ -2,6 +2,7 @@ from otree.api import (
     models, BaseConstants, BaseSubsession, BaseGroup, BasePlayer, widgets
 )
 
+from otree.api import Currency as c
 from django import forms
 from django.conf import settings
 
@@ -9,7 +10,7 @@ import settings
 import controls as ctrl
 import pandas as pd
 import random
-import numpy
+import numpy, os
 import math
 
 
@@ -243,12 +244,18 @@ class Group(BaseGroup):
             # TODO: define what to do in progressivity treatment
             
             # getting payoffs db
-            payoffs_db = pd.read_csv(self.session.config['payoffs_db'])
-            payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==self.chosen_tax_rate]
+            tax_rate = int(self.chosen_tax_rate*100)
+
+            payoffs_db = pd.read_csv("MoneyPolitics/"+ self.session.config['payoffs_db'], delimiter=";")
+            payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==tax_rate]
             
             for p in self.get_players():
                 string_payoff = str(int(p.base_earnings))
-                p.game_payoff = payoffs_selected_tax[f"payoff_{string_payoff}"] - p.total_messaging_costs
+                print("Selected tax: ", tax_rate)
+                print("Payoff selected tax: ", payoffs_selected_tax)
+                print("Payoff panda: ", payoffs_selected_tax[f"payoff_{string_payoff}"])
+                print("Payoff according to csv: ", payoffs_selected_tax[f"payoff_{string_payoff}"].iloc[0])
+                p.game_payoff = payoffs_selected_tax[f"payoff_{string_payoff}"].iloc[0] - p.total_messaging_costs
 
 
 # Function that creates a field to send messages according to the income of other player
