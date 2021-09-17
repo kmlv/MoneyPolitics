@@ -262,7 +262,6 @@ def send_message_field(label):
 
 
 class Player(BasePlayer):
-
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)
 
@@ -429,26 +428,26 @@ class Player(BasePlayer):
     # Fields to choose the message receivers according to income
     if settings.LANGUAGE_CODE=="en": # labels in english
         # defining receiver fields for first message
-        income_9 = send_message_field('Income 9')
-        income_15_1 = send_message_field('Income 15 (#1)')
-        income_15_2 = send_message_field('Income 15 (#2)')
-        income_15_3 = send_message_field('Income 15 (#3)')
-        income_25_1 = send_message_field('Income 25 (#1)')
-        income_25_2 = send_message_field('Income 25 (#2)')
-        income_40 = send_message_field('Income 40')
-        income_80 = send_message_field('Income 80')
-        income_125 = send_message_field('Income 125')
+        income_9 = send_message_field('Initial Wealth 9')
+        income_15_1 = send_message_field('Initial Wealth 15 (#1)')
+        income_15_2 = send_message_field('Initial Wealth 15 (#2)')
+        income_15_3 = send_message_field('Initial Wealth 15 (#3)')
+        income_25_1 = send_message_field('Initial Wealth 25 (#1)')
+        income_25_2 = send_message_field('Initial Wealth 25 (#2)')
+        income_40 = send_message_field('Initial Wealth 40')
+        income_80 = send_message_field('Initial Wealth 80')
+        income_125 = send_message_field('Initial Wealth 125')
 
         # if session.config['msg_type'] == 'double': # defining receiver fields for second message
-        income_9_d = send_message_field('Income 9')
-        income_15_1_d = send_message_field('Income 15 (#1)')
-        income_15_2_d = send_message_field('Income 15 (#2)')
-        income_15_3_d = send_message_field('Income 15 (#3)')
-        income_25_1_d = send_message_field('Income 25 (#1)')
-        income_25_2_d = send_message_field('Income 25 (#2)')
-        income_40_d = send_message_field('Income 40')
-        income_80_d = send_message_field('Income 80')
-        income_125_d = send_message_field('Income 125')
+        income_9_d = send_message_field('Initial Wealth 9')
+        income_15_1_d = send_message_field('Initial Wealth 15 (#1)')
+        income_15_2_d = send_message_field('Initial Wealth 15 (#2)')
+        income_15_3_d = send_message_field('Initial Wealth 15 (#3)')
+        income_25_1_d = send_message_field('Initial Wealth 25 (#1)')
+        income_25_2_d = send_message_field('Initial Wealth 25 (#2)')
+        income_40_d = send_message_field('Initial Wealth 40')
+        income_80_d = send_message_field('Initial Wealth 80')
+        income_125_d = send_message_field('Initial Wealth 125')
 
     elif settings.LANGUAGE_CODE=="es": # labels in spanish
         # defining receiver fields for first message
