@@ -7,6 +7,7 @@ from django.conf import settings
 
 import settings
 import controls as ctrl
+import pandas as pd
 import random
 import numpy
 import math
@@ -221,21 +222,33 @@ class Group(BaseGroup):
                     p.tax_payment = progressivity_tax_rates[5]*p.base_earnings
 
         # For both tax systems
-        total_public_contribution = 0
-        for p in self.get_players():
-            total_public_contribution += p.tax_payment
+        print(f"payoffs file = {self.session.config['payoffs_db']}")
+        if self.session.config["payoffs_db"] == "": # if no file specified, use default system
+            total_public_contribution = 0
+            for p in self.get_players():
+                total_public_contribution += p.tax_payment
 
-        for p in self.get_players():
-            if total_public_contribution <= 192:
-                p.public_income = 101 / (1 + 100 * math.exp(-0.025 * total_public_contribution)) - 1
-                private_productivity = Constants.alpha + Constants.beta * total_public_contribution
-            else:
-                p.public_income = 101 / (1 + 100 * math.exp(-0.025 * 192)) - 1
-                private_productivity = Constants.alpha + Constants.beta * 192
+            for p in self.get_players():
+                if total_public_contribution <= 192:
+                    p.public_income = 101 / (1 + 100 * math.exp(-0.025 * total_public_contribution)) - 1
+                    private_productivity = Constants.alpha + Constants.beta * total_public_contribution
+                else:
+                    p.public_income = 101 / (1 + 100 * math.exp(-0.025 * 192)) - 1
+                    private_productivity = Constants.alpha + Constants.beta * 192
 
-            p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
-            # basline utility
-            p.game_payoff = p.private_income + p.public_income - p.total_messaging_costs
+                p.private_income = (p.base_earnings - p.tax_payment) * private_productivity
+                # basline utility
+                p.game_payoff = p.private_income + p.public_income - p.total_messaging_costs
+        else:
+            # TODO: define what to do in progressivity treatment
+            
+            # getting payoffs db
+            payoffs_db = pd.read_csv(self.session.config['payoffs_db'])
+            payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==self.chosen_tax_rate]
+            
+            for p in self.get_players():
+                string_payoff = str(int(p.base_earnings))
+                p.game_payoff = payoffs_selected_tax[f"payoff_{string_payoff}"] - p.total_messaging_costs
 
 
 # Function that creates a field to send messages according to the income of other player
