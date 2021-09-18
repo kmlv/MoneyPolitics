@@ -3,11 +3,19 @@
 {% load i18n %}
 
 {% block title %}
-{% autoescape off %}
+  {% if subsession.round_number <= Constants.practice_rounds %}
+    {% autoescape off %}
+      {% blocktrans trimmed %}
+        Messaging Section - Practice Round:
+      {% endblocktrans %}
+    {% endautoescape %}
+  {% else %}
+    {% autoescape off %}
       {% blocktrans trimmed %}
         Messaging Section:
       {% endblocktrans %}
     {% endautoescape %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}

@@ -3,7 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %} Initial Wealth Generating Task: Results{% endblocktrans %}
+    {% if subsession.round_number <= Constants.practice_rounds %}
+        {% blocktrans trimmed %} Initial Wealth Generating Task: Results - Practice Round{% endblocktrans %}
+    {% else %}
+        {% blocktrans trimmed %} Initial Wealth Generating Task: Results{% endblocktrans %}
+    {% endif %}    
 {% endblock %}
 
 {% block content %}

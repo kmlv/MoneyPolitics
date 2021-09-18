@@ -3,7 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %}Choosing the Tax System{% endblocktrans %}
+  {% if subsession.round_number <= Constants.practice_rounds %}
+    {% blocktrans trimmed %}Choosing the Tax System - Practice Round{% endblocktrans %}
+  {% else %}
+    {% blocktrans trimmed %}Choosing the Tax System{% endblocktrans %}
+  {% endif %} 
 {% endblock %}
 
 {% block content %}

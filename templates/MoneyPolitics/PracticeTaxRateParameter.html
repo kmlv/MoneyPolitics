@@ -4,9 +4,9 @@
 
 {% block title %}
     {% if subsession.round_number <= Constants.practice_rounds %}
-        {% blocktrans trimmed %}Voting on the Tax Rate - Practice Round{% endblocktrans %}
+        {% blocktrans trimmed %}Practice Voting on the Tax Rate - Practice Round{% endblocktrans %}
     {% else %}
-        {% blocktrans trimmed %}Voting on the Tax Rate{% endblocktrans %}
+        {% blocktrans trimmed %}Practice Voting on the Tax Rate{% endblocktrans %}
     {% endif %} 
 {% endblock %}
 
@@ -171,9 +171,14 @@
 
     <p>
         {% blocktrans trimmed %}
-        Please select your most preferred tax rate from 0-100%. The tax rate that will be applied 
-        to your group will be the median rate of all submitted tax rates 
-        (see instructions to see how the median is calculated).
+            Use this page to get used to the way in which you are going to choose the tax rate.
+        {% endblocktrans %}
+    </p>
+    <p>
+        {% blocktrans trimmed %}
+            Please select your most preferred tax rate from 0-100%. The tax rate that will be applied 
+            to your group will be the median rate of all submitted tax rates 
+            (see instructions to see how the median is calculated).
         {% endblocktrans %}
     </p>
 
@@ -184,7 +189,7 @@
 
     
 
-    {{ form.tax_rate.errors }}
+    {{ form.practice_tax_rate.errors }}
     <div class="input-group"></div>
       <div style="height: 100%;width: 100%; display: flex;">
           <div id="container" ></div>
@@ -194,7 +199,7 @@
         <input
             id="slider"
             type="range"
-            name="tax_rate"
+            name="practice_tax_rate"
             min='0'
             max='100'
             step="1"

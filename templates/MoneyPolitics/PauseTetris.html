@@ -3,9 +3,15 @@
 {% load i18n %}
 
 {% block title %}
-{% blocktrans trimmed %}
-Wait for the Task to Start
-{% endblocktrans %}
+  {% if subsession.round_number <= Constants.practice_rounds %}
+    {% blocktrans trimmed %}
+      Wait for the Task to Start - Practice Round
+    {% endblocktrans %}
+  {% else %}
+    {% blocktrans trimmed %}
+      Wait for the Task to Start
+    {% endblocktrans %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}

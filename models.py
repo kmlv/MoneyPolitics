@@ -24,7 +24,8 @@ Money and Politics App
 
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
-    num_rounds = 2
+    num_rounds = 5 # total number of rounds
+    practice_rounds = 1 # number of practice rounds
     players_per_group = 9
 
     instructions_template = "MoneyPolitics/Instructions.html"
@@ -245,8 +246,10 @@ class Group(BaseGroup):
             
             # getting payoffs db
             tax_rate = int(self.chosen_tax_rate*100)
+            print("tax_rate: ", tax_rate)
 
-            payoffs_db = pd.read_csv("MoneyPolitics/"+ self.session.config['payoffs_db'], delimiter=";")
+            payoffs_db = pd.read_csv("MoneyPolitics/"+ self.session.config['payoffs_db'])
+            print("payoffs db structure: ", payoffs_db)
             payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==tax_rate]
             
             for p in self.get_players():
@@ -297,6 +300,9 @@ class Player(BasePlayer):
     amount_messages_received = models.IntegerField(min=0)
     # Total cost for sending the messages
     total_messaging_costs = models.CurrencyField(initial=0)
+
+    # practice tax rate
+    practice_tax_rate = models.FloatField(min=0, max=100, label="")
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(min=1, max=5, choices=Constants.progressivity_levels, label="", widget=widgets.RadioSelect)

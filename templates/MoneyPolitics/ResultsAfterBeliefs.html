@@ -3,7 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-    {% blocktrans trimmed %}Results{% endblocktrans %}
+    {% if subsession.round_number <= Constants.practice_rounds %}
+        {% blocktrans trimmed %}Results - Practice Round{% endblocktrans %}
+    {% else %}
+        {% blocktrans trimmed %}Results{% endblocktrans %}
+    {% endif %} 
 {% endblock %}
 
 {% block content %}

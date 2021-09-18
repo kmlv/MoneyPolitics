@@ -3,11 +3,19 @@
 {% load i18n %}
 
 {% block title %}
-{% autoescape off %}
-      {% blocktrans trimmed %}
-        Round Questionnaire:
-      {% endblocktrans %}
-    {% endautoescape %}
+    {% if subsession.round_number <= Constants.practice_rounds %}
+        {% autoescape off %}
+            {% blocktrans trimmed %}
+                Round Questionnaire - Practice Round:
+            {% endblocktrans %}
+        {% endautoescape %}
+    {% else %}
+        {% autoescape off %}
+            {% blocktrans trimmed %}
+                Round Questionnaire:
+            {% endblocktrans %}
+        {% endautoescape %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}
