@@ -25,23 +25,61 @@
 <body>
 
     {% if tax_system == "tax_rate" %}
+    
+    <h4>{% blocktrans trimmed %}Know the relationship between tax levels and round payoffs.{% endblocktrans %}</h4>
     <p>
       {% blocktrans trimmed %}
-      After this page, you will be voting to decide which tax rate should be applied 
-      to all the participants of your group, including yourself (see the instructions 
-      for example). Before voting, you can send a message to the other participants by 
-      typing text into one or both boxes below. You can also select which participants 
-      will receive your messages.     
+        The next important step in this interaction is for all citizens to collectively 
+        choose the tax rate. For this purpose, every citizen will state their most preferred 
+        tax level from 0% to 100%. The tax rate applied to the whole group will be the median 
+        rate of all stated tax rates.
       {% endblocktrans %}
     </p>
-
+    <p>
+      {% blocktrans trimmed %}
+        In the following interactive graphical tool (only for demonstration), you can see how 
+        different taxes imply different round payoffs. Please notice, these three patterns. 
+        (1) If taxes are zero, the round payoff equals your initial wealth. (2) If taxes are 
+        100%, everyone receives the same round payoff of 40%. This is because, we are assuming 
+        that a government that collects all initial wealth as tax, generates goods and services
+        equally for everyone, valued at 40 points. (3) For some citizens (Except the richest and
+        poorest), their payoff increases with the tax rate up to a point and then decreases. 
+        This is because these citizens benefit from more government goods and services up to a 
+        point in which what they pay in taxes is not offset by those goods and services. For 
+        the richer, higher taxes are more often detrimental in terms of round payoff, and for 
+        the poorer, higher taxes are more often beneficial. 
+      {% endblocktrans %}
+    </p>
+    
+    <img src="{% static 'MoneyPolitics/mock_up_tax_rate.png' %}" width="600" height="500"/>
+    
+    <h4>{% blocktrans trimmed %}Messaging{% endblocktrans %}</h4>
+    <p>
+      {% blocktrans trimmed %}
+        You will submit your preferred tax rate on the next page. However, before all 
+        citizens can submit their preferred tax levels, you and other citizens have the 
+        opportunity to express something to other citizens regarding the chosen tax rate.
+      {% endblocktrans %}
+    </p>
+    <p>
+      {% blocktrans trimmed %}
+        You can send a message to the other citizens by typing text into the boxes 
+        below. You can also select which citizens will receive your messages.
+      {% endblocktrans %}
+    </p>
     <p>
       {% blocktrans with base_earnings=player.base_earnings %}
-      Your initial wealth was {{ base_earnings }}. The cost per message sent 
-      to another participant is {{ msg_cost_int }} points. The total cost of sending 
-      messages will be deducted from your initial wealth. You may not send a message 
-      that conveys a threat, contains inappropriate language, or gives your name or 
-      similar identifying information.
+        Your initial wealth was {{ base_earnings }}. The cost per message sent 
+        to another citizen is {{ msg_cost_int }} points. The total cost of sending 
+        messages will be deducted from your round payoff.
+      {% endblocktrans %}
+    </p>
+    <p>
+      {% blocktrans trimmed %}
+        To encourage messages to be about the impending collective choice of tax levels, 
+        only messages that contain the words “tax” and “because” are admissible. You may 
+        not send a message that conveys a threat, contains inappropriate language, or gives 
+        your name or similar identifying information. 
       {% endblocktrans %}
     </p>
     
@@ -50,9 +88,9 @@
     <p>
       {% blocktrans trimmed %}
       After this page, you will be voting to decide which tax system should be applied 
-      to all the participants of your group, including yourself (see the instructions 
-      for example). Before voting, you can send a message to the other participants by 
-      typing text into one or both boxes below. You can also select which participants 
+      to all the citizens of your group, including yourself (see the instructions 
+      for example). Before voting, you can send a message to the other citizens by 
+      typing text into one or both boxes below. You can also select which citizens 
       will receive your messages.     
       {% endblocktrans %}
     </p>
@@ -60,7 +98,7 @@
     <p>
       {% blocktrans with base_earnings=player.base_earnings %}
       Your current pre-tax wealth is {{ base_earnings }}. The cost per message sent 
-      to another participant is {{ msg_cost_int }} points. The total cost of sending 
+      to another citizen is {{ msg_cost_int }} points. The total cost of sending 
       messages will be deducted from your pre-tax wealth. You may not send a message 
       that conveys a threat, contains inappropriate language, or gives your name or 
       similar identifying information.

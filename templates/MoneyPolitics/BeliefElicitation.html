@@ -6,13 +6,13 @@
     {% if subsession.round_number <= Constants.practice_rounds %}
         {% autoescape off %}
             {% blocktrans trimmed %}
-                Round Questionnaire - Practice Round:
+                What's your ranking? - Practice Round
             {% endblocktrans %}
         {% endautoescape %}
     {% else %}
         {% autoescape off %}
             {% blocktrans trimmed %}
-                Round Questionnaire:
+                What's your ranking?
             {% endblocktrans %}
         {% endautoescape %}
     {% endif %}
@@ -22,20 +22,21 @@
 <html>
     <p>
         {% blocktrans trimmed %}
-        During the experiment you were assigned an initial wealth either by luck or based on your ranking in the skill task.
+        <!-- During the experiment you were assigned an initial wealth either by luck or based on your ranking in the skill task. -->
         {% endblocktrans %}
     </p>
 
     <p>
         {% blocktrans trimmed %}
-        At this point we would like you to give your best assessment of what your ranking in the effort task was. You will be
-        given extra incentives for a correct answer.
+        At this point we would like you to give your best assessment of what your ranking in the task was. We will give you
+        "x" points if you answer correctly, allowing for an error of +- 1 position.
         {% endblocktrans %}
     </p>
 
     <p>
         {% blocktrans trimmed %}
-        Please select what ranking you achieved during the effort task (1 = best, 9 = worst):
+        Please select the ranking that you think you achieved during the task 
+        (1 = first place, 9 = last place):
         {% endblocktrans %}
         {% formfield player.guessed_ranking %}
     </p>

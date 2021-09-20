@@ -14,22 +14,23 @@
 <html xmlns="http://www.w3.org/1999/html">
     <p>
         {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
-        The total cost of the messages you have sent to other players is {{ total_messaging_costs }}<br>
+        The total cost of the messages you have sent is {{ total_messaging_costs }}<br>
         {% endblocktrans %}
     </p>
 
-    <p>
-        These are the messages you have received from other participants:
-    </p>
-        <ul>
+        
         {% if player.messages_received != "" %}
+        <p>
+            These are the messages you have received from other citizens:
+        </p>
+        <ul>
             {% autoescape off %}
                 {{ player.messages_received }}
             {% endautoescape %}
-        {% else %}
-            <li><i>You have not received any messages.</i></li>
-        {% endif %}
         </ul>
+        {% else %}
+            You have not received any messages.
+        {% endif %}
 
         
 

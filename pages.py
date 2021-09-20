@@ -302,9 +302,19 @@ class PreparingMessage(Page):
         print("player_message: ", values["message"])
         print("message_count: ", current_message_count)
         print("tax and because not in message", "tax" not in values["message"] and "because" not in values["message"])
-        if ("tax" not in values["message"] and "because" not in values["message"]) and current_message_count>0:
-            error_msg = "The words 'tax' and 'because' were not in the message. You have to include at least one of them to send it."
-            return error_msg
+        
+        error_msg = "Only messages containing both words 'tax' and 'because' are admissible."
+        if current_message_count>0:
+            print("first step")
+            if self.session.config["msg_type"] == "single":
+                if ("tax" not in values["message"] or "because" not in values["message"]):
+                    return error_msg
+            elif self.session.config["msg_type"] == "double":
+                if ("tax" not in values["message"] or "because" not in values["message"]) or ("tax" not in values["message_d"] or "because" not in values["message_d"]):
+                    return error_msg
+
+
+
 
 
 class ProcessingMessage(WaitPage):
@@ -351,12 +361,13 @@ class ProcessingMessage(WaitPage):
             player_income_str = None
 
             if settings.LANGUAGE_CODE=="en":
-                player_income_str = "<b>From a participant with a wealth of "
+                player_income_str = "<b>From a citizen with a wealth of "
             elif settings.LANGUAGE_CODE=="es":
-                player_income_str = "<b>De un participante con una riqueza de "
+                player_income_str = "<b>De un ciudadano con una riqueza de "
 
             sender_identifier = player_income_str + string_income + " points" + "</b>: "
 
+            #TODO: add condition here so that if msg != "" and choices_d >0, then process the msg
             if p.message != "":
                 # Again, we won't use elif, because sending a message to someone is not exclusive
                 if p.income_9 is True:
@@ -382,23 +393,23 @@ class ProcessingMessage(WaitPage):
             if self.session.config['msg_type'] == 'double':
                 if p.message_d != "":
                     # Again, we won't use elif, because sending a message to someone is not exclusive
-                    if p.income_9 is True:
+                    if p.income_9_d is True:
                         messages_for_9 = messages_for_9 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_15_1 is True:
+                    if p.income_15_1_d is True:
                         messages_for_15_1 = messages_for_15_1 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_15_2 is True:
+                    if p.income_15_2_d is True:
                         messages_for_15_2 = messages_for_15_2 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_15_3 is True:
+                    if p.income_15_3_d is True:
                         messages_for_15_3 = messages_for_15_3 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_25_1 is True:
+                    if p.income_25_1_d is True:
                         messages_for_25_1 = messages_for_25_1 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_25_2 is True:
+                    if p.income_25_2_d is True:
                         messages_for_25_2 = messages_for_25_2 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_40 is True:
+                    if p.income_40_d is True:
                         messages_for_40 = messages_for_40 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_80 is True:
+                    if p.income_80_d is True:
                         messages_for_80 = messages_for_80 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
-                    if p.income_125 is True:
+                    if p.income_125_d is True:
                         messages_for_125 = messages_for_125 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>"
 
         # 3. We'll assign the messages according to the players income
@@ -811,10 +822,10 @@ page_sequence = [
     BeliefElicitation,
     EffortResultsWaitPage,
     RealEffortResults,
+#    PracticeTaxRateParameter,
     PreparingMessage,
     ProcessingMessage,
     ReceivingMessage,
-    PracticeTaxRateParameter,
     ProgressivityParameter,
     TaxRateParameter,
     ResultsWaitPage,
