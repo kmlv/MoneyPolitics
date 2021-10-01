@@ -73,10 +73,25 @@ class Group(BaseGroup):
     # Luck (0 if luck is the system or 1 if performance)
     luck = models.IntegerField(min=0, max=1)
 
-    #Treatment for the group
+    def random_base_payments(self):
+        """
+        Assign payments at random for real effort game
+        """
+
+        # list with shuffled endowments
+        endowments_for_shuffling = list(Constants.task_endowments)
+        random.shuffle(endowments_for_shuffling)
+
+        index_counter = 0
+        for p in self.get_players():
+            p.real_effort_earnings = endowments_for_shuffling[index_counter]
+            p.base_earnings = p.real_effort_earnings
+            index_counter += 1
+
 
     def ranking_income_assignment(self):
-        # Assignment of endowment based on ranking
+        """Assignment of endowment based on ranking"""
+
         game_scores = {}
         c = Constants
 

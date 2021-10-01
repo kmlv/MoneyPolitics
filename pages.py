@@ -27,6 +27,10 @@ class Introduction(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+    def before_next_page(self):
+        if not self.session.config["effort_on_practice"]:
+            self.group.random_base_payments()
+
 
 class PauseTetris(Page):
     timeout_seconds = 10
@@ -37,9 +41,9 @@ class RealEffort(Page):
 
 
 class EffortResultsWaitPage(WaitPage):
-
     # Provisional assignment of scores (This has to be changed to a func that uses the ranking obtained in the real
     # effort game)
+
     def after_all_players_arrive(self):
         self.group.ranking_income_assignment()
         self.group.base_income_assignment()
@@ -817,12 +821,12 @@ class ResultsAfterBeliefs(Page):
 page_sequence = [
     GroupingPage,
     Introduction,
-    PauseTetris,
-    Tetris,
-    BeliefElicitation,
-    EffortResultsWaitPage,
-    RealEffortResults,
-#    PracticeTaxRateParameter,
+#    PauseTetris,
+#    Tetris,
+#    BeliefElicitation,
+#    EffortResultsWaitPage,
+#    RealEffortResults,
+    PracticeTaxRateParameter,
     PreparingMessage,
     ProcessingMessage,
     ReceivingMessage,
