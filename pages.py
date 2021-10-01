@@ -35,6 +35,12 @@ class Introduction(Page):
 class PauseTetris(Page):
     timeout_seconds = 10
 
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        else:
+            return True
+
 
 class RealEffort(Page):
     pass
@@ -51,6 +57,12 @@ class EffortResultsWaitPage(WaitPage):
     def vars_for_template(self):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type']}
+
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        else:
+            return True
 
 
 class RealEffortResults(Page):
@@ -83,6 +95,13 @@ class RealEffortResults(Page):
         return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
 
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        else:
+            return True
+
+
 class Tetris(Page):
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
@@ -95,6 +114,12 @@ class Tetris(Page):
     def vars_for_template(self):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
+
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        else:
+            return True
 
 
 class Slider(Page):
@@ -798,6 +823,12 @@ class BeliefElicitation(Page):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type']}
 
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        else:
+            return True
+
 
 class ResultsAfterBeliefs(Page):
     def vars_for_template(self):
@@ -816,16 +847,21 @@ class ResultsAfterBeliefs(Page):
                 'ranking_guess_payoff': self.player.guessed_ranking_payoff
                 }
 
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        else:
+            return True
 
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
     GroupingPage,
     Introduction,
-#    PauseTetris,
-#    Tetris,
-#    BeliefElicitation,
-#    EffortResultsWaitPage,
-#    RealEffortResults,
+    PauseTetris,
+    Tetris,
+    BeliefElicitation,
+    EffortResultsWaitPage,
+    RealEffortResults,
     PracticeTaxRateParameter,
     PreparingMessage,
     ProcessingMessage,
