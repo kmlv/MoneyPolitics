@@ -103,11 +103,11 @@ class RealEffortResults(Page):
 
 
 class Tetris(Page):
-    def is_displayed(self):
-        if self.session.config['treatment'] == "Tetris":
-            return True
-        else: 
-            return False
+    # def is_displayed(self):
+    #     if self.session.config['treatment'] == "Tetris":
+    #         return True
+    #     else: 
+    #         return False
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 120 #60 # we may want to give players more time 
@@ -120,18 +120,23 @@ class Tetris(Page):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
 
-    # def is_displayed(self):
-    #     if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
-    #         return False
-    #     else:
-    #         return True
+    def is_displayed(self):
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+            return False
+        elif self.session.config['treatment'] == "Tetris":
+            return True
 
 class Diamonds(Page):
+    # def is_displayed(self):
+    #     if self.session.config['treatment'] == "Diamonds":
+    #         return True
+    #     else: 
+    #         return False
     def is_displayed(self):
-        if self.session.config['treatment'] == "Diamonds":
-            return True
-        else: 
+        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
             return False
+        elif self.session.config['treatment'] == "Diamonds":
+            return True
 
     form_model = 'player'
     form_fields = ['diamond_guess', 'diamond_actual']
