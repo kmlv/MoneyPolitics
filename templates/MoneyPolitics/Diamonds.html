@@ -1,12 +1,10 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
-{% load i18n %}
 
 {% block title %}
-    {% blocktrans trimmed %}
     Diamonds Game
-    {% endblocktrans %}
 {% endblock %}
+
 
 {% block content %}
 
@@ -16,6 +14,8 @@
     
 <body>
  
+<p><strong>Guess the number of diamonds given in the board below.</strong></p>
+
 <!-- Hidden form that passes the actual diamond count to oTree -->
 <form>
     <input type="hidden" id="diamond_actual" name = "diamond_actual" value="0"/>
@@ -56,7 +56,7 @@ window.onload = function() {
           img.src = "{% static "MoneyPolitics/circle.png" %}";
       }
       else{
-          img.src = "{% static "MoneyPolitics/diamond.png" %}";
+          img.src = "{% static  "MoneyPolitics/diamond.png" %}";
           diamondCount ++; 
       }
         

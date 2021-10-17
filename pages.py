@@ -103,6 +103,11 @@ class RealEffortResults(Page):
 
 
 class Tetris(Page):
+    def is_displayed(self):
+        if self.session.config['treatment'] == "Tetris":
+            return True
+        else: 
+            return False
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 120 #60 # we may want to give players more time 
@@ -115,12 +120,29 @@ class Tetris(Page):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
 
-    def is_displayed(self):
-        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
-            return False
-        else:
-            return True
+    # def is_displayed(self):
+    #     if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+    #         return False
+    #     else:
+    #         return True
 
+class Diamonds(Page):
+    def is_displayed(self):
+        if self.session.config['treatment'] == "Diamonds":
+            return True
+        else: 
+            return False
+
+    form_model = 'player'
+    form_fields = ['diamond_guess', 'diamond_actual']
+    timeout_seconds = 60
+
+    def before_next_page(self):
+        self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
+        # for debugging (delete later)
+        print(self.player.diamond_guess)
+        print(self.player.diamond_actual)
+        print(self.player.game_score)
 
 class Slider(Page):
     def vars_for_template(self):
@@ -859,6 +881,7 @@ page_sequence = [
     Introduction,
     PauseTetris,
     Tetris,
+    Diamonds,
     BeliefElicitation,
     EffortResultsWaitPage,
     RealEffortResults,
