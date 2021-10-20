@@ -32,6 +32,11 @@ class Introduction(Page):
             self.group.random_base_payments()
 
 
+class PracticeDescription(Page):
+    def is_displayed(self):
+        return self.round_number <= Constants.practice_rounds
+
+
 class PauseTetris(Page):
     timeout_seconds = 10
 
@@ -857,6 +862,7 @@ class ResultsAfterBeliefs(Page):
 page_sequence = [
     GroupingPage,
     Introduction,
+    PracticeDescription,
     PauseTetris,
     Tetris,
     BeliefElicitation,

@@ -19,6 +19,15 @@
     </p>
 
         
+    {% if subsession.round_number <= Constants.practice_rounds %}
+        <p>
+            These are the messages you have received from other citizens:
+        </p>
+        <p>
+            <i><b>Test message:</b> Here, you will see the messages sent to you by other players</i>
+        </p>
+
+    {% else %}
         {% if player.messages_received != "" %}
         <p>
             These are the messages you have received from other citizens:
@@ -31,9 +40,8 @@
         {% else %}
             You have not received any messages.
         {% endif %}
-
+    {% endif %}
         
-
 
     <p>
         {% next_button %}
