@@ -145,10 +145,19 @@ class Group(BaseGroup):
         """
         # assigning endowment to players in group by luck or effort
         raffler = random.SystemRandom().randrange(1, 101) # randrange doesn't include endpoint
-        luck = raffler <= self.session.config["prob_of_luck"]
-        print(f"raffler = {raffler}")
-        print(f"prob_of_luck = {self.session.config['prob_of_luck']}")
-        print(f"luck for current group = {luck}")
+        
+        # if single value has been inputted as prob of luck
+        if len(self.session.config["prob_of_luck"])==1:
+            luck = raffler <= self.session.config["prob_of_luck"][0]
+            print(f"raffler = {raffler}")
+            print(f"prob_of_luck = {self.session.config['prob_of_luck'][0]}")
+            print(f"luck for current group = {luck}")
+        # if list
+        elif len(self.session.config["prob_of_luck"])>1:
+            luck = raffler <= self.session.config["prob_of_luck"][self.round_number - 1]
+            print(f"raffler = {raffler}")
+            print(f"prob_of_luck = {self.session.config['prob_of_luck'][self.round_number - 1]}")
+            print(f"luck for current group = {luck}")
 
         self.luck = luck # storing the luck value
 
@@ -165,6 +174,7 @@ class Group(BaseGroup):
         dexrand = 0
         dexskill = 0
 
+        # NOTE: Here is were the income assignment takes place
         # Assigning income to players based on luck or skill in a 50/50 split
         for p in self.get_players():
             to_shuffle_earnings.append(p.real_effort_earnings)
