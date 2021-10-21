@@ -20,8 +20,6 @@ doc = """
 Money and Politics App
 """
 
-
-
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
     num_rounds = 5 # total number of rounds

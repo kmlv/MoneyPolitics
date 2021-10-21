@@ -740,24 +740,6 @@ class ResultsWaitPage(WaitPage):
             else:
                 player.guessed_ranking_payoff = 0
 
-            # # payoff for guessed_system_payoff
-            # luck = self.group.luck
-            # selected_system = "" # string that will tell the current system used for income assignment
-
-            # if luck == 0:
-            #     selected_system = "luck"
-            #     print(selected_system)
-            # elif luck == 1:
-            #     selected_system = "performance"
-            #     print(selected_system)
-
-            # # assigning payoff
-            # if player.guessed_system == selected_system:
-            #     player.guessed_system_payoff = 900
-            # else:
-            #     player.guessed_system_payoff = 0
-
-            # player.belief_elicitation_payoff = player.guessed_ranking_payoff + player.guessed_system_payoff
             player.belief_elicitation_payoff = player.guessed_ranking_payoff 
             player.payoff = player.game_payoff + player.belief_elicitation_payoff
 
@@ -775,12 +757,20 @@ class Results(Page):
         
         if self.session.config['tax_system'] == "tax_rate":
             print("Player Tax Rate = " + str(self.player.tax_rate))
+            
             tax_rate = round(self.group.chosen_tax_rate, 2)
+            tax_rates = [int(p.tax_rate) for p in self.group.get_players()]
+            tax_rates.sort()
+            print("tax_rates no str: ", tax_rates)
+            tax_rates = str(tax_rates)[1:-1]
+            print("tax_rates str: ", tax_rates)
+
             return {
                     'player_tax_rate': str(int(self.player.tax_rate))+"%", 
                     'msg_cost_int': msg_cost_int, 
                     'tax_system': tax_system, 
-                    'tax_rate': str(int(tax_rate*100))+"%", 
+                    'tax_rate': str(int(tax_rate*100))+"%",
+                    'tax_rates': tax_rates, 
                     "message_cost": self.session.config['msg'],
                     'msg_type': self.session.config['msg_type'],
                     'system_guess': self.player.guessed_system,

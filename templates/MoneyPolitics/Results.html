@@ -28,6 +28,7 @@
     {% endblocktrans %}
 
     {% if tax_system == 'tax_rate' %}
+        The selected taxes were {{ tax_rates }} </br></br>
         {% blocktrans trimmed %}
         The tax rate you chose to submit was {{ player_tax_rate }} </br></br>
         {% endblocktrans %}
