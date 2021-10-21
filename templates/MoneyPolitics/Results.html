@@ -28,7 +28,14 @@
     {% endblocktrans %}
 
     {% if tax_system == 'tax_rate' %}
-        The selected taxes were {{ tax_rates }} </br></br>
+        {% if subsession.round_number <= Constants.practice_rounds %}
+            Here, you will see the taxes selected by all </br>
+            members of the group (including yourself)</br> 
+            <i>{{ tax_rates }}</i> </br></br>
+        {% else %}
+            The selected taxes were <i>{{ tax_rates }}</i> </br></br>
+        {% endif %} 
+
         {% blocktrans trimmed %}
         The tax rate you chose to submit was {{ player_tax_rate }} </br></br>
         {% endblocktrans %}

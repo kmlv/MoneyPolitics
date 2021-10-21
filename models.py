@@ -39,6 +39,7 @@ class Constants(BaseConstants):
     task_endowments = ctrl.task_endowments
     number_of_messages = ctrl.number_of_messages
     progressivity_levels = ctrl.progressivity_levels
+    tax_step = 5
 
     # Private Sector Parameters
     alpha = ctrl.alpha
