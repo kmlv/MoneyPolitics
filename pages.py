@@ -41,7 +41,9 @@ class PauseTetris(Page):
     timeout_seconds = 10
 
     def is_displayed(self):
-        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+        if not (self.session.config["effort_on_practice"] and \
+        self.round_number <= Constants.practice_rounds) or \
+        (self.session.config['treatment'] != "Tetris"):
             return False
         else:
             return True
@@ -64,7 +66,8 @@ class EffortResultsWaitPage(WaitPage):
                   'msg_type': self.session.config['msg_type']}
 
     def is_displayed(self):
-        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+        if not self.session.config["effort_on_practice"] and \
+        self.round_number <= Constants.practice_rounds:
             return False
         else:
             return True
@@ -98,7 +101,8 @@ class RealEffortResults(Page):
             ranking_string = str(ranking)+"th"
 
         return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
+                 'msg_type': self.session.config['msg_type'], 'score': self.player.game_score,
+                 'game': self.session.config['treatment']}
 
     def is_displayed(self):
         if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
@@ -131,12 +135,8 @@ class Tetris(Page):
         elif self.session.config['treatment'] == "Tetris":
             return True
 
+
 class Diamonds(Page):
-    # def is_displayed(self):
-    #     if self.session.config['treatment'] == "Diamonds":
-    #         return True
-    #     else: 
-    #         return False
     def is_displayed(self):
         if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
             return False
@@ -149,10 +149,6 @@ class Diamonds(Page):
 
     def before_next_page(self):
         self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
-        # for debugging (delete later)
-        print(self.player.diamond_guess)
-        print(self.player.diamond_actual)
-        print(self.player.game_score)
 
 class Slider(Page):
     def vars_for_template(self):

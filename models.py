@@ -101,11 +101,13 @@ class Group(BaseGroup):
         # Ranking scores
         ranked_scores = {}
 
-        sorted_list = sorted(game_scores.values(), reverse=True)
-        print(sorted_list) # for debugging
+        if self.session.config['treatment'] == "Tetris":
+            sorted_list = sorted(game_scores.values(), reverse=True)
+        else: # the less is the diference between guess and actual number, the better
+            sorted_list = sorted(game_scores.values(), reverse=False)
 
         # Control sorted_list
-        print(sorted_list)
+        print("sorted list of payoffs", sorted_list)
 
         for sorted_value in sorted_list:
             for key, value in game_scores.items():

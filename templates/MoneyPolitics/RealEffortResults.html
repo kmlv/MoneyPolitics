@@ -13,11 +13,13 @@
 {% block content %}
 <html>
     <p>
-        {% blocktrans trimmed %}
-            <!--You ranked {{ ranking_string }} in the task. </br></br>-->
+        <!--You ranked {{ ranking_string }} in the task. </br></br>-->
+        {% if game == "Tetris" %}
             You completed {{ score }} line(s). </br></br>
-        {% endblocktrans %}
-
+        {% else %}
+            The difference between the actual and guessed number was {{ score }}. </br></br>
+        {% endif %}
+       
         {% blocktrans trimmed %}
             Your initial wealth is {{ income }}
         {% endblocktrans %}
