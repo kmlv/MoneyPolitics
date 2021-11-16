@@ -39,9 +39,13 @@ SESSION_CONFIGS = [
         # Cost per message
         'msg': float(2),
         # The number of messages, 'single' or 'double'
-        'msg_type': 'single',
+        'msg_type': 'double',
         # The randomness system used. 'system1' TBD
-        'randomness': 'system1'
+        'randomness': 'system1',
+        'prob_of_luck': [0, 40], # probability of players endowment being assigned by luck. List that takes values from 0 to 100
+        'payoffs_db': "payoffs.csv", # relative path to payoffs
+        'effort_on_practice': True,
+        'treatment': "Diamonds" # Tetris or Diamonds
     },
     {
         'name': 'MoneyPoliticsTest',
