@@ -17,62 +17,24 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script>
-        var pointsX = Array.from(Array(101).keys());
         var the_series = [];
-        console.log({{final_payoffs}});
-        console.log({{xvals_dict}});
-        var xvals_dict = {{xvals_dict}};
-        var payoffs = {{final_payoffs}};
-        var base_earnings = {{base_earnings}};
-        var slopes = {{slopes}};
         var endowments = {{endowments}};
-        var endowment, endowment_string, slope, line_color;
-        var allpointsX = [];
+        var endowment, endowment_string;
 
+        var payoffs = {{payoffs}};
         var labels = [];
         var baseData = [];
         var currentData = [];
 
         for(var i = 0; i < endowments.length; i++){
             endowment = endowments[i];
-            endowment_string = 'endowment_' + endowment.toString();
-            slope = slopes[endowment];
-            console.log(endowment_string);
-            pointsX = xvals_dict[endowment];
-            for(var j = 0; j < pointsX.length; j++){
-                allpointsX.push(pointsX[j]);
-            }
-            console.log(pointsX);
+            endowment_string = endowment.toString();
             labels.push(endowment_string);
-            /*the_series.push({
-                    name: endowment_string,
-                    type: "line",
-                    color: line_color,
-                    data: plottingPoints(pointsX, slope, endowment),
-            });*/
-            baseData.push((slope * (0/100)) + endowment);
-            currentData.push((slope * (0/100)) + endowment);
+            baseData.push(payoffs[0][endowment]);
+            currentData.push(payoffs[0][endowment]);
 
 
         }
-        //allpointsX = [...new Set(allpointsX)].sort() 
-        
-
-        function plottingPoints(xValues, m, b) {
-            var linearFun = 3,
-            value = 0;
-            dataLin = [],
-            xValues = xValues,
-            m = m,
-            b = b;
-            xValues.forEach(function(x) {
-                value = m * (x/100) + b;
-                dataLin.push([x, value]);
-            });
-            console.log(dataLin);
-            
-            return dataLin;
-        };
 
         
 
@@ -81,8 +43,19 @@
                 renderTo: this.$.chart,
                 type: 'column'
             },
+            title: {
+                text: 'Payoffs'
+            },
             xAxis: {
-                categories: labels
+                categories: labels,
+                title: {
+                    text: 'Endowment'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Payoff'
+                }
             },
             plotOptions: {
                 column: {           
@@ -91,12 +64,12 @@
             },
             series: [
                 {
-                    name: 'At 0',
+                    name: 'Tax 0',
                     data: baseData,
                     borderColor: '#303030',
                     color: '#FFFFFF'
                 }, {
-                    name: 'Current',
+                    name: 'Current Tax',
                     data: currentData,
                     opacity: .7
                 },                
@@ -104,16 +77,15 @@
         });
 
         function updateLine(){
-            var the_value = parseFloat(document.getElementById('slider').value);
+            var the_value = parseInt(document.getElementById('slider').value);
             var newData = [];
 
             for(var i = 0; i < endowments.length; i++){
                 endowment = endowments[i];
-                slope = slopes[endowment];
-                newData.push((slope * (the_value/100)) + endowment);
+                newData.push(payoffs[the_value][endowment]);
 
             }
-
+            //console.log(newData);
 
             chart.series[1].setData(newData);
             

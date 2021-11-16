@@ -3,6 +3,7 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 from .progressivity_pres import controls as ctrl
 import re, random
+from .models import parse_config
 
 from django.conf import settings
 
@@ -260,7 +261,8 @@ class ColumnSlider(Page):
                 'endowments': unique_task_endowments,
                 'final_payoffs':final_payoffs,
                 'xvals_dict': xvals_dict,
-                'base_earnings': float(self.player.base_earnings)
+                'base_earnings': float(self.player.base_earnings),
+                'payoffs': parse_config()
                 }
 
 class Slider(Page):

@@ -6,6 +6,7 @@ from otree.api import Currency as c
 from django import forms
 from django.conf import settings
 
+import csv
 import settings
 import controls as ctrl
 import pandas as pd
@@ -48,6 +49,21 @@ class Constants(BaseConstants):
     # Max. Characters Allowed Per message
     max_chars = 280
 
+def parse_config():
+    with open('MoneyPolitics/payoffs.csv') as f:
+        rows = list(csv.DictReader(f))
+
+    rounds = []
+    for row in rows:
+        rounds.append({
+            9: float(row['payoff_9']),
+            15: float(row['payoff_15']),
+            25: float(row['payoff_25']),
+            40: float(row['payoff_40']),
+            80: float(row['payoff_80']),
+            125: float(row['payoff_125']),
+        })
+    return rounds
 
 class Subsession(BaseSubsession):
     pass
