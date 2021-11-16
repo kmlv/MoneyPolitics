@@ -1,0 +1,177 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+{% load i18n %}
+
+{% block title %}
+    {% if subsession.round_number <= Constants.practice_rounds %}
+        {% blocktrans trimmed %}Voting on the Tax Rate - Practice Round{% endblocktrans %}
+    {% else %}
+        {% blocktrans trimmed %}Voting on the Tax Rate{% endblocktrans %}
+    {% endif %} 
+{% endblock %}
+
+{% block scripts %}
+    <!--<script src="{% static 'MoneyPolitics/highcharts.js' %}"></script>-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script>
+        var pointsX = Array.from(Array(101).keys());
+        var the_series = [];
+        console.log({{final_payoffs}});
+        console.log({{xvals_dict}});
+        var xvals_dict = {{xvals_dict}};
+        var payoffs = {{final_payoffs}};
+        var base_earnings = {{base_earnings}};
+        var slopes = {{slopes}};
+        var endowments = {{endowments}};
+        var endowment, endowment_string, slope, line_color;
+        var allpointsX = [];
+
+        var labels = [];
+        var baseData = [];
+        var currentData = [];
+
+        for(var i = 0; i < endowments.length; i++){
+            endowment = endowments[i];
+            endowment_string = 'endowment_' + endowment.toString();
+            slope = slopes[endowment];
+            console.log(endowment_string);
+            pointsX = xvals_dict[endowment];
+            for(var j = 0; j < pointsX.length; j++){
+                allpointsX.push(pointsX[j]);
+            }
+            console.log(pointsX);
+            labels.push(endowment_string);
+            /*the_series.push({
+                    name: endowment_string,
+                    type: "line",
+                    color: line_color,
+                    data: plottingPoints(pointsX, slope, endowment),
+            });*/
+            baseData.push((slope * (0/100)) + endowment);
+            currentData.push((slope * (0/100)) + endowment);
+
+
+        }
+        //allpointsX = [...new Set(allpointsX)].sort() 
+        
+
+        function plottingPoints(xValues, m, b) {
+            var linearFun = 3,
+            value = 0;
+            dataLin = [],
+            xValues = xValues,
+            m = m,
+            b = b;
+            xValues.forEach(function(x) {
+                value = m * (x/100) + b;
+                dataLin.push([x, value]);
+            });
+            console.log(dataLin);
+            
+            return dataLin;
+        };
+
+        
+
+        var chart = Highcharts.chart('container', {
+            chart: {
+                renderTo: this.$.chart,
+                type: 'column'
+            },
+            xAxis: {
+                categories: labels
+            },
+            plotOptions: {
+                column: {           
+                grouping: false
+                }
+            },
+            series: [
+                {
+                    name: 'At 0',
+                    data: baseData,
+                    borderColor: '#303030',
+                    color: '#FFFFFF'
+                }, {
+                    name: 'Current',
+                    data: currentData,
+                    opacity: .7
+                },                
+                 ]
+        });
+
+        function updateLine(){
+            var the_value = parseFloat(document.getElementById('slider').value);
+            var newData = [];
+
+            for(var i = 0; i < endowments.length; i++){
+                endowment = endowments[i];
+                slope = slopes[endowment];
+                newData.push((slope * (the_value/100)) + endowment);
+
+            }
+
+
+            chart.series[1].setData(newData);
+            
+            var span = document.getElementById("val");
+            document.getElementById('slider').value = the_value;
+            span.textContent = the_value.toString();
+
+        };
+        
+        $("#slider").on("input change", function() { 
+            updateLine(); 
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        {% blocktrans trimmed %}
+        Please select your most preferred tax rate from 0-100%. The tax rate that will be applied 
+        to your group will be the median rate of all submitted tax rates 
+        (see instructions to see how the median is calculated).
+        {% endblocktrans %}
+    </p>
+
+    <p>
+        <br>
+        <h4>{% blocktrans trimmed %}Choose your preferred tax rate (percentage):{% endblocktrans %}</h4>
+    </p>
+
+    
+
+    {{ form.tax_rate.errors }}
+    <div class="input-group"></div>
+      <div style="height: 100%;width: 100%; display: flex;">
+          <div id="container" ></div>
+          
+      </div>
+    
+        <input
+            id="slider"
+            type="range"
+            name="tax_rate"
+            min='0'
+            max='100'
+            step="1"
+            style="width: 60%;margin-left: 5%;"
+            class="form-range"
+        >
+    </div>
+    <p>Tax: <span id="val"></span></p>
+
+    <!-- <p>
+    {% next_button %}
+    </p> -->
+    {% next_button %}
+    <p>
+    {% include Constants.instructions_button %}
+    </p>
+
+{% endblock %}
