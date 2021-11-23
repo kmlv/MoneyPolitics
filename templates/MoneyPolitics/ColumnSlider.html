@@ -34,8 +34,8 @@
             endowment = endowments[i];
             endowment_string = endowment.toString();
             labels.push(endowment_string);
-            baseData.push(payoffs[0][endowment]);
-            currentData.push(payoffs[0][endowment]);
+            baseData.push(Math.round(payoffs[0][endowment]));
+            currentData.push(Math.round(payoffs[0][endowment]));
 
 
         }
@@ -57,6 +57,7 @@
                 }
             },
             yAxis: {
+                tickInterval: 20,
                 title: {
                     text: 'Payoff'
                 }
@@ -75,7 +76,10 @@
                 }, {
                     name: 'Current Tax',
                     data: currentData,
-                    opacity: .7
+                    opacity: .7,
+                    dataLabels: {
+                        enabled: true
+                    }
                 },                
                  ]
         });
@@ -86,7 +90,7 @@
 
             for(var i = 0; i < endowments.length; i++){
                 endowment = endowments[i];
-                newData.push(payoffs[the_value][endowment]);
+                newData.push(Math.round(payoffs[the_value][endowment]));
 
             }
             //console.log(newData);
