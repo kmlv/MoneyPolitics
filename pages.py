@@ -262,7 +262,7 @@ class Slider(Page):
         plots_dict = {}
 
         index = 0 # index for calling the optimal tax rate
-        for endowment in unique_task_endowments:
+        for endowment in un-----sk_endowments:
             if endowment != max(unique_task_endowments):
                 xvals_dict[endowment] = [(x) for x in xvals if x <= optimal_taxes[index]*100]
             else:
