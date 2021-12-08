@@ -113,11 +113,6 @@ class RealEffortResults(Page):
 
 
 class Tetris(Page):
-    # def is_displayed(self):
-    #     if self.session.config['treatment'] == "Tetris":
-    #         return True
-    #     else: 
-    #         return False
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
     timeout_seconds = 120 #60 # we may want to give players more time 
@@ -176,105 +171,6 @@ class ColumnSlider(Page):
                 'payoffs': parse_config()
                 }
 
-class Slider(Page):
-    def vars_for_template(self):
-        #Define COnstants
-        original_task_endowments = ctrl.task_endowments
-        total_endowment = sum(original_task_endowments)
-        unique_task_endowments = list(set(ctrl.task_endowments))
-        unique_task_endowments.sort()
-
-        # defining tax rates
-        tax_rates = []
-        for i in range(0,11, 1):
-            tax_rates.append(i/10)
-
-            
-        # defining alternative tax rates 
-        alt_tax_rates = []
-        for i in range(0,105, 5):
-            alt_tax_rates.append(i/100)
-
-
-        # new parameters
-        optimal_taxes = [1, 0.85, 0.7, 0.55, 0.4, 0]
-        income_max_tax = 40
-
-        # obtaining its intercept
-        b_highest = (max(unique_task_endowments)-income_max_tax)/(min(optimal_taxes)-max(optimal_taxes))
-
-        intersections_high_function = {} # payoffs when tax rate is the optimal in the highest payoff function
-
-        # evaluating payoffs for all the endowments but the max
-
-        index = 0 # index for accessing the optimal tax rates
-        for endowment in unique_task_endowments:
-            if endowment != max(unique_task_endowments):
-                intersections_high_function[f"endowment_{endowment}"] = linear_payoff(max(unique_task_endowments), b_highest, 
-                                                                                    optimal_taxes[index])
-            else:
-                intersections_high_function[f"endowment_{endowment}"] = max(unique_task_endowments)
-            index += 1
-        
-        list_of_slopes = {}
-        # evaluating payoffs for all the endowments but the max
-
-        index = 0 # index for accessing the optimal tax rates
-        for endowment in unique_task_endowments:
-            
-            if endowment != max(unique_task_endowments):
-                current_intersection = intersections_high_function[f"endowment_{endowment}"]
-                optimal_tax = optimal_taxes[index]
-                list_of_slopes[endowment] = (endowment - current_intersection)/(0 - optimal_tax)
-            
-            else:
-                list_of_slopes[endowment] = b_highest
-                
-            index += 1
-        print(list_of_slopes)
-
-        final_payoffs = {}
-
-        endowment_index = 0
-        for endowment in unique_task_endowments:
-            index = 0 # index for calling the private income/public contrib that corresponds to an specific tax rate
-            
-            endowment_string = f"endowment_{endowment}"
-            current_slope = list_of_slopes[endowment]
-            current_intersection = intersections_high_function[endowment_string]
-            final_payoffs[endowment] = [] # list with all the final_payoffs for a player
-            
-            print("endowment = ", endowment)
-            for tax_rate in tax_rates: # calculating all the final payoffs for an specific player
-                print("tax rate = ", tax_rate)
-                current_final_payoff = linear_payoff(endowment, slope=current_slope, tax=tax_rate)
-                print("current_final_payoff = ", current_final_payoff)
-                final_payoffs[endowment].append(round(current_final_payoff, 3))
-                index += 1
-                print("---")
-                
-            endowment_index += 1
-            print("---------------------")
-        #final_payoffs
-        xvals = [tax_rate*100 for tax_rate in alt_tax_rates]
-
-        xvals_dict = {}
-        plots_dict = {}
-
-        index = 0 # index for calling the optimal tax rate
-        for endowment in un-----sk_endowments:
-            if endowment != max(unique_task_endowments):
-                xvals_dict[endowment] = [(x) for x in xvals if x <= optimal_taxes[index]*100]
-            else:
-                xvals_dict[endowment] = xvals
-            index += 1
-
-        return {'slopes': list_of_slopes,
-                'endowments': unique_task_endowments,
-                'final_payoffs':final_payoffs,
-                'xvals_dict': xvals_dict,
-                'base_earnings': float(self.player.base_earnings)
-                }
 
 class PreparingMessage(Page):
     form_model = 'player'
@@ -395,9 +291,14 @@ class PreparingMessage(Page):
             elif self.session.config["msg_type"] == "double":
                 if ("tax" not in values["message"] or "because" not in values["message"]) or ("tax" not in values["message_d"] or "because" not in values["message_d"]):
                     return error_msg
+            elif self.session.config["msg_type"] == "none":
+                pass
 
-
-
+    def is_displayed(self):
+        if self.session.config["msg_type"] == "none":
+            return False
+        else:
+            return True
 
 
 class ProcessingMessage(WaitPage):
@@ -523,10 +424,23 @@ class ProcessingMessage(WaitPage):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type']}
 
+    def is_displayed(self):
+        if self.session.config["msg_type"] == "none":
+            return False
+        else:
+            return True
+
+
 class ReceivingMessage(Page):
     def vars_for_template(self):
         return {'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                   'msg_type': self.session.config['msg_type']}
+
+    def is_displayed(self):
+        if self.session.config["msg_type"] == "none":
+            return False
+        else:
+            return True
 
 
 class ProgressivityParameter(Page):
