@@ -11,9 +11,15 @@
         participants. Your choices and the ones your partners take on This
         round will remain anonymous. 
     </p>
-    <p>
-        There are two main pages you should pay attention to:
-    </p>
+    {% if msg_type != 'none' %}
+        <p>
+            There are two main pages you should pay extra attention to:
+        </p>
+    {% else %}
+        <p>
+            There is one main page you should pay extra attention to:
+        </p>
+    {% endif %}
     <ul>
         {% if msg_type != 'none' %}
             <li>

@@ -18,14 +18,17 @@
     {% blocktrans with message_cost=message_cost %}
     The cost per message, per recipients was {{ msg_cost_int }} points </br></br>
     {% endblocktrans %}
+    
+    {% if msg_type != 'none' %}
+        {% blocktrans with num_messages=player.num_messages_sent %}
+        The number of messages you sent was {{ num_messages }} messages </br></br>
+        {% endblocktrans %}
 
-    {% blocktrans with num_messages=player.num_messages_sent %}
-    The number of messages you sent was {{ num_messages }} messages </br></br>
-    {% endblocktrans %}
-
-    {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
-    The total cost of the messages you sent was {{ total_messaging_costs }} </br></br>
-    {% endblocktrans %}
+        {% blocktrans with total_messaging_costs=player.total_messaging_costs %}
+        The total cost of the messages you sent was {{ total_messaging_costs }} </br></br>
+        {% endblocktrans %}
+    {% else %}
+    {% endif %}
 
     {% if tax_system == 'tax_rate' %}
         {% if subsession.round_number <= Constants.practice_rounds %}

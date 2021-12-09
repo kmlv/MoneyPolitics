@@ -265,11 +265,16 @@
   </p>
 
  {% if tax_system == 'tax_rate' %}   
-  <h5>
-    {% blocktrans trimmed %}
-    Messaging Before Selecting Group Tax Rate
-    {% endblocktrans %}
-  </h5>
+  
+  {% if msg_type != 'none' %}
+    <h5>
+      {% blocktrans trimmed %}
+      Messaging Before Selecting Group Tax Rate
+      {% endblocktrans %}
+    </h5>
+  {% else %}
+  {% endif %}
+  
 {% elif tax_system == 'progressivity' %} 
   <h5>
     {% blocktrans trimmed %}
