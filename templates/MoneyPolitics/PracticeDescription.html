@@ -15,9 +15,12 @@
         There are two main pages you should pay attention to:
     </p>
     <ul>
-        <li>
-            The messaging page
-        </li>
+        {% if msg_type != 'none' %}
+            <li>
+                The messaging page
+            </li>
+        {% else %}
+        {% endif %}
         <li>
             The tax voting page
         </li>

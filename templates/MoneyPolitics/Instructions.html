@@ -23,8 +23,7 @@
         will have a similar structure and rules: You will first perform a task. Your 
         initial wealth will be determined by your performance in the task or by luck. 
         Then all the citizens will choose a tax level that will apply to the whole 
-        group. Before choosing the tax level, you may receive the chance to send a message 
-        to other citizens. We detail the rules below.
+        group. 
         {% endblocktrans %}
     </p>
   {% elif tax_system == 'progressivity' %}    
@@ -35,12 +34,17 @@
       will have a similar structure and rules: You will first perform a task. Your 
       initial wealth will be determined by your performance in the task or by luck. 
       Then all the citizens will choose a tax system that will apply to the whole 
-      group. Before choosing the tax system, you may receive the chance to send a message 
-      to other citizens. We detail the rules below.
+      group. 
       {% endblocktrans %}
     </p>
   {% endif %}
-
+  {% if msg_type != 'none' %}
+    <p>
+      Before choosing the tax level, you may receive the chance to send a message 
+      to other citizens. We detail the rules below.
+    </p>
+  {% else %}
+  {% endif %}
     <h5>
       {% blocktrans trimmed %}
         Generating Initial Wealth
@@ -347,15 +351,26 @@
   </h5>
 
 {% if msg_type == 'tax_rate' %}  
-  <p>
-    {% blocktrans trimmed %}
-    The payoff for the round is calculated as follows. First, the total cost of the 
-    messages you sent is subtracted from your initial wealth. Then each citizen's 
-    wealth is taxed at the chosen (median) tax rate. This generates two relevant values: 
-    what is left after taxes (a private resource) and the total amount of tax revenue 
-    (viewed as resources that fund public goods). 
-    {% endblocktrans %}
-  </p>
+  {% if msg_type != 'none' %}
+    <p>
+      {% blocktrans trimmed %}
+      The payoff for the round is calculated as follows. First, the total cost of the 
+      messages you sent is subtracted from your initial wealth. Then each citizen's 
+      wealth is taxed at the chosen (median) tax rate. This generates two relevant values: 
+      what is left after taxes (a private resource) and the total amount of tax revenue 
+      (viewed as resources that fund public goods). 
+      {% endblocktrans %}
+    </p>
+  {% else %}
+    <p>
+      {% blocktrans trimmed %}
+      The payoff for the round is calculated as follows. First, each citizen's 
+      wealth is taxed at the chosen (median) tax rate. This generates two relevant values: 
+      what is left after taxes (a private resource) and the total amount of tax revenue 
+      (viewed as resources that fund public goods). 
+      {% endblocktrans %}
+    </p>
+  {% endif %}
 {% elif msg_type == 'progressivity' %}
   <p>
     {% blocktrans trimmed %}
