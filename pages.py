@@ -36,6 +36,9 @@ class Introduction(Page):
 class PracticeDescription(Page):
     def is_displayed(self):
         return self.round_number <= Constants.practice_rounds
+    
+    def vars_for_template(self):
+        return {'msg_type': self.session.config['msg_type']}
 
 
 class PauseTetris(Page):
@@ -170,6 +173,17 @@ class ColumnSlider(Page):
                 'endowments': unique_task_endowments,
                 'payoffs': parse_config()
                 }
+
+
+class PreparationNoComm(Page):
+    def is_displayed(self):
+        if self.session.config["msg_type"] == "none":
+            return True
+        else:
+            return False
+
+    def vars_for_template(self):
+        return {'tax_system': self.session.config['tax_system']}
 
 
 class PreparingMessage(Page):
@@ -839,12 +853,12 @@ page_sequence = [
     BeliefElicitation,
     EffortResultsWaitPage,
     RealEffortResults,
+    PreparationNoComm,
     PreparingMessage,
     ProcessingMessage,
     ReceivingMessage,
     ProgressivityParameter,
     ColumnSlider,
-    TaxRateParameter,
     ResultsWaitPage,
     Results,
     ResultsAfterBeliefs

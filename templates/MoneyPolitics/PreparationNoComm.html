@@ -1,0 +1,53 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load i18n %}
+
+{% block title %}
+  {% if subsession.round_number <= Constants.practice_rounds %}
+    {% autoescape off %}
+      {% blocktrans trimmed %}
+        Preparation for Voting - Practice Round:
+      {% endblocktrans %}
+    {% endautoescape %}
+  {% else %}
+    {% autoescape off %}
+      {% blocktrans trimmed %}
+        Preparation for Voting - Practice Round:
+      {% endblocktrans %}
+    {% endautoescape %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+  {% if tax_system == "tax_rate" %}
+    
+    <h4>{% blocktrans trimmed %}Know the relationship between tax levels and round payoffs.{% endblocktrans %}</h4>
+    <p>
+      {% blocktrans trimmed %}
+        The next important step in this interaction is for all citizens to collectively 
+        choose the tax rate. For this purpose, every citizen will state their most preferred 
+        tax level from 0% to 100%. The tax rate applied to the whole group will be the median 
+        rate of all stated tax rates.
+      {% endblocktrans %}
+    </p>
+
+    <p>
+      {% blocktrans trimmed %}
+        You will submit your preferred tax rate on the next page. 
+      {% endblocktrans %}
+    </p>
+  {% else %}
+
+    <p>
+      {% blocktrans trimmed %}
+      After this page, you will be voting to decide which tax system should be applied 
+      to all the citizens of your group, including yourself (see the instructions 
+      for example). 
+      {% endblocktrans %}
+    </p>
+  {% endif %}
+
+  {% next_button %}
+
+{% endblock %}
