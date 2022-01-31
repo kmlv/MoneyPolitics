@@ -24,7 +24,7 @@ Money and Politics App
 class Constants(BaseConstants):
     name_in_url = 'DecisionStudy'
     num_rounds = 5 # total number of rounds
-    practice_rounds = 1 # number of practice rounds
+    practice_rounds = 0 # number of practice rounds
     players_per_group = 9
 
     instructions_template = "MoneyPolitics/Instructions.html"
@@ -38,6 +38,7 @@ class Constants(BaseConstants):
     # possible, the code should be flexible enough to allow changes in this ones and obtain them from an external
     # .py/txt file (If you find a better way, feel free to update the code with it)
     task_endowments = ctrl.task_endowments
+    player_ids = ctrl.player_ids
     number_of_messages = ctrl.number_of_messages
     progressivity_levels = ctrl.progressivity_levels
     tax_step = 5
