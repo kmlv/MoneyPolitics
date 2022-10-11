@@ -254,16 +254,22 @@ class Group(BaseGroup):
 
             for p in self.get_players():
                 if p.base_earnings <= task_endowments[0]:
+                    p.tax_rate = progressivity_tax_rates[0]
                     p.tax_payment = progressivity_tax_rates[0]*p.base_earnings
                 elif task_endowments[0] < p.base_earnings <= task_endowments[1]:
+                    p.tax_rate = progressivity_tax_rates[1]
                     p.tax_payment = progressivity_tax_rates[1]*p.base_earnings
                 elif task_endowments[1] < p.base_earnings <= task_endowments[2]:
+                    p.tax_rate = progressivity_tax_rates[2]
                     p.tax_payment = progressivity_tax_rates[2]*p.base_earnings
                 elif task_endowments[2] < p.base_earnings <= task_endowments[3]:
+                    p.tax_rate = progressivity_tax_rates[3]
                     p.tax_payment = progressivity_tax_rates[3]*p.base_earnings
                 elif task_endowments[3] < p.base_earnings <= task_endowments[4]:
+                    p.tax_rate = progressivity_tax_rates[4]
                     p.tax_payment = progressivity_tax_rates[4]*p.base_earnings
                 elif task_endowments[4] < p.base_earnings <= task_endowments[5]:
+                    p.tax_rate = progressivity_tax_rates[5]
                     p.tax_payment = progressivity_tax_rates[5]*p.base_earnings
 
         # For both tax systems
@@ -286,15 +292,41 @@ class Group(BaseGroup):
                 p.game_payoff = p.private_income + p.public_income - p.total_messaging_costs
         else:
             # TODO: define what to do in progressivity treatment
-            
-            # getting payoffs db
-            tax_rate = int(self.chosen_tax_rate*100)
-            print("tax_rate: ", tax_rate)
 
+            # reading payoffs
             payoffs_db = pd.read_csv("MoneyPolitics/"+ self.session.config['payoffs_db'])
             print("payoffs db structure: ", payoffs_db)
-            payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==tax_rate]
             
+            if self.session.config['tax_system'] == "tax_rate":            
+                # getting payoffs db
+                tax_rate = int(self.chosen_tax_rate*100)
+                print("tax_rate: ", tax_rate)
+                payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==tax_rate]
+
+                for p in self.get_players():
+                    string_payoff = str(int(p.base_earnings))
+                    print("Selected tax: ", tax_rate)
+                    print("Payoff selected tax: ", payoffs_selected_tax)
+                    print("Payoff panda: ", payoffs_selected_tax[f"payoff_{string_payoff}"])
+                    print("Payoff according to csv: ", payoffs_selected_tax[f"payoff_{string_payoff}"].iloc[0])
+                    p.game_payoff = payoffs_selected_tax[f"payoff_{string_payoff}"].iloc[0] - p.total_messaging_costs
+
+            else: # if progressivity
+                for p in self.get_players():
+                    tax_rate =  int(p.tax_rate*100)
+                    print("tax_rate: ", tax_rate)
+                    payoffs_selected_tax = payoffs_db.loc[payoffs_db["tax"]==tax_rate]
+
+                    string_payoff = str(int(p.base_earnings))
+                    print("Selected tax: ", tax_rate)
+                    print("Payoff selected tax: ", payoffs_selected_tax)
+                    print("Payoff panda: ", payoffs_selected_tax[f"payoff_{string_payoff}"])
+                    print("Payoff according to csv: ", payoffs_selected_tax[f"payoff_{string_payoff}"].iloc[0])
+                    p.game_payoff = payoffs_selected_tax[f"payoff_{string_payoff}"].iloc[0] - p.total_messaging_costs
+
+                
+
+
             for p in self.get_players():
                 string_payoff = str(int(p.base_earnings))
                 print("Selected tax: ", tax_rate)
