@@ -762,25 +762,28 @@ class Results(Page):
             
             tax_rate = round(self.group.chosen_tax_rate, 2)
 
-            # obtaining the tax rates registered by the participants
-            if self.round_number > Constants.practice_rounds: # for standard rounds
-                tax_rates = [int(p.tax_rate) for p in self.group.get_players()]
-                tax_rates.sort()
-                print("tax_rates no str: ", tax_rates)
-                tax_rates = str(tax_rates)[1:-1]
-                print("tax_rates str: ", tax_rates)
-            else: # for practice rounds
-                posible_taxes = list(range(0, 100, Constants.tax_step))
-                tax_rates = random.sample(posible_taxes, Constants.players_per_group)
-                tax_rates.sort()
-                
-                # choosing one of those random tax rates
-                tax_rate = tax_rates[4]*0.01
+            if self.session.config["reveal_votes"]:
+                # obtaining the tax rates registered by the participants
+                if self.round_number > Constants.practice_rounds: # for standard rounds
+                    tax_rates = [int(p.tax_rate) for p in self.group.get_players()]
+                    tax_rates.sort()
+                    print("tax_rates no str: ", tax_rates)
+                    tax_rates = str(tax_rates)[1:-1]
+                    print("tax_rates str: ", tax_rates)
+                else: # for practice rounds
+                    posible_taxes = list(range(0, 100, Constants.tax_step))
+                    tax_rates = random.sample(posible_taxes, Constants.players_per_group)
+                    tax_rates.sort()
+                    
+                    # choosing one of those random tax rates
+                    tax_rate = tax_rates[4]*0.01
 
-                # turning the tax rates onto a readable string
-                print("prac tax_rates no str: ", tax_rates)
-                tax_rates = str(tax_rates)[1:-1]
-                print("prac tax_rates str: ", tax_rates)
+                    # turning the tax rates onto a readable string
+                    print("prac tax_rates no str: ", tax_rates)
+                    tax_rates = str(tax_rates)[1:-1]
+                    print("prac tax_rates str: ", tax_rates)
+            else: # if votes should not be revealed
+                tax_rates = "Undisclosed"
 
                 
 
