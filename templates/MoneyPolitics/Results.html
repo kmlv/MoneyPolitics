@@ -31,12 +31,15 @@
     {% endif %}
 
     {% if tax_system == 'tax_rate' %}
-        {% if subsession.round_number <= Constants.practice_rounds %}
-            Here, you will see the taxes selected by all </br>
-            members of the group (including yourself)</br> 
-            <i>{{ tax_rates }}</i> </br></br>
+        {% if display_votes %}
+            {% if subsession.round_number <= Constants.practice_rounds %}
+                Here, you will see the taxes selected by all </br>
+                members of the group (including yourself)</br> 
+                <i>{{ tax_rates }}</i> </br></br>
+            {% else %}
+                The selected taxes were <i>{{ tax_rates }}</i> </br></br>
+            {% endif %} 
         {% else %}
-            The selected taxes were <i>{{ tax_rates }}</i> </br></br>
         {% endif %} 
 
         {% blocktrans trimmed %}
@@ -46,6 +49,17 @@
         The median tax rate of your group was {{ tax_rate }} </br></br>
         {% endblocktrans %}
     {% else %}
+        {% if display_votes %}
+            {% if subsession.round_number <= Constants.practice_rounds %}
+                Here, you will see the progressivity levels selected by all </br>
+                members of the group (including yourself)</br> 
+                <i>{{ progressivities }}</i> </br></br>
+            {% else %}
+                The selected progressivities were <i>{{ progressivities }}</i> </br></br>
+            {% endif %} 
+        {% else %}
+        {% endif %}    
+
         {% blocktrans with player_progressivity=player.progressivity %}
         Your selected tax system was system {{ player_progressivity }} </br></br>
         {% endblocktrans %}
