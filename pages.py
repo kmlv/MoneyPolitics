@@ -784,14 +784,13 @@ class Results(Page):
                     print("prac tax_rates str: ", tax_rates)
             else: # if votes should not be revealed
                 tax_rates = "Undisclosed"
-
                 
-
             return {
                     'player_tax_rate': str(int(self.player.tax_rate))+"%", 
                     'msg_cost_int': msg_cost_int, 
                     'tax_system': tax_system, 
                     'tax_rate': str(int(tax_rate*100))+"%",
+                    'display_votes': self.session.config['reveal_votes'],
                     'tax_rates': tax_rates, 
                     "message_cost": self.session.config['msg'],
                     'msg_type': self.session.config['msg_type'],
@@ -808,6 +807,25 @@ class Results(Page):
             progressivity = round(self.group.chosen_progressivity)
             if progressivity == 0:
                 progressivity = 1 # changing the progressivity to 1 as a default if everyone times out
+            
+            if self.session.config['reveal_votes']:
+                # obtaining the progressivities registered by the participants
+                if self.round_number > Constants.practice_rounds: # for standard rounds
+                    # getting all votes and creating string with them
+                    progressivities = [int(p.progressivity) for p in self.group.get_players()]
+                    progressivities.sort()
+                    progressivities = str(progressivities)[1:-1]
+                    
+                else: # for practice rounds
+                    posible_progs = list(range(0, len(Constants.progressivity_levels)))
+                    progressivities = random.sample(posible_progs, Constants.players_per_group)
+                    progressivities.sort()
+                    
+                    # choosing one of those random tax rates
+                    progressivity = round(progressivities[4])
+
+                    progressivities = str(progressivities)[1:-1] # turning the tax rates onto a readable string
+                    
             return {
                     'msg_cost_int': msg_cost_int, 
                     'tax_system': tax_system, 
@@ -816,6 +834,8 @@ class Results(Page):
                     'msg_type': self.session.config['msg_type'],
                     'system_guess': self.player.guessed_system,
                     'system_actual': selected_systems,
+                    'display_votes': self.session.config['reveal_votes'],
+                    'progressivities': progressivities,
                     'ranking_guess': self.player.guessed_ranking,
                     'ranking_actual': self.player.ranking,
                     'game_payoff': self.player.game_payoff,
