@@ -66,40 +66,17 @@ def parse_config():
         })
     return rounds
 
-def random_group_generator(number_players, number_groups, players_per_group):
-    """
-    Generates a list of randomized assignments to groups
-
-    input: number of participants, number of groups
-    output: list of lists with participants assigned randomly to each group
-    """
-    all_players_ids = list(range(1, number_players + 1))
-
-    # randomizing group assignment
-    random.shuffle(all_players_ids)
-    output = [all_players_ids[0 + players_per_group*counter: 
-                            Constants.players_per_group*(counter + 1)] \
-                            for counter in range(number_groups)] 
-
-    return output
-
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        # obtaining a list with all players ids
-        number_of_groups = len(self.get_group_matrix())
-        number_of_players = number_of_groups * Constants.players_per_group
-        
         if self.session.config["matching"] == "fixed":  # fixed random assignment to groups
             if self.round_number == 1: # creating random assignment
-                session_assignment = random_group_generator(number_of_players, number_of_groups, Constants.players_per_group)
-                self.set_group_matrix(session_assignment) # setting up groups
+                self.group_randomly()
             else:
                 self.group_like_round(1)
 
         elif self.session.config["matching"] == "random":
-            session_assignment = random_group_generator(number_of_players, number_of_groups, Constants.players_per_group)
-            self.set_group_matrix(session_assignment) # setting up groups
+            self.group_randomly()
 
 
 class Group(BaseGroup):
