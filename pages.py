@@ -313,7 +313,11 @@ class PreparingMessage(Page):
         if self.session.config["msg_type"] == "none":
             return False
         else:
-            return True
+            if self.session.config["exclusive_senders"] == []:
+                return True
+            else:
+                if self.player.base_earnings in self.session.config["exclusive_senders"]:
+                    return True
 
 
 class ProcessingMessage(WaitPage):
