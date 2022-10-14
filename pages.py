@@ -316,7 +316,7 @@ class PreparingMessage(Page):
             if self.session.config["exclusive_senders"] == []:
                 return True
             else:
-                if int(self.player.base_earnings) in self.session.config["exclusive_senders"]:
+                if round(int(self.player.base_earnings)) in self.session.config["exclusive_senders"]:
                     return True
 
 
@@ -825,7 +825,8 @@ class Results(Page):
                     progressivity = round(progressivities[4])
 
                     progressivities = str(progressivities)[1:-1] # turning the tax rates onto a readable string
-                    
+            else:
+                progressivities = ""
             return {
                     'msg_cost_int': msg_cost_int, 
                     'tax_system': tax_system, 
