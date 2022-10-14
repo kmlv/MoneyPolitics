@@ -127,7 +127,7 @@ class Group(BaseGroup):
         # Ranking scores
         ranked_scores = {}
 
-        if self.session.config['treatment'] == "Tetris":
+        if self.session.config['real_effort_task'] == "Tetris":
             sorted_list = sorted(game_scores.values(), reverse=True)
         else: # the less is the diference between guess and actual number, the better
             sorted_list = sorted(game_scores.values(), reverse=False)

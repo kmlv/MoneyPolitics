@@ -48,7 +48,7 @@ class PauseTetris(Page):
     def is_displayed(self):
         if not (self.session.config["effort_on_practice"] and \
         self.round_number <= Constants.practice_rounds) or \
-        (self.session.config['treatment'] != "Tetris"):
+        (self.session.config['real_effort_task'] != "Tetris"):
             return False
         else:
             return True
@@ -107,7 +107,7 @@ class RealEffortResults(Page):
 
         return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score,
-                 'game': self.session.config['treatment']}
+                 'game': self.session.config['real_effort_task']}
 
     def is_displayed(self):
         if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
@@ -132,7 +132,7 @@ class Tetris(Page):
     def is_displayed(self):
         if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
             return False
-        elif self.session.config['treatment'] == "Tetris":
+        elif self.session.config['real_effort_task'] == "Tetris":
             return True
 
 
@@ -140,7 +140,7 @@ class Diamonds(Page):
     def is_displayed(self):
         if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
             return False
-        elif self.session.config['treatment'] == "Diamonds":
+        elif self.session.config['real_effort_task'] == "Diamonds":
             return True
 
     form_model = 'player'
@@ -316,7 +316,7 @@ class PreparingMessage(Page):
             if self.session.config["exclusive_senders"] == []:
                 return True
             else:
-                if self.player.base_earnings in self.session.config["exclusive_senders"]:
+                if int(self.player.base_earnings) in self.session.config["exclusive_senders"]:
                     return True
 
 
