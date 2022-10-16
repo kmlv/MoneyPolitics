@@ -91,6 +91,7 @@ class Group(BaseGroup):
     # Chosen Tax Policy Parameters
     chosen_progressivity = models.FloatField()
     chosen_tax_rate = models.FloatField()
+    suggested_tax_rate = models.FloatField()
 
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
