@@ -110,7 +110,18 @@
 
     </p>
 
-
+  {% if suggested_parameter %}
+    {% if tax_system == "tax_rate" %}
+      <div>
+        Introduzca el impuesto sugerido: {% formfield player.suggested_tax_rate %}
+      </div>  
+    {% else %}
+      <div>
+        Introduzca el nivel de progresividad sugerido: {% formfield player.suggested_progressivity %}
+      </div>  
+    {% endif %}  
+  {% else %}
+  {% endif %}
 
     {% if msg_type == "double" %} 
       <p>
@@ -121,7 +132,7 @@
 
       <p>
        <div class="container" style="display: flex; height: 500px;">
-            <div style="width: 40%; background: white;">
+          <div style="width: 40%; background: white;">
               Message #1 (<span id="char-count">0</span>/280 {% blocktrans trimmed %}characters{% endblocktrans %})
               {% formfield player.message %}
               

@@ -91,8 +91,7 @@ class Group(BaseGroup):
     # Chosen Tax Policy Parameters
     chosen_progressivity = models.FloatField()
     chosen_tax_rate = models.FloatField()
-    suggested_tax_rate = models.FloatField()
-
+    
     # Amount collected after the tax policy parameter has been decided
     tax_revenue = models.CurrencyField(min=0)
 
@@ -388,6 +387,10 @@ class Player(BasePlayer):
 
     # practice tax rate
     practice_tax_rate = models.FloatField(min=0, max=100, label="")
+
+    # suggested policy parameter
+    suggested_tax_rate = models.IntegerField(min=0, max=100, label="") # suggested tax rate
+    suggested_progressivity = models.IntegerField(min=1, max=5, choices=Constants.progressivity_levels, label="") # suggested tax rate
 
     # Preferred Tax Policy Parameters
     progressivity = models.IntegerField(min=1, max=5, choices=Constants.progressivity_levels, label="", widget=widgets.RadioSelect)

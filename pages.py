@@ -195,7 +195,12 @@ class PreparingMessage(Page):
         
         if self.session.config['msg_type'] == 'single':
             choices = self.player.message_receivers_choices()
-            return message+choices            
+            
+            if self.session.config['suggested_parameter'] == True:
+                tax_system = self.session.config['tax_system'] 
+                return message + choices + [f'suggested_{tax_system}']
+            else:
+                return message+choices            
         
         elif self.session.config['msg_type'] == 'double':
             numb_of_receivers = len(self.player.message_receivers_choices())
@@ -207,10 +212,15 @@ class PreparingMessage(Page):
             message_d = [message[0] + "_d"]
             choices_d = self.player.message_receivers_choices()[int(numb_of_receivers/2):]
             
-            return message+choices+message_d+choices_d  
+            if self.session.config['suggested_parameter'] == True:
+                tax_system = self.session.config['tax_system'] 
+                return message+choices+message_d+choices_d+[f'suggested_{tax_system}'] 
+            else:
+                return message+choices+message_d+choices_d  
 
         else:
             print(f"Error: invalid value for self.session.config['msg_type'] {self.session.config['msg_type']}")
+
 
     def vars_for_template(self):
         income_id_dict = {} # dict with ids ordered by income (from lower to higher)
@@ -245,7 +255,7 @@ class PreparingMessage(Page):
 
         # merging our dictionaries to create our variables
         output = {'msg_cost_int': msg_cost_int, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
-                  'msg_type': self.session.config['msg_type'], **income_id_dict}
+                  'msg_type': self.session.config['msg_type'], **income_id_dict, 'suggested_parameter': self.session.config['suggested_parameter']}
         
         print(output)
         return {**output}
@@ -392,48 +402,62 @@ class ProcessingMessage(WaitPage):
 
             #TODO: add condition here so that if msg != "" and choices_d >0, then process the msg
             if p.message != "":
+                msg_string = p.message
+                if self.session.config["suggested_parameter"]:
+                    if self.session.config["tax_system"] == "tax_rate":
+                        msg_string = f"<i>Impuesto sugerido: </i> {p.suggested_tax_rate}. " + msg_string
+                    else:
+                        msg_string = f"<i>Progresividad sugerida: </i> {p.suggested_progressivity}. " + msg_string
+
                 # Again, we won't use elif, because sending a message to someone is not exclusive
                 if p.income_9 is True:
-                    messages_for_9 = messages_for_9 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_9 = messages_for_9 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_15_1 is True:
-                    messages_for_15_1 = messages_for_15_1 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_15_1 = messages_for_15_1 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_15_2 is True:
-                    messages_for_15_2 = messages_for_15_2 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_15_2 = messages_for_15_2 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_15_3 is True:
-                    messages_for_15_3 = messages_for_15_3 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_15_3 = messages_for_15_3 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_25_1 is True:
-                    messages_for_25_1 = messages_for_25_1 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_25_1 = messages_for_25_1 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_25_2 is True:
-                    messages_for_25_2 = messages_for_25_2 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_25_2 = messages_for_25_2 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_40 is True:
-                    messages_for_40 = messages_for_40 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_40 = messages_for_40 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_80 is True:
-                    messages_for_80 = messages_for_80 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_80 = messages_for_80 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
                 if p.income_125 is True:
-                    messages_for_125 = messages_for_125 + "<li><p>" + sender_identifier + '"<i>' + p.message + '</i>"' + "</p></li>" + str_separator
+                    messages_for_125 = messages_for_125 + "<li><p>" + sender_identifier + '"<i>' + msg_string + '</i>"' + "</p></li>" + str_separator
         
             # required confiditonal for double messaging and  send_id + p.msg_d
             if self.session.config['msg_type'] == 'double':
                 if p.message_d != "":
+                    msg_string_d = p.message
+                    if self.session.config["suggested_parameter"]:
+                        if self.session.config["tax_system"] == "tax_rate":
+                            msg_string_d = f"<i>Impuesto sugerido: </i> {p.suggested_tax_rate}. " + msg_string_d
+                        else:
+                            msg_string_d = f"<i>Progresividad sugerida: </i> {p.suggested_progressivity}. " + msg_string_d
+
                     # Again, we won't use elif, because sending a message to someone is not exclusive
                     if p.income_9_d is True:
-                        messages_for_9 = messages_for_9 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_9 = messages_for_9 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_15_1_d is True:
-                        messages_for_15_1 = messages_for_15_1 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_15_1 = messages_for_15_1 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_15_2_d is True:
-                        messages_for_15_2 = messages_for_15_2 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_15_2 = messages_for_15_2 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_15_3_d is True:
-                        messages_for_15_3 = messages_for_15_3 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_15_3 = messages_for_15_3 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_25_1_d is True:
-                        messages_for_25_1 = messages_for_25_1 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_25_1 = messages_for_25_1 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_25_2_d is True:
-                        messages_for_25_2 = messages_for_25_2 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_25_2 = messages_for_25_2 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_40_d is True:
-                        messages_for_40 = messages_for_40 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_40 = messages_for_40 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_80_d is True:
-                        messages_for_80 = messages_for_80 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_80 = messages_for_80 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
                     if p.income_125_d is True:
-                        messages_for_125 = messages_for_125 + "<li><p>" + sender_identifier + '"<i>' + p.message_d + '</i>"' + "</p></li>" + str_separator
+                        messages_for_125 = messages_for_125 + "<li><p>" + sender_identifier + '"<i>' + msg_string_d + '</i>"' + "</p></li>" + str_separator
 
         # 4. We'll assign the messages according to the players income
         for p in self.group.get_players():
