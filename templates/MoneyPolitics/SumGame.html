@@ -1,0 +1,112 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+{% load i18n %}
+
+{% block title %}
+Juego de suma
+{% endblock %}
+
+{% block styles %}
+<style>
+
+    .main-containter{
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box1{
+        display: flex;
+    }
+    .intext11, #intext2{
+        width: 76px;
+        font-size: 20px;
+        font-weight: 600;
+        height: 55px;
+        text-align: center;
+
+        background: #fff;
+
+    }
+    .add-s{
+        margin: 13px 20px 12px 21px;
+        font-size: 25px;
+    }
+
+    .btn{
+        padding: 8px 20px;
+        border: none;
+        font-size: 16px;
+        color: #fff;
+        background: #fb6868;
+
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+
+<div class="main-container">
+    <div class="main">
+        <div class="main-box">
+            <div class="show-answer"><span id="ans"></span></div>
+            <div class="box1">
+                <div class="box-col">
+                    <input type="textf" id="intext" class="intext11">
+                    <input type="textf" id="intext1" class="intext11">
+                    <input type="textf" id="intext3" class="intext11">
+                    <input type="textf" id="intext4" class="intext11">
+                    <input type="text" id="intext2">
+                </div>
+
+            </div>
+            <br>
+            <div class="box2">
+                <button class="button" type="button" onclick="Game()">Submit Answer</button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    let n1 = Math.floor(Math.random()*99+1);   
+    let n2 = Math.floor(Math.random()*99+1);
+    let n3 = Math.floor(Math.random()*99+1);
+    let n4 = Math.floor(Math.random()*99+1);
+    document.getElementById("intext").value = n1;
+    document.getElementById("intext1").value = n2;
+    document.getElementById("intext3").value = n3;
+    document.getElementById("intext4").value = n4;
+    let adds = n1 + n2 + n3 + n4;
+    function Game(){
+        var user = document.getElementById("intext2").value;
+
+        if( user == adds ){
+            document.getElementById("ans").innerHTML = "Your answer was correct"
+        } else {
+            document.getElementById("ans").innerHTML = "Correct answer: " + adds;
+        }
+        var user = document.getElementById("intext2").value = "";
+        n1 = Math.floor(Math.random()*99+1);
+        n2 = Math.floor(Math.random()*99+1);
+        n3 = Math.floor(Math.random()*99+1);
+        n4 = Math.floor(Math.random()*99+1);
+        document.getElementById("intext").value = n1;
+        document.getElementById("intext1").value = n2;
+        document.getElementById("intext3").value = n3;
+        document.getElementById("intext4").value = n4;
+        adds = n1 + n2 + n3 + n4
+    }
+</script>
+
+
+
+
+{% endblock %}
