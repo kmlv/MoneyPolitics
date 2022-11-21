@@ -356,6 +356,39 @@ def send_message_field(label):
 
 
 class Player(BasePlayer):
+    #Sum Game variables:
+    sum_1 = models.FloatField()
+    sum_2 = models.FloatField()
+    sum_3 = models.FloatField()
+    sum_4 = models.FloatField()
+    sum_5 = models.FloatField()
+    sum_6 = models.FloatField()
+    sum_7 = models.FloatField()
+    sum_8 = models.FloatField()
+    sum_9 = models.FloatField()
+    sum_10 = models.FloatField()
+    sum_1_correct = models.FloatField()
+    sum_2_correct = models.FloatField()
+    sum_3_correct = models.FloatField()
+    sum_4_correct = models.FloatField()
+    sum_5_correct = models.FloatField()
+    sum_6_correct = models.FloatField()
+    sum_7_correct = models.FloatField()
+    sum_8_correct = models.FloatField()
+    sum_9_correct = models.FloatField()
+    sum_10_correct = models.FloatField()
+
+    #Slider task:
+    slider_1 = models.FloatField()
+    slider_2 = models.FloatField()
+    slider_3 = models.FloatField()
+    slider_4 = models.FloatField()
+    slider_5 = models.FloatField()
+    slider_6 = models.FloatField()
+    slider_7 = models.FloatField()
+    slider_8 = models.FloatField()
+    slider_9 = models.FloatField()
+
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)
 

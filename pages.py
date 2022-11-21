@@ -19,6 +19,34 @@ def linear_payoff(endowment, slope, tax):
 class GroupingPage(WaitPage):
     group_by_arrival_time = True
 
+class SumGame(Page):
+  
+    form_model = 'player'
+
+    def get_form_fields(player):
+        field = ['sum_{}'.format(var) for var in range(1,11)] #10 sum
+        
+        field2 = ['sum_{}_correct'.format(var) for var in range(1,11)] 
+        field = field + field2
+        return field
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+class SliderTask(Page):
+  
+    form_model = 'player'
+
+    def get_form_fields(player):
+        field = ['slider_{}'.format(var) for var in range(1,11)] #10 sum
+        
+        field2 = ['sum_{}_correct'.format(var) for var in range(1,11)] 
+        field = field + field2
+        return field
+
+    def is_displayed(self):
+        return self.round_number == 1
+
 
 class Introduction(Page):
     def vars_for_template(self):
@@ -918,6 +946,7 @@ class ResultsAfterBeliefs(Page):
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
     GroupingPage,
+    SumGame,
     Introduction,
     PracticeDescription,
     PauseTetris,

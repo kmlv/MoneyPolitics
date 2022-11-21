@@ -75,7 +75,32 @@ Juego de suma
     </div>
 </div>
 
+<input class = "field" id = "sum_1" name = "sum_1" hidden>
+<input class = "field" id = "sum_2" name = "sum_2" hidden>
+<input class = "field" id = "sum_3" name = "sum_3" hidden>
+<input class = "field" id = "sum_4" name = "sum_4" hidden>
+<input class = "field" id = "sum_5" name = "sum_5" hidden>
+<input class = "field" id = "sum_6" name = "sum_6" hidden>
+<input class = "field" id = "sum_7" name = "sum_7" hidden>
+<input class = "field" id = "sum_8" name = "sum_8" hidden>
+<input class = "field" id = "sum_9" name = "sum_9" hidden>
+<input class = "field" id = "sum_10" name = "sum_10" hidden>
+
+<input class = "correct_answer" id = "sum_1_correct" name = "sum_1_correct" hidden>
+<input class = "correct_answer" id = "sum_2_correct" name = "sum_2_correct" hidden>
+<input class = "correct_answer" id = "sum_3_correct" name = "sum_3_correct" hidden>
+<input class = "correct_answer" id = "sum_4_correct" name = "sum_4_correct" hidden>
+<input class = "correct_answer" id = "sum_5_correct" name = "sum_5_correct" hidden>
+<input class = "correct_answer" id = "sum_6_correct" name = "sum_6_correct" hidden>
+<input class = "correct_answer" id = "sum_7_correct" name = "sum_7_correct" hidden>
+<input class = "correct_answer" id = "sum_8_correct" name = "sum_8_correct" hidden>
+<input class = "correct_answer" id = "sum_9_correct" name = "sum_9_correct" hidden>
+<input class = "correct_answer" id = "sum_10_correct" name = "sum_10_correct" hidden>
+
 <script>
+    var field = $(".field");
+    var correct_answer = $(".correct_answer");
+    var contador = 0;
     let n1 = Math.floor(Math.random()*99+1);   
     let n2 = Math.floor(Math.random()*99+1);
     let n3 = Math.floor(Math.random()*99+1);
@@ -87,6 +112,11 @@ Juego de suma
     let adds = n1 + n2 + n3 + n4;
     function Game(){
         var user = document.getElementById("intext2").value;
+        var user2 = parseInt(user)
+        $(field[contador]).val(user2);
+        var adds2 = parseInt(adds)
+        console.log($(field[contador]))
+        $(correct_answer[contador]).val(adds2);
 
         if( user == adds ){
             document.getElementById("ans").innerHTML = "Your answer was correct"
@@ -103,9 +133,11 @@ Juego de suma
         document.getElementById("intext3").value = n3;
         document.getElementById("intext4").value = n4;
         adds = n1 + n2 + n3 + n4
+        ++contador
     }
 </script>
 
+{% next_button %}
 
 
 

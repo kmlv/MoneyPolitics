@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+{% load i18n %}
+
+{% block title %}
+Juego de Sliders
+{% endblock %}
+
+{% block content %}
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    <script>
+
+    var field = $(".field");
+    var boolean = $(".boolean");
+    $( function() {
+        $( "#slider" ).slider({
+            range: "min",
+            value: random,
+            min: 1,
+            max: 100,
+            slide: function( event, ui ) {
+                $( "#amount" ).val( ui.value );
+                $("#dollars_taken").val((ui.value/100 * b_task_income).toFixed(2));
+                $(boolean[0]).val("1")
+            },
+            stop: function (event, ui) {
+                $(field[0]).val(ui.value);
+            }
+        });
+            
+        $( "#amount" ).val( $( "#slider" ).slider( "value" ) );
+        $("#dollars_taken").val(($( "#slider" ).slider( "value" ) /100 * b_task_income).toFixed(2));
+        $(field[0]).val(random)
+        $(boolean[0]).val("0")
+    } );
+    </script>
+
+
+
+{% endblock %}
