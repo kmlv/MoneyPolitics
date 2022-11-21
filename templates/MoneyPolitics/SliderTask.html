@@ -7,7 +7,8 @@ Juego de Sliders
 {% endblock %}
 
 {% block content %}
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -15,30 +16,50 @@ Juego de Sliders
     <script>
 
     var field = $(".field");
-    var boolean = $(".boolean");
-    $( function() {
-        $( "#slider" ).slider({
-            range: "min",
-            value: random,
-            min: 1,
-            max: 100,
-            slide: function( event, ui ) {
-                $( "#amount" ).val( ui.value );
-                $("#dollars_taken").val((ui.value/100 * b_task_income).toFixed(2));
-                $(boolean[0]).val("1")
-            },
-            stop: function (event, ui) {
-                $(field[0]).val(ui.value);
-            }
-        });
-            
-        $( "#amount" ).val( $( "#slider" ).slider( "value" ) );
-        $("#dollars_taken").val(($( "#slider" ).slider( "value" ) /100 * b_task_income).toFixed(2));
-        $(field[0]).val(random)
-        $(boolean[0]).val("0")
-    } );
+    var score = 0
+
+    for (j = 1; j < 11 ; j++)
+        {
+        $( function() {
+            $( "#slider_" + j ).slider({
+                range: "min",
+                value: 0,
+                min: 1,
+                max: 100,
+                slide: function( event, ui ) {
+                    // $( "#amount" ).val( ui.value );
+                    // $("#dollars_taken").val((ui.value/100 * b_task_income).toFixed(2));
+                    // $(boolean[0]).val("1")
+                },
+                stop: function (event, ui) {
+                    $(field[score]).val(ui.value);
+                }
+            });
+            ++score
+        } );
+    }
     </script>
 
+    <div name="slider_1" id="slider_1"></div>
+    <div name="slider_2" id="slider_2"></div>
+    <div name="slider_3" id="slider_3"></div>
+    <div name="slider_4" id="slider_4"></div>
+    <div name="slider_5" id="slider_5"></div>
+    <div name="slider_6" id="slider_6"></div>
+    <div name="slider_7" id="slider_7"></div>
+    <div name="slider_8" id="slider_8"></div>
+    <div name="slider_9" id="slider_9"></div>
+    <div name="slider_10" id="slider_10"></div>
 
+    <input class="field" id="slider_1" name="slider_1" hidden>
+    <input class="field" id="slider_2" name="slider_2" hidden>
+    <input class="field" id="slider_3" name="slider_3" hidden>
+    <input class="field" id="slider_4" name="slider_4" hidden>
+    <input class="field" id="slider_5" name="slider_5" hidden>
+    <input class="field" id="slider_6" name="slider_6" hidden>
+    <input class="field" id="slider_7" name="slider_7" hidden>
+    <input class="field" id="slider_8" name="slider_8" hidden>
+    <input class="field" id="slider_9" name="slider_9" hidden>
+    <input class="field" id="slider_10" name="slider_10" hidden>
 
 {% endblock %}

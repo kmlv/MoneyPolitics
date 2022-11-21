@@ -38,10 +38,7 @@ class SliderTask(Page):
     form_model = 'player'
 
     def get_form_fields(player):
-        field = ['slider_{}'.format(var) for var in range(1,11)] #10 sum
-        
-        field2 = ['sum_{}_correct'.format(var) for var in range(1,11)] 
-        field = field + field2
+        field = ['slider_{}'.format(var) for var in range(1,10)] 
         return field
 
     def is_displayed(self):
@@ -947,6 +944,7 @@ class ResultsAfterBeliefs(Page):
 page_sequence = [
     GroupingPage,
     SumGame,
+    SliderTask,
     Introduction,
     PracticeDescription,
     PauseTetris,
