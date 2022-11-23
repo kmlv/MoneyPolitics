@@ -1,0 +1,153 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+{% load i18n %}
+
+{% block title %}
+Juego de Sliders
+{% endblock %}
+
+{% block content %}
+
+    <style>
+        #custom-handle {
+    width: 3em;
+    height: 1.6em;
+    top: 50%;
+    margin-top: -.8em;
+    text-align: center;
+    line-height: 1.6em;
+  }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="../../external/jquery/jquery.js"></script>
+    <script src="../../ui/core.js"></script>
+    <script src="../../ui/widget.js"></script>
+    <script src="../../ui/mouse.js"></script>
+    <script src="../../ui/slider.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <input class="field" id="slider_1" name="slider_1" hidden>
+    <input class="field" id="slider_2" name="slider_2" hidden>
+    <input class="field" id="slider_3" name="slider_3" hidden>
+    <input class="field" id="slider_4" name="slider_4" hidden>
+    <input class="field" id="slider_5" name="slider_5" hidden>
+    <input class="field" id="slider_6" name="slider_6" hidden>
+    <input class="field" id="slider_7" name="slider_7" hidden>
+    <input class="field" id="slider_8" name="slider_8" hidden>
+    <input class="field" id="slider_9" name="slider_9" hidden>
+    <input class="field" id="slider_10" name="slider_10" hidden>
+    <input class="field" id="slider_11" name="slider_11" hidden>
+    <input class="field" id="slider_12" name="slider_12" hidden>
+    <input class="field" id="slider_13" name="slider_13" hidden>
+    <input class="field" id="slider_14" name="slider_14" hidden>
+    <input class="field" id="slider_15" name="slider_15" hidden>
+    <input class="field" id="slider_16" name="slider_16" hidden>
+    <input class="field" id="slider_17" name="slider_17" hidden>
+    <input class="field" id="slider_18" name="slider_18" hidden>
+    <input class="field" id="slider_19" name="slider_19" hidden>
+    <input class="field" id="slider_20" name="slider_20" hidden>
+    <input class="field" id="slider_21" name="slider_21" hidden>
+    <input class="field" id="slider_22" name="slider_22" hidden>
+    <input class="field" id="slider_23" name="slider_23" hidden>
+    <input class="field" id="slider_24" name="slider_24" hidden>
+    <input class="field" id="slider_25" name="slider_25" hidden>
+    <input class="field" id="slider_26" name="slider_26" hidden>
+    <input class="field" id="slider_27" name="slider_27" hidden>
+    <input class="field" id="slider_28" name="slider_28" hidden>
+    <input class="field" id="slider_29" name="slider_29" hidden>
+    <input class="field" id="slider_30" name="slider_30" hidden>
+
+    <script>
+
+    var field = $(".field");
+    var score = 0
+
+    // for (j = 1; j < 11 ; j++)
+    //     {
+    //     $( function() {
+    //         $( "#slider_1" ).slider({
+    //             range: "min",
+    //             value: 0,
+    //             min: 1,
+    //             max: 100,
+    //             slide: function( event, ui ) {
+    //                 $( "#amount" ).val( ui.value );
+    //                 $("#dollars_taken").val((ui.value/100 * b_task_income).toFixed(2));
+    //                 // $(boolean[0]).val("1")
+    //             },
+    //             stop: function (event, ui) {
+    //                 $(field[0]).val(ui.value);
+    //             }
+    //         });
+    //         // ++score
+    //     } );
+    // }
+  for (let step = 1; step < 31; step++) {
+    $( function() {
+      var handle = $( "#custom-handle_" + step )
+      $( "#master_" + step ).slider({
+        value: 0,
+        orientation: "horizontal",
+        range: "min",
+        animate: true,
+        create: function() {
+          handle.text( $( this ).slider( "value" ) );
+        },
+        slide: function( event, ui ) {
+          handle.text( ui.value );
+        },
+        stop: function(event, ui) {
+            $(field[step-1]).val(ui.value);
+            console.log(field)
+            console.log(ui.value)
+            
+        }
+      });
+    } );
+   
+  }
+  </script>
+
+
+  <div id="master_1" style="width:260px; margin:15px;float:left"><div id="custom-handle_1" class="ui-slider-handle"></div></div><br> 
+  <div id="master_2" style="width:260px; margin:15px;float:right"><div id="custom-handle_2" class="ui-slider-handle"></div></div> <br> 
+  <div id="master_3" style="width:260px; margin:15px;float:right"><div id="custom-handle_3" class="ui-slider-handle"></div></div> <br>
+  <div id="master_4" style="width:260px; margin:15px;float:left"><div id="custom-handle_4" class="ui-slider-handle"></div></div> <br>
+  <div id="master_5" style="width:260px; margin:15px;float:right"><div id="custom-handle_5" class="ui-slider-handle"></div></div> <br>
+  <div id="master_6" style="width:260px; margin:15px;float:right"><div id="custom-handle_6" class="ui-slider-handle"></div></div> <br>
+  <div id="master_7" style="width:260px; margin:15px;float:left"><div id="custom-handle_7" class="ui-slider-handle"></div></div> <br>
+  <div id="master_8" style="width:260px; margin:15px;float:left"><div id="custom-handle_8" class="ui-slider-handle"></div></div> <br>
+  <div id="master_9" style="width:260px; margin:15px;float:right"><div id="custom-handle_9" class="ui-slider-handle"></div></div> <br>
+  <div id="master_10" style="width:260px; margin:15px;float:right"><div id="custom-handle_10" class="ui-slider-handle"></div></div> <br>
+  <div id="master_11" style="width:260px; margin:15px;float:left"><div id="custom-handle_11" class="ui-slider-handle"></div></div><br> 
+  <div id="master_12" style="width:260px; margin:15px;float:right"><div id="custom-handle_12" class="ui-slider-handle"></div></div> <br> 
+  <div id="master_13" style="width:260px; margin:15px;float:right"><div id="custom-handle_13" class="ui-slider-handle"></div></div> <br>
+  <div id="master_14" style="width:260px; margin:15px;float:left"><div id="custom-handle_14" class="ui-slider-handle"></div></div> <br>
+  <div id="master_15" style="width:260px; margin:15px;float:right"><div id="custom-handle_15" class="ui-slider-handle"></div></div> <br>
+  <div id="master_16" style="width:260px; margin:15px;float:right"><div id="custom-handle_16" class="ui-slider-handle"></div></div> <br>
+  <div id="master_17" style="width:260px; margin:15px;float:left"><div id="custom-handle_17" class="ui-slider-handle"></div></div> <br>
+  <div id="master_18" style="width:260px; margin:15px;float:left"><div id="custom-handle_18" class="ui-slider-handle"></div></div> <br>
+  <div id="master_19" style="width:260px; margin:15px;float:right"><div id="custom-handle_19" class="ui-slider-handle"></div></div> <br>
+  <div id="master_20" style="width:260px; margin:15px;float:right"><div id="custom-handle_20" class="ui-slider-handle"></div></div> <br>
+  <div id="master_21" style="width:260px; margin:15px;float:left"><div id="custom-handle_21" class="ui-slider-handle"></div></div><br> 
+  <div id="master_22" style="width:260px; margin:15px;float:right"><div id="custom-handle_22" class="ui-slider-handle"></div></div> <br> 
+  <div id="master_23" style="width:260px; margin:15px;float:right"><div id="custom-handle_23" class="ui-slider-handle"></div></div> <br>
+  <div id="master_24" style="width:260px; margin:15px;float:left"><div id="custom-handle_24" class="ui-slider-handle"></div></div> <br>
+  <div id="master_25" style="width:260px; margin:15px;float:right"><div id="custom-handle_25" class="ui-slider-handle"></div></div> <br>
+  <div id="master_26" style="width:260px; margin:15px;float:right"><div id="custom-handle_26" class="ui-slider-handle"></div></div> <br>
+  <div id="master_27" style="width:260px; margin:15px;float:left"><div id="custom-handle_27" class="ui-slider-handle"></div></div> <br>
+  <div id="master_28" style="width:260px; margin:15px;float:left"><div id="custom-handle_28" class="ui-slider-handle"></div></div> <br>
+  <div id="master_29" style="width:260px; margin:15px;float:right"><div id="custom-handle_29" class="ui-slider-handle"></div></div> <br>
+  <div id="master_30" style="width:260px; margin:15px;float:right"><div id="custom-handle_30" class="ui-slider-handle"></div></div> <br>
+
+
+  <br><br>
+  <p></p>
+
+  {% next_button %} 
+{% endblock %}

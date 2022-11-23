@@ -1,0 +1,158 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+{% load i18n %}
+
+{% block title %}
+Juego de Sliders
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="../../external/jquery/jquery.js"></script>
+    <script src="../../ui/core.js"></script>
+    <script src="../../ui/widget.js"></script>
+    <script src="../../ui/mouse.js"></script>
+    <script src="../../ui/slider.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <style>
+        #eq > span {
+          height:120px; float:right; margin:15px
+        }
+    </style>
+    <script>
+
+    var field = $(".field");
+    var score = 0
+
+    // // for (j = 1; j < 11 ; j++)
+    // //     {
+    //     $( function() {
+    //         $( "#slider_1" ).slider({
+    //             range: "min",
+    //             value: 0,
+    //             min: 1,
+    //             max: 100,
+    //             slide: function( event, ui ) {
+    //                 $( "#amount" ).val( ui.value );
+    //                 $("#dollars_taken").val((ui.value/100 * b_task_income).toFixed(2));
+    //                 // $(boolean[0]).val("1")
+    //             },
+    //             stop: function (event, ui) {
+    //                 $(field[0]).val(ui.value);
+    //             }
+    //         });
+    //         // ++score
+    //     } );
+    //     $( function() {
+    //         $( "#slider_2" ).slider({
+    //             range: "min",
+    //             value: 0,
+    //             min: 1,
+    //             max: 100,
+    //             slide: function( event, ui ) {
+    //                 // $( "#amount" ).val( ui.value );
+    //                 // $("#dollars_taken").val((ui.value/100 * b_task_income).toFixed(2));
+    //                 // $(boolean[0]).val("1")
+    //             },
+    //             stop: function (event, ui) {
+    //                 $(field[1]).val(ui.value);
+    //             }
+    //         });
+    //         // ++score
+    //     } );
+    // }
+    
+  
+
+  $( function() {
+    // setup master volume
+    $( "#master" ).slider({
+      value: 60,
+      orientation: "horizontal",
+      range: "min",
+      animate: true
+    });
+    $( "#master_1" ).slider({
+      value: 60,
+      orientation: "horizontal",
+      range: "min",
+      animate: true
+    });
+    $( "#master_2" ).slider({
+      value: 60,
+      orientation: "horizontal",
+      range: "min",
+      animate: true
+    });
+    $( "#master_3" ).slider({
+      value: 60,
+      orientation: "horizontal",
+      range: "min",
+      animate: true
+    });
+    $( "#master_4" ).slider({
+      value: 60,
+      orientation: "horizontal",
+      range: "min",
+      animate: true
+    });
+    $( "#master_5" ).slider({
+      value: 60,
+      orientation: "horizontal",
+      range: "min",
+      animate: true
+    });
+    // setup graphic EQ
+    $( "#eq > span" ).each(function() {
+      // read initial values from markup and remove that
+      var value = parseInt( $( this ).text(), 10 );
+      $( this ).empty().slider({
+        value: value,
+        range: "min",
+        animate: true,
+        orientation: "vertical"
+      });
+    });
+  } );
+  </script>
+
+ 
+<div id="master" style="width:260px; margin:15px;float:left"></div><br> <div id="master_2" style="width:260px; margin:15px;float:right"></div> <br> <div id="master_1" style="width:260px; margin:15px;float:right"></div>
+<div id="master_2" style="width:260px; margin:15px;float:left"></div>
+<div id="master_3" style="width:260px; margin:15px;float:right"></div>
+<div id="master_4" style="width:260px; margin:15px;float:left"></div>
+<div id="master_5" style="width:260px; margin:15px;float:right"></div>
+
+    <div name="slider_1" id="slider_1"></div>
+    <br>
+    <div name="slider_2" id="slider_2"></div>
+    <div name="slider_3" id="slider_3"></div>
+    <div name="slider_4" id="slider_4"></div>
+    <div name="slider_5" id="slider_5"></div>
+    <div name="slider_6" id="slider_6"></div>
+    <div name="slider_7" id="slider_7"></div>
+    <div name="slider_8" id="slider_8"></div>
+    <div name="slider_9" id="slider_9"></div>
+    <div name="slider_10" id="slider_10"></div>
+
+    <input class="field" id="slider_1" name="slider_1" hidden>
+    <input class="field" id="slider_2" name="slider_2" hidden>
+    <input class="field" id="slider_3" name="slider_3" hidden>
+    <input class="field" id="slider_4" name="slider_4" hidden>
+    <input class="field" id="slider_5" name="slider_5" hidden>
+    <input class="field" id="slider_6" name="slider_6" hidden>
+    <input class="field" id="slider_7" name="slider_7" hidden>
+    <input class="field" id="slider_8" name="slider_8" hidden>
+    <input class="field" id="slider_9" name="slider_9" hidden>
+    <input class="field" id="slider_10" name="slider_10" hidden>
+    <br><br>
+    <p></p>
+
+    <!-- {% next_button %} -->
+{% endblock %}
