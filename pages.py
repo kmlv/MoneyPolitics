@@ -33,13 +33,23 @@ class SumGame(Page):
     def is_displayed(self):
         return self.round_number == 1
 
-class SliderTask2(Page):
+class SliderTask1(Page):
   
     form_model = 'player'
 
     def get_form_fields(player):
         field = ['slider_{}'.format(var) for var in range(1,31)] 
-        print(field)
+        return field
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+class SliderTask2(Page):
+  
+    form_model = 'player'
+
+    def get_form_fields(player):
+        field = ['slider_{}'.format(var) for var in range(31,61)] 
         return field
 
     def is_displayed(self):
@@ -945,6 +955,7 @@ class ResultsAfterBeliefs(Page):
 page_sequence = [
     GroupingPage,
     SumGame,
+    SliderTask1,
     SliderTask2,
     Introduction,
     PracticeDescription,
