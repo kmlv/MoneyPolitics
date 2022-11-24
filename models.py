@@ -439,6 +439,28 @@ class Player(BasePlayer):
     slider_58 = models.FloatField()
     slider_59 = models.FloatField()
     slider_60 = models.FloatField()
+
+    #TranscriptionTask:
+    transcription_1 = models.StringField(default='')
+    transcription_2 = models.StringField(default='')
+    transcription_3 = models.StringField(default='')
+    transcription_4 = models.StringField(default='')
+    transcription_5 = models.StringField(default='')
+    transcription_6 = models.StringField(default='')
+    transcription_7 = models.StringField(default='')
+    transcription_8 = models.StringField(default='')
+    transcription_9 = models.StringField(default='')
+    transcription_10 = models.StringField(default='')
+    transcription_1_correct = models.StringField(default='')
+    transcription_2_correct = models.StringField(default='')
+    transcription_3_correct = models.StringField(default='')
+    transcription_4_correct = models.StringField(default='')
+    transcription_5_correct = models.StringField(default='')
+    transcription_6_correct = models.StringField(default='')
+    transcription_7_correct = models.StringField(default='')
+    transcription_8_correct = models.StringField(default='')
+    transcription_9_correct = models.StringField(default='')
+    transcription_10_correct = models.StringField(default='')
     
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)

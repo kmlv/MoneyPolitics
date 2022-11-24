@@ -50,6 +50,28 @@ Juego de transcripción
     }
 </style>
 
+<input class = "field" id = "transcription_1" name = "transcription_1" hidden>
+<input class = "field" id = "transcription_2" name = "transcription_2" hidden>
+<input class = "field" id = "transcription_3" name = "transcription_3" hidden>
+<input class = "field" id = "transcription_4" name = "transcription_4" hidden>
+<input class = "field" id = "transcription_5" name = "transcription_5" hidden>
+<input class = "field" id = "transcription_6" name = "transcription_6" hidden>
+<input class = "field" id = "transcription_7" name = "transcription_7" hidden>
+<input class = "field" id = "transcription_8" name = "transcription_8" hidden>
+<input class = "field" id = "transcription_9" name = "transcription_9" hidden>
+<input class = "field" id = "transcription_10" name = "transcription_10" hidden>
+
+<input class = "correct_answer" id = "transcription_1_correct" name = "transcription_1_correct" hidden>
+<input class = "correct_answer" id = "transcription_2_correct" name = "transcription_2_correct" hidden>
+<input class = "correct_answer" id = "transcription_3_correct" name = "transcription_3_correct" hidden>
+<input class = "correct_answer" id = "transcription_4_correct" name = "transcription_4_correct" hidden>
+<input class = "correct_answer" id = "transcription_5_correct" name = "transcription_5_correct" hidden>
+<input class = "correct_answer" id = "transcription_6_correct" name = "transcription_6_correct" hidden>
+<input class = "correct_answer" id = "transcription_7_correct" name = "transcription_7_correct" hidden>
+<input class = "correct_answer" id = "transcription_8_correct" name = "transcription_8_correct" hidden>
+<input class = "correct_answer" id = "transcription_9_correct" name = "transcription_9_correct" hidden>
+<input class = "correct_answer" id = "transcription_10_correct" name = "transcription_10_correct" hidden>
+
 <div class="main-container">
     <div class="main">
         <div class="main-box">
@@ -81,6 +103,7 @@ Juego de transcripción
 
 
 <script>
+
 // dec2hex :: Integer -> String
 // i.e. 0-255 -> '00'-'ff'
 document.onselectstart = new Function("return false")
@@ -103,25 +126,30 @@ function generateId (len) {
   window.crypto.getRandomValues(arr)
   return Array.from(arr, dec2hex).join('.')
 }
-
+var field = $(".field");
+var correct_answer = $(".correct_answer");
+let score = 0
 let id = generateId(40)
 id = id.toString()
 document.getElementById("id").value = id;
+$(correct_answer[0]).val(id);
 
 function Game(){
     let user = document.getElementById("intext2").value;
     user = user.toString()
-
+    $(field[score]).val(user);
         if( user == id ){
             document.getElementById("ans").innerHTML = "Your answer was correct"
         } else {
             document.getElementById("ans").innerHTML = "Your transcription was incorrect"
         }
+         
         user = document.getElementById("intext2").value = "";
         id = generateId(40)
         id = id.toString()
         document.getElementById("id").value = id;
-
+        $(correct_answer[score+1]).val(id);
+        ++score 
 }
 
 </script>

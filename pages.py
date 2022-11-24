@@ -59,9 +59,11 @@ class TranscriptionTask(Page):
   
     form_model = 'player'
 
-    # def get_form_fields(player):
-    #     field = ['slider_{}'.format(var) for var in range(31,61)] 
-    #     return field
+    def get_form_fields(player):
+        field = ['transcription_{}'.format(var) for var in range(1,11)] 
+        field2 = ['transcription_{}_correct'.format(var) for var in range(1,11)] 
+        field = field + field2
+        return field
 
     def is_displayed(self):
         return self.round_number == 1
