@@ -1,0 +1,134 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+{% load i18n %}
+
+{% block title %}
+Juego de transcripción
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .main-containter{
+        width: 100%;
+        height: 100vh;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box1{
+        display: flex;
+        align-items: center;
+    }
+    .intext11, #intext2{
+        width: 600px;
+        font-size: 20px;
+        font-weight: 600;
+        height: 55px;
+        text-align: center;
+
+        background: #fff;
+
+    }
+    .add-s{
+        margin: 13px 20px 12px 21px;
+        font-size: 25px;
+    }
+
+    .btn{
+        padding: 8px 20px;
+        border: none;
+        font-size: 16px;
+        color: #fff;
+        background: #fb6868;
+
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+</style>
+
+<div class="main-container">
+    <div class="main">
+        <div class="main-box">
+            <p> Trascribe el siguiente texto en el recuadro en blanco.</p>
+            <p> Trata de ser exacto y asegúrate de poner todas las caracteres correspondientes.</p>
+    
+            <div class="show-answer"><span id="ans"></span></div>
+            <div class="box1">
+                <div onmousedown="return false" onselectstart="return false" class="box-col">
+                    <input type="textf" id="id" class="intext11" disabled  ><br>
+                </div>
+                <br>
+            </div>
+            <br>
+
+        </div>
+
+        <div class="box-col">
+            <input type="text" id="intext2">
+        </div>
+        <br>
+        <div class="box2">
+            <button class="button" type="button" onclick="Game()">Submit Answer</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+// dec2hex :: Integer -> String
+// i.e. 0-255 -> '00'-'ff'
+document.onselectstart = new Function("return false")
+var alphabet = "abcdefghijklmnopqrstuvwxyz"
+var randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)]
+function dec2hex (dec) {
+    var random = Math.floor(Math.random() * 3)
+    if (random == 1){
+        return dec.toString(20).padStart(2, randomCharacter)
+    } else if (random == 2) {
+        return dec.toString(16).padStart(3, randomCharacter)
+    } else {
+        return dec.toString(30).padStart(4, randomCharacter)
+    }
+}
+
+// generateId :: Integer -> String
+function generateId (len) {
+  var arr = new Uint8Array((len || 40) / 4)
+  window.crypto.getRandomValues(arr)
+  return Array.from(arr, dec2hex).join('.')
+}
+
+let id = generateId(40)
+id = id.toString()
+document.getElementById("id").value = id;
+
+function Game(){
+    let user = document.getElementById("intext2").value;
+    user = user.toString()
+
+        if( user == id ){
+            document.getElementById("ans").innerHTML = "Your answer was correct"
+        } else {
+            document.getElementById("ans").innerHTML = "Your transcription was incorrect"
+        }
+        user = document.getElementById("intext2").value = "";
+        id = generateId(40)
+        id = id.toString()
+        document.getElementById("id").value = id;
+
+}
+
+</script>
+<br><br>
+
+{% next_button %}
+
+
+
+{% endblock %}

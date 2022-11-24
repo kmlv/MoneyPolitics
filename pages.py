@@ -55,6 +55,17 @@ class SliderTask2(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+class TranscriptionTask(Page):
+  
+    form_model = 'player'
+
+    # def get_form_fields(player):
+    #     field = ['slider_{}'.format(var) for var in range(31,61)] 
+    #     return field
+
+    def is_displayed(self):
+        return self.round_number == 1
+
 
 class Introduction(Page):
     def vars_for_template(self):
@@ -954,6 +965,7 @@ class ResultsAfterBeliefs(Page):
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
     GroupingPage,
+    TranscriptionTask,
     SumGame,
     SliderTask1,
     SliderTask2,
