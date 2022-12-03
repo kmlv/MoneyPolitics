@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Question 3
+{% endblock %}
+
+{% block styles %}
+<style>
+.question-container{
+    display: flex;
+}
+.question{
+	flex: 50%;
+}
+.question img {
+	width: auto;
+    height: 400px;
+}
+.answer{
+ 	flex: 50%;
+}
+.question_num{
+	text-align: center;
+	font-size: 150%;
+	font-family: verdana;
+}
+body > div.otree-body.container > h2 {
+		text-align: center;
+		font-size: 200%;
+		font-family: verdana;
+		}
+</style>
+{% endblock %} 
+
+{% block content %}
+<div class="question-container">
+	<div class="question">
+ 		<img src="{{Q}}"/>
+ 	</div>
+ 	<div class="answer">
+ 		<br><br>Please choose the missing picture that matches the pattern. 
+ 		<br><br>
+ 		{% formfield player.Question_3 %}
+ 		{% next_button %}
+ 	</div>
+ 	
+ </div>
+{% endblock %}
