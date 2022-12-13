@@ -75,6 +75,20 @@ def parse_config():
         })
     return rounds
 
+def parse_config_tasks():
+    with open('MoneyPolitics/task_effort.csv') as f:
+        rows = list(csv.DictReader(f))
+
+    rounds = []
+    for row in rows:
+        rounds.append({
+            'round_number': int(row['round_number']),
+            'duration': int(row['duration']),
+            'task': row['task'],
+        })
+    return rounds
+
+
 
 class Subsession(BaseSubsession):
     def creating_session(self):
@@ -103,6 +117,12 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+
+    def period_length(self):
+        return parse_config_tasks()[self.round_number-1]['duration']
+
+    def task(self):
+        return parse_config_tasks()[self.round_number-1]['task']
 
     # Amount of players who will receive a luck based income
     lucky_players = models.IntegerField()

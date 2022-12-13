@@ -5,6 +5,7 @@ from .models import Constants
 from .progressivity_pres import controls as ctrl
 import re, random
 from .models import parse_config
+from .models import parse_config_tasks
 
 from django.conf import settings
 
@@ -20,154 +21,230 @@ class GroupingPage(WaitPage):
     group_by_arrival_time = True
 
 class Question_1(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_1.PNG'.format(index = self.player.test_num)
-
-		return {
+    form_model = 'player'
+    form_fields = ['Question_1']
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
+        
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_1.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_1']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_2(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_2.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_2.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_2']
+    form_model = 'player'
+    form_fields = ['Question_2']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_3(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_3.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_3.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_3']
+    form_model = 'player'
+    form_fields = ['Question_3']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
+
 class Question_4(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_4.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_4.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_4']
+    form_model = 'player'
+    form_fields = ['Question_4']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_5(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_5.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_5.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_5']
+    form_model = 'player'
+    form_fields = ['Question_5']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_6(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_6.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_6.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_6']
+    form_model = 'player'
+    form_fields = ['Question_6']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
+
 class Question_7(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_7.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_7.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_7']
+    form_model = 'player'
+    form_fields = ['Question_7']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_8(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_8.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_8.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_8']
+    form_model = 'player'
+    form_fields = ['Question_8']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_9(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_9.PNG'.format(index = self.player.test_num)
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
 
-		return {
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_9.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_9']
+    form_model = 'player'
+    form_fields = ['Question_9']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class Question_10(Page):
-	def get_timeout_seconds(self):
-		return 75
-	def before_next_page(self):
-		if self.timeout_happened:
-			self.player.save()
-	def vars_for_template(self):
-		Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_10.PNG'.format(index = self.player.test_num)
-
-		return {
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
+    def before_next_page(self):
+        if self.timeout_happened:
+            self.player.save()
+    def vars_for_template(self):
+        Q_url = '/static/MoneyPolitics/sample_{index}/sample_{index}/Q_10.PNG'.format(index = self.player.test_num)
+        return {
 			'Q': Q_url
 		  }
-	form_model = 'player'
-	form_fields = ['Question_10']    
+    form_model = 'player'
+    form_fields = ['Question_10']
+
+    def is_displayed(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number - 1
 
 class SumGame(Page):
+
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "sum")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
   
     form_model = 'player'
 
@@ -179,10 +256,15 @@ class SumGame(Page):
         return field
 
     def is_displayed(self):
-        return self.round_number == 1
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "sum")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number
 
 class SliderTask1(Page):
-  
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
     form_model = 'player'
 
     def get_form_fields(player):
@@ -190,9 +272,15 @@ class SliderTask1(Page):
         return field
 
     def is_displayed(self):
-        return self.round_number == 1
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number
 
 class SliderTask2(Page):
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
   
     form_model = 'player'
 
@@ -201,9 +289,16 @@ class SliderTask2(Page):
         return field
 
     def is_displayed(self):
-        return self.round_number == 1
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number
+
 
 class TranscriptionTask(Page):
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "transcription")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
   
     form_model = 'player'
 
@@ -214,7 +309,9 @@ class TranscriptionTask(Page):
         return field
 
     def is_displayed(self):
-        return self.round_number == 1
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "transcription")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number
 
 
 class Introduction(Page):
@@ -314,9 +411,14 @@ class RealEffortResults(Page):
 
 
 class Tetris(Page):
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "tetris")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
+
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
-    timeout_seconds = 120 #60 # we may want to give players more time 
+
 
     def before_next_page(self):
         # for debugging (delete later)
@@ -327,22 +429,35 @@ class Tetris(Page):
                   'msg_type': self.session.config['msg_type'], 'score': self.player.game_score}
 
     def is_displayed(self):
-        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
-            return False
-        elif self.session.config['real_effort_task'] == "Tetris":
-            return True
+        # if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+        #     return False
+        # elif self.session.config['real_effort_task'] == "Tetris":
+        #     return True
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "tetris")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number
+
 
 
 class Diamonds(Page):
+
+    def get_timeout_seconds(self):
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "diamonds")
+        round_number = dictionary['round_number']
+        return parse_config_tasks()[round_number]['duration']
     def is_displayed(self):
-        if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
-            return False
-        elif self.session.config['real_effort_task'] == "Diamonds":
-            return True
+        # if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
+        #     return False
+        # elif self.session.config['real_effort_task'] == "Diamonds":
+        #     return True
+        dictionary = next(item for item in parse_config_tasks() if item["task"] == "diamonds")
+        round_number = dictionary['round_number']
+        return self.round_number == round_number
+
 
     form_model = 'player'
     form_fields = ['diamond_guess', 'diamond_actual']
-    timeout_seconds = 60
+
 
     def before_next_page(self):
         self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
