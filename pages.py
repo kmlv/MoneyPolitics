@@ -249,10 +249,10 @@ class SumGame(Page):
     form_model = 'player'
 
     def get_form_fields(player):
-        field = ['sum_{}'.format(var) for var in range(1,11)] #10 sum
-        
-        field2 = ['sum_{}_correct'.format(var) for var in range(1,11)] 
+        field = ['sum_{}'.format(var) for var in range(1,Constants.sum_variables + 1)] 
+        field2 = ['sum_{}_correct'.format(var) for var in range(1,Constants.sum_variables + 1)] 
         field = field + field2
+        field.append('respuestas_resueltas')
         return field
 
     def is_displayed(self):
@@ -1230,6 +1230,11 @@ class ResultsAfterBeliefs(Page):
 # There should be a waiting page after preparing the message and before receiving one
 page_sequence = [
     GroupingPage,
+    Introduction,
+    PracticeDescription,
+    PauseTetris,
+    Tetris,
+    Diamonds,
     Question_1,
     Question_2,
     Question_3,
@@ -1244,11 +1249,6 @@ page_sequence = [
     SumGame,
     SliderTask1,
     SliderTask2,
-    Introduction,
-    PracticeDescription,
-    PauseTetris,
-    Tetris,
-    Diamonds,
     BeliefElicitation,
     EffortResultsWaitPage,
     RealEffortResults,

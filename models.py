@@ -59,6 +59,9 @@ class Constants(BaseConstants):
     # Max. Characters Allowed Per message
     max_chars = 280
 
+    #Number of variables for effort tasks
+    sum_variables = 25
+    
 def parse_config():
     with open('MoneyPolitics/payoffs.csv') as f:
         rows = list(csv.DictReader(f))
@@ -400,26 +403,17 @@ def send_message_field(label):
 
 class Player(BasePlayer):
     #Sum Game variables:
-    sum_1 = models.FloatField()
-    sum_2 = models.FloatField()
-    sum_3 = models.FloatField()
-    sum_4 = models.FloatField()
-    sum_5 = models.FloatField()
-    sum_6 = models.FloatField()
-    sum_7 = models.FloatField()
-    sum_8 = models.FloatField()
-    sum_9 = models.FloatField()
-    sum_10 = models.FloatField()
-    sum_1_correct = models.FloatField()
-    sum_2_correct = models.FloatField()
-    sum_3_correct = models.FloatField()
-    sum_4_correct = models.FloatField()
-    sum_5_correct = models.FloatField()
-    sum_6_correct = models.FloatField()
-    sum_7_correct = models.FloatField()
-    sum_8_correct = models.FloatField()
-    sum_9_correct = models.FloatField()
-    sum_10_correct = models.FloatField()
+    for numb in range(1, Constants.sum_variables + 1):
+        locals()['sum_{0}'.format(numb)] = models.IntegerField(blank = True)
+    
+    del numb
+
+    for numb in range(1, Constants.sum_variables + 1):
+        locals()['sum_{0}_correct'.format(numb)] = models.IntegerField(blank = True)
+    
+    del numb
+
+    respuestas_resueltas = models.IntegerField(initial=0)
 
     #Slider task:
     slider_1 = models.FloatField()

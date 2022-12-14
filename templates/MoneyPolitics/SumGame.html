@@ -50,7 +50,7 @@ Juego de suma
 {% endblock %}
 {% block content %}
 
-<p> Suma los siguientes 4 números y escribe el resultado en el recuadro en blanco.</p>
+<p> Suma los siguientes 5 números y escribe el resultado en el recuadro en blanco.</p>
 <p> Es necesario que hagas esta suma manualmente, es decir, que no uses calculadora.</p>
 
 
@@ -59,18 +59,22 @@ Juego de suma
         <div class="main-box">
             <div class="show-answer"><span id="ans"></span></div>
             <div class="box1">
-                <div class="box-col">
-                    <input type="textf" id="intext" class="intext11">
-                    <input type="textf" id="intext1" class="intext11">
-                    <input type="textf" id="intext3" class="intext11">
-                    <input type="textf" id="intext4" class="intext11">
-                    <input type="text" id="intext2">
+                <div onmousedown="return false" onselectstart="return false" class="box-col">
+                    <input type="textf" id="intext" class="intext11" disabled>
+                    <input type="textf" id="intext1" class="intext11" disabled>
+                    <input type="textf" id="intext3" class="intext11" disabled>
+                    <input type="textf" id="intext4" class="intext11" disabled>
+                    <input type="textf" id="intext5" class="intext11" disabled>
+                    
                 </div>
-
+                
+                <div class="box-col">
+                <input type="text" id="intext2">
+                </div>
             </div>
             <br>
             <div class="box2">
-                <button class="button" type="button" onclick="Game()">Submit Answer</button>
+                <button class="button" type="button" onclick="Game()">Mandar Respuesta</button>
             </div>
         </div>
 
@@ -88,6 +92,22 @@ Juego de suma
 <input class = "field" id = "sum_8" name = "sum_8" hidden>
 <input class = "field" id = "sum_9" name = "sum_9" hidden>
 <input class = "field" id = "sum_10" name = "sum_10" hidden>
+<input class = "field" id = "sum_11" name = "sum_11" hidden>
+<input class = "field" id = "sum_12" name = "sum_12" hidden>
+<input class = "field" id = "sum_13" name = "sum_13" hidden>
+<input class = "field" id = "sum_14" name = "sum_14" hidden>
+<input class = "field" id = "sum_15" name = "sum_15" hidden>
+<input class = "field" id = "sum_16" name = "sum_16" hidden>
+<input class = "field" id = "sum_17" name = "sum_17" hidden>
+<input class = "field" id = "sum_18" name = "sum_18" hidden>
+<input class = "field" id = "sum_19" name = "sum_19" hidden>
+<input class = "field" id = "sum_20" name = "sum_20" hidden>
+<input class = "field" id = "sum_21" name = "sum_21" hidden>
+<input class = "field" id = "sum_22" name = "sum_22" hidden>
+<input class = "field" id = "sum_23" name = "sum_23" hidden>
+<input class = "field" id = "sum_24" name = "sum_24" hidden>
+<input class = "field" id = "sum_25" name = "sum_25" hidden>
+<
 
 <input class = "correct_answer" id = "sum_1_correct" name = "sum_1_correct" hidden>
 <input class = "correct_answer" id = "sum_2_correct" name = "sum_2_correct" hidden>
@@ -99,30 +119,53 @@ Juego de suma
 <input class = "correct_answer" id = "sum_8_correct" name = "sum_8_correct" hidden>
 <input class = "correct_answer" id = "sum_9_correct" name = "sum_9_correct" hidden>
 <input class = "correct_answer" id = "sum_10_correct" name = "sum_10_correct" hidden>
+<input class = "correct_answer" id = "sum_11_correct" name = "sum_11_correct" hidden>
+<input class = "correct_answer" id = "sum_12_correct" name = "sum_12_correct" hidden>
+<input class = "correct_answer" id = "sum_13_correct" name = "sum_13_correct" hidden>
+<input class = "correct_answer" id = "sum_14_correct" name = "sum_14_correct" hidden>
+<input class = "correct_answer" id = "sum_15_correct" name = "sum_15_correct" hidden>
+<input class = "correct_answer" id = "sum_16_correct" name = "sum_16_correct" hidden>
+<input class = "correct_answer" id = "sum_17_correct" name = "sum_17_correct" hidden>
+<input class = "correct_answer" id = "sum_18_correct" name = "sum_18_correct" hidden>
+<input class = "correct_answer" id = "sum_19_correct" name = "sum_19_correct" hidden>
+<input class = "correct_answer" id = "sum_20_correct" name = "sum_20_correct" hidden>
+<input class = "correct_answer" id = "sum_21_correct" name = "sum_21_correct" hidden>
+<input class = "correct_answer" id = "sum_22_correct" name = "sum_22_correct" hidden>
+<input class = "correct_answer" id = "sum_23_correct" name = "sum_23_correct" hidden>
+<input class = "correct_answer" id = "sum_24_correct" name = "sum_24_correct" hidden>
+<input class = "correct_answer" id = "sum_25_correct" name = "sum_25_correct" hidden>
+
+<input class= "correctas" id = "respuestas_resueltas" name = "respuestas_resueltas" hidden>
 
 <script>
+    document.onselectstart = new Function("return false")
     var field = $(".field");
     var correct_answer = $(".correct_answer");
+    var correctas = $(".correctas");
     var contador = 0;
+    var respuestas_resueltas = 0
     let n1 = Math.floor(Math.random()*99+1);   
     let n2 = Math.floor(Math.random()*99+1);
     let n3 = Math.floor(Math.random()*99+1);
     let n4 = Math.floor(Math.random()*99+1);
+    let n5 = Math.floor(Math.random()*99+1);
     document.getElementById("intext").value = n1;
     document.getElementById("intext1").value = n2;
     document.getElementById("intext3").value = n3;
     document.getElementById("intext4").value = n4;
-    let adds = n1 + n2 + n3 + n4;
+    document.getElementById("intext5").value = n5;
+    let adds = n1 + n2 + n3 + n4 + n5;
     function Game(){
         var user = document.getElementById("intext2").value;
         var user2 = parseInt(user)
         $(field[contador]).val(user2);
-        var adds2 = parseInt(adds)
-        console.log($(field[contador]))
+        var adds2 = parseInt(adds);
         $(correct_answer[contador]).val(adds2);
 
         if( user == adds ){
             document.getElementById("ans").innerHTML = "Your answer was correct"
+            ++respuestas_resueltas
+            $(correctas[0]).val(respuestas_resueltas)
         } else {
             document.getElementById("ans").innerHTML = "Correct answer: " + adds;
         }
@@ -131,16 +174,18 @@ Juego de suma
         n2 = Math.floor(Math.random()*99+1);
         n3 = Math.floor(Math.random()*99+1);
         n4 = Math.floor(Math.random()*99+1);
+        n5 = Math.floor(Math.random()*99+1);
         document.getElementById("intext").value = n1;
         document.getElementById("intext1").value = n2;
         document.getElementById("intext3").value = n3;
         document.getElementById("intext4").value = n4;
-        adds = n1 + n2 + n3 + n4
+        document.getElementById("intext5").value = n5;
+        adds = n1 + n2 + n3 + n4 + n5
         ++contador
+
     }
 </script>
 <br><br>
-{% next_button %}
 
 
 
