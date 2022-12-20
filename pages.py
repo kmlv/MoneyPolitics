@@ -244,7 +244,7 @@ class SumGame(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sum")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
   
     form_model = 'player'
 
@@ -252,35 +252,36 @@ class SumGame(Page):
         field = ['sum_{}'.format(var) for var in range(1,Constants.sum_variables + 1)] 
         field2 = ['sum_{}_correct'.format(var) for var in range(1,Constants.sum_variables + 1)] 
         field = field + field2
-        field.append('respuestas_resueltas')
+        field.append('score_suma')
         return field
 
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sum")
         round_number = dictionary['round_number']
-        return self.round_number == round_number
+        return self.round_number == round_number 
 
 class SliderTask1(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
+
     form_model = 'player'
 
     def get_form_fields(player):
-        field = ['slider_{}'.format(var) for var in range(1,31)] 
+        field = ['slider_{}'.format(var) for var in range(1,Constants.slider_variables + 1)] 
         return field
 
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
         round_number = dictionary['round_number']
-        return self.round_number == round_number
+        return self.round_number == round_number 
 
 class SliderTask2(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
   
     form_model = 'player'
 
@@ -291,7 +292,7 @@ class SliderTask2(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")
         round_number = dictionary['round_number']
-        return self.round_number == round_number
+        return self.round_number == round_number 
 
 
 class TranscriptionTask(Page):

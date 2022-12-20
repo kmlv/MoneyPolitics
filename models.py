@@ -61,7 +61,8 @@ class Constants(BaseConstants):
 
     #Number of variables for effort tasks
     sum_variables = 25
-    
+    slider_variables = 60
+
 def parse_config():
     with open('MoneyPolitics/payoffs.csv') as f:
         rows = list(csv.DictReader(f))
@@ -413,69 +414,27 @@ class Player(BasePlayer):
     
     del numb
 
-    respuestas_resueltas = models.IntegerField(initial=0)
+    score_suma = models.IntegerField(initial=0)
 
     #Slider task:
-    slider_1 = models.FloatField()
-    slider_2 = models.FloatField()
-    slider_3 = models.FloatField()
-    slider_4 = models.FloatField()
-    slider_5 = models.FloatField()
-    slider_6 = models.FloatField()
-    slider_7 = models.FloatField()
-    slider_8 = models.FloatField()
-    slider_9 = models.FloatField()
-    slider_10 = models.FloatField()
-    slider_11 = models.FloatField()
-    slider_12 = models.FloatField()
-    slider_13 = models.FloatField()
-    slider_14 = models.FloatField()
-    slider_15 = models.FloatField()
-    slider_16 = models.FloatField()
-    slider_17 = models.FloatField()
-    slider_18 = models.FloatField()
-    slider_19 = models.FloatField()
-    slider_20 = models.FloatField()
-    slider_21 = models.FloatField()
-    slider_22 = models.FloatField()
-    slider_23 = models.FloatField()
-    slider_24 = models.FloatField()
-    slider_25 = models.FloatField()
-    slider_26 = models.FloatField()
-    slider_27 = models.FloatField()
-    slider_28 = models.FloatField()
-    slider_29 = models.FloatField()
-    slider_30 = models.FloatField()
-    slider_31 = models.FloatField()
-    slider_32 = models.FloatField()
-    slider_33 = models.FloatField()
-    slider_34 = models.FloatField()
-    slider_35 = models.FloatField()
-    slider_36 = models.FloatField()
-    slider_37 = models.FloatField()
-    slider_38 = models.FloatField()
-    slider_39 = models.FloatField()
-    slider_40 = models.FloatField()
-    slider_41 = models.FloatField()
-    slider_42 = models.FloatField()
-    slider_43 = models.FloatField()
-    slider_44 = models.FloatField()
-    slider_45 = models.FloatField()
-    slider_46 = models.FloatField()
-    slider_47 = models.FloatField()
-    slider_48 = models.FloatField()
-    slider_49 = models.FloatField()
-    slider_50 = models.FloatField()
-    slider_51 = models.FloatField()
-    slider_52 = models.FloatField()
-    slider_53 = models.FloatField()
-    slider_54 = models.FloatField()
-    slider_55 = models.FloatField()
-    slider_56 = models.FloatField()
-    slider_57 = models.FloatField()
-    slider_58 = models.FloatField()
-    slider_59 = models.FloatField()
-    slider_60 = models.FloatField()
+    for numb in range(1, Constants.slider_variables + 1):
+        locals()['slider_{0}'.format(numb)] = models.IntegerField(blank = True)
+
+    del numb
+
+    # def get_score(self):
+    #     question_ans = [self.Q1_ans, self.Q2_ans, self.Q3_ans,self. Q4_ans, self.Q5_ans, self.Q6_ans, self.Q7_ans, self.Q8_ans, self.Q9_ans, self.Q10_ans]
+    #     questions = [self.Question_1, self.Question_2, self.Question_3, self.Question_4, self.Question_5, self.Question_6, self.Question_7, self.Question_8, self.Question_9, self.Question_10]
+    #     i = 0 
+    #     for x in question_ans:
+    #         if questions[i] == x:
+    #             self.score += Constants.config['points'][i]
+    #         i =i+1
+
+    #     for x in questions:
+    #         if x == 50:
+    #             self.score_sliders += 1
+    #     return self.score_sliders
 
     #TranscriptionTask:
     transcription_1 = models.StringField(default='')
