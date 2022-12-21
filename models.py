@@ -62,6 +62,7 @@ class Constants(BaseConstants):
     #Number of variables for effort tasks
     sum_variables = 25
     slider_variables = 60
+    transcription_variables = 15
 
 def parse_config():
     with open('MoneyPolitics/payoffs.csv') as f:
@@ -437,26 +438,15 @@ class Player(BasePlayer):
     #     return self.score_sliders
 
     #TranscriptionTask:
-    transcription_1 = models.StringField(default='')
-    transcription_2 = models.StringField(default='')
-    transcription_3 = models.StringField(default='')
-    transcription_4 = models.StringField(default='')
-    transcription_5 = models.StringField(default='')
-    transcription_6 = models.StringField(default='')
-    transcription_7 = models.StringField(default='')
-    transcription_8 = models.StringField(default='')
-    transcription_9 = models.StringField(default='')
-    transcription_10 = models.StringField(default='')
-    transcription_1_correct = models.StringField(default='')
-    transcription_2_correct = models.StringField(default='')
-    transcription_3_correct = models.StringField(default='')
-    transcription_4_correct = models.StringField(default='')
-    transcription_5_correct = models.StringField(default='')
-    transcription_6_correct = models.StringField(default='')
-    transcription_7_correct = models.StringField(default='')
-    transcription_8_correct = models.StringField(default='')
-    transcription_9_correct = models.StringField(default='')
-    transcription_10_correct = models.StringField(default='')
+    for numb in range(1, Constants.transcription_variables + 1):
+        locals()['transcription_{0}'.format(numb)] = models.StringField(blank = True)
+    
+    del numb
+
+    for numb in range(1, Constants.transcription_variables + 1):
+        locals()['transcription_{0}_correct'.format(numb)] = models.StringField(blank = True)
+    
+    del numb
 
     #RavensTask:
     rand_id = models.IntegerField(initial=0)

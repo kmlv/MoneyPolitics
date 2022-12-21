@@ -269,7 +269,7 @@ class SliderTask1(Page):
     form_model = 'player'
 
     def get_form_fields(player):
-        field = ['slider_{}'.format(var) for var in range(1,Constants.slider_variables + 1)] 
+        field = ['slider_{}'.format(var) for var in range(1,31)] 
         return field
 
     def is_displayed(self):
@@ -299,13 +299,13 @@ class TranscriptionTask(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "transcription")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
   
     form_model = 'player'
 
     def get_form_fields(player):
-        field = ['transcription_{}'.format(var) for var in range(1,11)] 
-        field2 = ['transcription_{}_correct'.format(var) for var in range(1,11)] 
+        field = ['transcription_{}'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
+        field2 = ['transcription_{}_correct'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
         field = field + field2
         return field
 

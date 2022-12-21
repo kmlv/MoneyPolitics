@@ -76,7 +76,7 @@ Juego de transcripción
     <div class="main">
         <div class="main-box">
             <p> Trascribe el siguiente texto en el recuadro en blanco.</p>
-            <p> Trata de ser exacto y asegúrate de poner todas las caracteres correspondientes.</p>
+            <p> Trata de ser exacto y asegúrate de poner todas las caracteres correspondientes. </p>
     
             <div class="show-answer"><span id="ans"></span></div>
             <div class="box1">
@@ -94,7 +94,7 @@ Juego de transcripción
         </div>
         <br>
         <div class="box2">
-            <button class="button" type="button" onclick="Game()">Submit Answer</button>
+            <button class="button" type="button" onclick="Game()">Enviar respuesta</button>
         </div>
 
     </div>
@@ -107,29 +107,43 @@ Juego de transcripción
 // dec2hex :: Integer -> String
 // i.e. 0-255 -> '00'-'ff'
 document.onselectstart = new Function("return false")
-var alphabet = "abcdefghijklmnopqrstuvwxyz"
-var randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)]
-function dec2hex (dec) {
-    var random = Math.floor(Math.random() * 3)
-    if (random == 1){
-        return dec.toString(20).padStart(2, randomCharacter)
-    } else if (random == 2) {
-        return dec.toString(16).padStart(3, randomCharacter)
-    } else {
-        return dec.toString(30).padStart(4, randomCharacter)
+
+// var alphabet = "abcdefghijklmnopqrstuvwxyz"
+// var randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)]
+// function dec2hex (dec) {
+//     var random = Math.floor(Math.random() * 3)
+//     if (random == 1){
+//         return dec.toString(20).padStart(2, randomCharacter)
+//     } else if (random == 2) {
+//         return dec.toString(16).padStart(3, randomCharacter)
+//     } else {
+//         return dec.toString(30).padStart(4, randomCharacter)
+//     }
+// }
+
+// // generateId :: Integer -> String
+// function generateId (len) {
+//   var arr = new Uint8Array((len || 40) / 4)
+//   window.crypto.getRandomValues(arr)
+//   return Array.from(arr, dec2hex).join('.')
+// }
+
+function makeid(length) {   
+    let result           = '';
+    var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
+    result = result.match(/.{1,5}/g) ?? [];
+    result = result.join('.')
+    return result;
 }
 
-// generateId :: Integer -> String
-function generateId (len) {
-  var arr = new Uint8Array((len || 40) / 4)
-  window.crypto.getRandomValues(arr)
-  return Array.from(arr, dec2hex).join('.')
-}
 var field = $(".field");
 var correct_answer = $(".correct_answer");
 let score = 0
-let id = generateId(40)
+let id = makeid(35)
 id = id.toString()
 document.getElementById("id").value = id;
 $(correct_answer[0]).val(id);
@@ -145,7 +159,7 @@ function Game(){
         }
          
         user = document.getElementById("intext2").value = "";
-        id = generateId(40)
+        id = makeid(35)
         id = id.toString()
         document.getElementById("id").value = id;
         $(correct_answer[score+1]).val(id);
@@ -155,7 +169,6 @@ function Game(){
 </script>
 <br><br>
 
-{% next_button %}
 
 
 
