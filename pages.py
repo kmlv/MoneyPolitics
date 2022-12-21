@@ -306,7 +306,8 @@ class TranscriptionTask(Page):
     def get_form_fields(player):
         field = ['transcription_{}'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
         field2 = ['transcription_{}_correct'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
-        field = field + field2
+        field3 = ['transcription_{}_score'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
+        field = field + field2 + field3
         return field
 
     def is_displayed(self):

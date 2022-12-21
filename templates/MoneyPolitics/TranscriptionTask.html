@@ -60,6 +60,12 @@ Juego de transcripción
 <input class = "field" id = "transcription_8" name = "transcription_8" hidden>
 <input class = "field" id = "transcription_9" name = "transcription_9" hidden>
 <input class = "field" id = "transcription_10" name = "transcription_10" hidden>
+<input class = "field" id = "transcription_11" name = "transcription_11" hidden>
+<input class = "field" id = "transcription_12" name = "transcription_12" hidden>
+<input class = "field" id = "transcription_13" name = "transcription_13" hidden>
+<input class = "field" id = "transcription_14" name = "transcription_14" hidden>
+<input class = "field" id = "transcription_15" name = "transcription_15" hidden>
+
 
 <input class = "correct_answer" id = "transcription_1_correct" name = "transcription_1_correct" hidden>
 <input class = "correct_answer" id = "transcription_2_correct" name = "transcription_2_correct" hidden>
@@ -71,6 +77,28 @@ Juego de transcripción
 <input class = "correct_answer" id = "transcription_8_correct" name = "transcription_8_correct" hidden>
 <input class = "correct_answer" id = "transcription_9_correct" name = "transcription_9_correct" hidden>
 <input class = "correct_answer" id = "transcription_10_correct" name = "transcription_10_correct" hidden>
+<input class = "correct_answer" id = "transcription_11_correct" name = "transcription_11_correct" hidden>
+<input class = "correct_answer" id = "transcription_12_correct" name = "transcription_12_correct" hidden>
+<input class = "correct_answer" id = "transcription_13_correct" name = "transcription_13_correct" hidden>
+<input class = "correct_answer" id = "transcription_14_correct" name = "transcription_14_correct" hidden>
+<input class = "correct_answer" id = "transcription_15_correct" name = "transcription_15_correct" hidden>
+
+<input class = "scores" id = "transcription_1_score" name = "transcription_1_score" hidden>
+<input class = "scores" id = "transcription_2_score" name = "transcription_2_score" hidden>
+<input class = "scores" id = "transcription_3_score" name = "transcription_3_score" hidden>
+<input class = "scores" id = "transcription_4_score" name = "transcription_4_score" hidden>
+<input class = "scores" id = "transcription_5_score" name = "transcription_5_score" hidden>
+<input class = "scores" id = "transcription_6_score" name = "transcription_6_score" hidden>
+<input class = "scores" id = "transcription_7_score" name = "transcription_7_score" hidden>
+<input class = "scores"  id = "transcription_8_score" name = "transcription_8_score" hidden>
+<input class = "scores"  id = "transcription_9_score" name = "transcription_9_score" hidden>
+<input class = "scores"  id = "transcription_10_score" name = "transcription_10_score" hidden>
+<input class = "scores"  id = "transcription_11_score" name = "transcription_11_score" hidden>
+<input class = "scores" id = "transcription_12_score" name = "transcription_12_score" hidden>
+<input class = "scores"  id = "transcription_13_score" name = "transcription_13_score" hidden>
+<input class = "scores"  id = "transcription_14_score" name = "transcription_14_score" hidden>
+<input class = "scores"  id = "transcription_15_score" name = "transcription_15_score" hidden>
+
 
 <div class="main-container">
     <div class="main">
@@ -140,9 +168,55 @@ function makeid(length) {
     return result;
 }
 
+//Calculate Levenshtein distance:
+
+function similarity(s1, s2) {
+  var longer = s1;
+  var shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
+//Calculate edit distance:
+
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
+}
+
 var field = $(".field");
 var correct_answer = $(".correct_answer");
-let score = 0
+var scores = $(".scores");
+let count = 0
 let id = makeid(35)
 id = id.toString()
 document.getElementById("id").value = id;
@@ -151,19 +225,23 @@ $(correct_answer[0]).val(id);
 function Game(){
     let user = document.getElementById("intext2").value;
     user = user.toString()
-    $(field[score]).val(user);
+    $(field[count]).val(user);
         if( user == id ){
-            document.getElementById("ans").innerHTML = "Your answer was correct"
+            document.getElementById("ans").innerHTML = "Your transcription was correct"
         } else {
             document.getElementById("ans").innerHTML = "Your transcription was incorrect"
         }
-         
+        
+        //Get % of correct answer:
+        let score = similarity(user,id)
+        $(scores[count]).val(score);
+        
         user = document.getElementById("intext2").value = "";
         id = makeid(35)
         id = id.toString()
         document.getElementById("id").value = id;
-        $(correct_answer[score+1]).val(id);
-        ++score 
+        $(correct_answer[count+1]).val(id);
+        ++count 
 }
 
 </script>

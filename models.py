@@ -448,6 +448,11 @@ class Player(BasePlayer):
     
     del numb
 
+    for numb in range(1, Constants.transcription_variables + 1):
+        locals()['transcription_{0}_score'.format(numb)] = models.StringField(blank = True)
+    
+    del numb
+
     #RavensTask:
     rand_id = models.IntegerField(initial=0)
     test_num = models.IntegerField(initial=0)
