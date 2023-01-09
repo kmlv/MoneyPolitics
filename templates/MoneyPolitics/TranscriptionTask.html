@@ -99,6 +99,7 @@ Juego de transcripción
 <input class = "scores"  id = "transcription_14_score" name = "transcription_14_score" hidden>
 <input class = "scores"  id = "transcription_15_score" name = "transcription_15_score" hidden>
 
+<input class="answer" id="score_transcription" name="score_transcription" hidden>
 
 <div class="main-container">
     <div class="main">
@@ -216,7 +217,9 @@ function editDistance(s1, s2) {
 var field = $(".field");
 var correct_answer = $(".correct_answer");
 var scores = $(".scores");
+var answer = $(".answer");
 let count = 0
+let scoreTotal = 0
 let id = makeid(35)
 id = id.toString()
 document.getElementById("id").value = id;
@@ -234,7 +237,10 @@ function Game(){
         
         //Get % of correct answer:
         let score = similarity(user,id)
-        $(scores[count]).val(score);
+        $(scores[count]).val(score.toFixed(4));
+        scoreTotal = scoreTotal +  score;
+        console.log(scoreTotal)
+        $(answer[0]).val(scoreTotal.toFixed(4));
         
         user = document.getElementById("intext2").value = "";
         id = makeid(35)

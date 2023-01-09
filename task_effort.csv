@@ -1,7 +1,7 @@
 round_number,duration,task
-1,150,sliders
+1,30,transcription
 2,300,tetris
 3,300,sum
-4,300,transcription
+4,150,sliders
 5,300,diamonds
 6,30,ravens

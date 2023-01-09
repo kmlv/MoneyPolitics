@@ -315,6 +315,7 @@ class TranscriptionTask(Page):
         field2 = ['transcription_{}_correct'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
         field3 = ['transcription_{}_score'.format(var) for var in range(1,Constants.transcription_variables + 1)] 
         field = field + field2 + field3
+        field.append('score_transcription')
         return field
 
     def is_displayed(self):
@@ -322,6 +323,8 @@ class TranscriptionTask(Page):
         round_number = dictionary['round_number']
         return self.round_number == round_number
 
+    def before_next_page(self):
+        self.player.game_score = self.player.score_transcription
 
 class Introduction(Page):
     def vars_for_template(self):

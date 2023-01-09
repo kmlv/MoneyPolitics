@@ -458,6 +458,8 @@ class Player(BasePlayer):
         locals()['transcription_{0}_score'.format(numb)] = models.StringField(blank = True)
     
     del numb
+    
+    score_transcription = models.FloatField(initial = 0)
 
     #RavensTask:
     rand_id = models.IntegerField(initial=0)
@@ -595,7 +597,7 @@ class Player(BasePlayer):
     tax_payment = models.CurrencyField(min=0)
 
     # Player's score for game played
-    game_score = models.IntegerField()
+    game_score = models.FloatField()
     diamond_guess = models.IntegerField(min=0, max=1000)
     diamond_actual = models.IntegerField()
 
