@@ -425,6 +425,10 @@ class Player(BasePlayer):
 
     del numb
 
+    score_slider_1 = models.IntegerField(initial = 0)
+    score_slider_2 = models.IntegerField(initial = 0)
+
+
     # def get_score(self):
     #     question_ans = [self.Q1_ans, self.Q2_ans, self.Q3_ans,self. Q4_ans, self.Q5_ans, self.Q6_ans, self.Q7_ans, self.Q8_ans, self.Q9_ans, self.Q10_ans]
     #     questions = [self.Question_1, self.Question_2, self.Question_3, self.Question_4, self.Question_5, self.Question_6, self.Question_7, self.Question_8, self.Question_9, self.Question_10]

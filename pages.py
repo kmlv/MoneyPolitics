@@ -262,7 +262,6 @@ class SumGame(Page):
 
     def before_next_page(self):
         self.player.game_score = self.player.score_suma
-        print('score es: ', self.player.game_score)
 
 class SliderTask1(Page):
     def get_timeout_seconds(self):
@@ -274,6 +273,7 @@ class SliderTask1(Page):
 
     def get_form_fields(player):
         field = ['slider_{}'.format(var) for var in range(1,31)] 
+        field.append('score_slider_1')
         return field
 
     def is_displayed(self):
@@ -291,6 +291,7 @@ class SliderTask2(Page):
 
     def get_form_fields(player):
         field = ['slider_{}'.format(var) for var in range(31,61)] 
+        field.append('score_slider_2')
         return field
 
     def is_displayed(self):
@@ -298,6 +299,8 @@ class SliderTask2(Page):
         round_number = dictionary['round_number']
         return self.round_number == round_number 
 
+    def before_next_page(self):
+        self.player.game_score = self.player.score_slider_1 + self.player.score_slider_2
 
 class TranscriptionTask(Page):
     def get_timeout_seconds(self):

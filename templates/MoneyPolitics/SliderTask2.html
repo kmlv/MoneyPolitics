@@ -293,11 +293,14 @@ Juego de Sliders
     <input class="field" id="slider_58" name="slider_58" hidden>
     <input class="field" id="slider_59" name="slider_59" hidden>
     <input class="field" id="slider_60" name="slider_60" hidden>
+    <input class="answer" id="score_slider_2" name="score_slider_2" hidden>
 
     <script>
 
     var field = $(".field");
-    var score = 0
+    var answer = $(".answer");
+    let correctas = 0;
+
     for (let step = 1; step < 31; step++) {
       $( function() {
         var handle = $( "#custom-handle_" + step  )
@@ -314,8 +317,11 @@ Juego de Sliders
           },
           stop: function(event, ui) {
               $(field[step-1]).val(ui.value);
-              console.log(field)
-              console.log(ui.value)
+              if (ui.value == 50) {
+              ++correctas
+              $(answer[0]).val(correctas)
+            }
+
               
           }
         });
