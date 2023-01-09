@@ -174,11 +174,13 @@ class Group(BaseGroup):
         
         # Ranking scores
         ranked_scores = {}
-
-        if self.session.config['real_effort_task'] == "Tetris":
-            sorted_list = sorted(game_scores.values(), reverse=True)
-        else: # the less is the diference between guess and actual number, the better
-            sorted_list = sorted(game_scores.values(), reverse=False)
+        sorted_list = sorted(game_scores.values(), reverse=True)
+        #checkear esta parte cuando quiera agregar tetris y diamonds
+        
+        # if self.session.config['real_effort_task'] == "Tetris":
+        #     sorted_list = sorted(game_scores.values(), reverse=True)
+        # else: # the less is the diference between guess and actual number, the better
+        #     sorted_list = sorted(game_scores.values(), reverse=False)
 
         # Control sorted_list
         print("sorted list of payoffs", sorted_list)

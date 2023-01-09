@@ -260,6 +260,10 @@ class SumGame(Page):
         round_number = dictionary['round_number']
         return self.round_number == round_number 
 
+    def before_next_page(self):
+        self.player.game_score = self.player.score_suma
+        print('score es: ', self.player.game_score)
+
 class SliderTask1(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "sliders")

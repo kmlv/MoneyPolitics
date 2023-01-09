@@ -14,7 +14,10 @@
 <html>
     <p>
         <!--You ranked {{ ranking_string }} in the task. </br></br>-->
-        {% if game == "Tetris" %}
+        <!--If game is Sum-->
+        Tuviste {{ score }} respuestas correctas en total.
+        <!--
+            {% if game == "Tetris" %}
             You completed {{ score }} line(s). </br></br>
         {% else %}
             The difference between the actual and guessed number was {{ score }}. </br></br>
@@ -23,7 +26,7 @@
         {% blocktrans trimmed %}
             Your initial wealth is {{ income }}
         {% endblocktrans %}
-        
+        -->
     </p>
 
     <p>
