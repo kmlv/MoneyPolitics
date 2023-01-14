@@ -14,8 +14,19 @@
 <html>
     <p>
         <!--You ranked {{ ranking_string }} in the task. </br></br>-->
-        <!--If game is Sum, sliders-->
-        Tuviste {{ score }} respuestas correctas en total.
+
+        {% if player.round_number ==  diamonds %}
+            La diferencia entre el número real de diamantes y el número que escribiste es {{ score_diamonds }}. <br><br>
+        {% elif player.round_number == tetris %}
+            Completaste {{ score }} líneas.  <br><br>
+        {% elif player.round_number == sum  %}
+            Realizaste {{ score }} preguntas correctas. <br><br>
+        {% elif player.round_number == sliders %}
+            Tuviste {{ score }} sliders en la posición correcta. <br><br>
+        {% else %}
+            Tuviste un total de {{ score }} puntos acumulados. <br><br>
+        {% endif %}
+        
         <!--If game is transcription-->
         <!-- Tuviste un total de {{ score }} puntos acumulados. -->
         <!--

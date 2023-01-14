@@ -392,6 +392,21 @@ class EffortResultsWaitPage(WaitPage):
 class RealEffortResults(Page):
 
     def vars_for_template(self):
+        dictionary_diamonds = next(item for item in parse_config_tasks() if item["task"] == "diamonds")
+        round_diamonds = dictionary_diamonds['round_number']
+        dictionary_tetris = next(item for item in parse_config_tasks() if item["task"] == "tetris")
+        round_tetris = dictionary_tetris['round_number']
+        dictionary_transcription = next(item for item in parse_config_tasks() if item["task"] == "transcription")
+        round_transcription = dictionary_transcription['round_number']
+        dictionary_sum = next(item for item in parse_config_tasks() if item["task"] == "sum")
+        round_sum = dictionary_sum['round_number']
+        dictionary_sliders = next(item for item in parse_config_tasks() if item["task"] == "sliders")
+        round_sliders = dictionary_sliders['round_number'] 
+        dictionary_ravens = next(item for item in parse_config_tasks() if item["task"] == "ravens")
+        round_ravens = dictionary_ravens['round_number']
+
+        score_diamonds = - self.player.game_score
+
         player = self.player
 
         effort_or_luck = ""
@@ -418,7 +433,9 @@ class RealEffortResults(Page):
 
         return {'ranking_string': ranking_string, 'income': income, 'effort_or_luck': effort_or_luck, 'tax_system': self.session.config['tax_system'], "message_cost": self.session.config['msg'],
                  'msg_type': self.session.config['msg_type'], 'score': self.player.game_score,
-                 'game': self.session.config['real_effort_task']}
+                 'game': self.session.config['real_effort_task'],
+                 'diamonds': round_diamonds, 'tetris': round_tetris, 'sum': round_sum, 'transcription': round_transcription, 'sliders': round_sliders, 'ravens': round_ravens,
+                 'score_diamonds': score_diamonds}
 
     def is_displayed(self):
         if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
@@ -431,7 +448,7 @@ class Tetris(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "tetris")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     form_model = 'player'
     form_fields = ['game_score'] # score currently determined by how many rows are eliminated
@@ -461,7 +478,8 @@ class Diamonds(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "diamonds")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
+
     def is_displayed(self):
         # if not self.session.config["effort_on_practice"] and self.round_number <= Constants.practice_rounds:
         #     return False
@@ -471,13 +489,11 @@ class Diamonds(Page):
         round_number = dictionary['round_number']
         return self.round_number == round_number
 
-
     form_model = 'player'
     form_fields = ['diamond_guess', 'diamond_actual']
 
-
     def before_next_page(self):
-        self.player.game_score = abs(self.player.diamond_guess - self.player.diamond_actual)
+        self.player.game_score = - abs(self.player.diamond_guess - self.player.diamond_actual)
 
 class ColumnSlider(Page):
     # Displayed only if tax rate sys is selected on the session config
