@@ -26,7 +26,7 @@ class Question_1(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
         
     def before_next_page(self):
         if self.timeout_happened:
@@ -40,13 +40,13 @@ class Question_1(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_2(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -62,13 +62,13 @@ class Question_2(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_3(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -84,13 +84,13 @@ class Question_3(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_4(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -106,13 +106,13 @@ class Question_4(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number
 
 class Question_5(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -128,13 +128,13 @@ class Question_5(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_6(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -150,13 +150,13 @@ class Question_6(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_7(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -172,13 +172,13 @@ class Question_7(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_8(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -194,13 +194,13 @@ class Question_8(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
 
 class Question_9(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
 
     def before_next_page(self):
         if self.timeout_happened:
@@ -216,13 +216,14 @@ class Question_9(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number
 
 class Question_10(Page):
     def get_timeout_seconds(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return parse_config_tasks()[round_number]['duration']
+        return parse_config_tasks()[round_number - 1]['duration']
+
     def before_next_page(self):
         if self.timeout_happened:
             self.player.save()
@@ -237,7 +238,11 @@ class Question_10(Page):
     def is_displayed(self):
         dictionary = next(item for item in parse_config_tasks() if item["task"] == "ravens")
         round_number = dictionary['round_number']
-        return self.round_number == round_number - 1
+        return self.round_number == round_number 
+
+    def before_next_page(self):
+        self.player.get_score()
+        self.player.game_score = self.player.score_ravens 
 
 class SumGame(Page):
 

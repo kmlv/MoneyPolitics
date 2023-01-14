@@ -464,8 +464,7 @@ class Player(BasePlayer):
     #RavensTask:
     rand_id = models.IntegerField(initial=0)
     test_num = models.IntegerField(initial=0)
-    score = models.FloatField(initial=0)
-    ranking = models.IntegerField(initial=0)
+    score_ravens = models.FloatField(initial = 0)
     Q1_ans = models.IntegerField(initial=0)
     Q2_ans = models.IntegerField(initial=0)
     Q3_ans = models.IntegerField(initial=0)
@@ -543,9 +542,9 @@ class Player(BasePlayer):
         i = 0 
         for x in question_ans:
             if questions[i] == x:
-                self.score += Constants.config['points'][i]
+                self.score_ravens += Constants.config['points'][i]
             i =i+1
-        return self.score
+        return self.score_ravens 
     
     # Real Effort Earnings
     real_effort_earnings = models.CurrencyField(min=0)
